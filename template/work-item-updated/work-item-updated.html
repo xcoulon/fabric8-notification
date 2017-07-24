@@ -16,13 +16,17 @@
   </head>
   <body style="margin: 10px; padding: 0; background-color: #f9f9f9; font-family: 'Overpass', sans-serif; font-size: 14px;">
     <div class="content" style="min-height: 300px; width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; border: 2px solid #d7d7d7; border-radius: 4px; background-color: #fff;">
-      <img src="openshift_logo_black.png" width="25%" />
-      <a href="#" style="color: #0088ce; text-decoration: none; float: right;">
-        [work-item.id]-[work-item.name]
-      </a>
+      <div style="width: 100%; display: inline-flex;">
+        <img src="openshift_logo_black.png" width="25%" height="auto" />
+        <p style="width: 75%; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          <a href="#" style="color: #0088ce; text-decoration: none;">
+            {{workItem.attributes['system.number']}} {{workItem.attributes['system.title']}}
+          </a>
+        </p>
+      </div>
       <div style="width: 95%; margin: 10px auto; border: 1px solid #d7d7d7;"></div>
-      <p style="font-size: 16px; text-align: center;">
-        Work Item [work-item.name]-[work-item.id] has been updated.
+      <p style="font-size: 16px; text-align: left;">
+        Work Item {{workItem.attributes['system.number']}} {{workItem.attributes['system.title']}} has been updated.
       </p>
       <table>
         <tr style="height: 30px;">
@@ -31,7 +35,7 @@
           </td>
           <td class="table-content" style="text-align: left;">
             <a href="#" style="color: #0088ce; text-decoration: none;">
-              <img src="profile_thumbnail.png" />Adam J. Jolicoeur
+              <img src="{{workItem.relationships.creator.data.attributes?.imageURL + '&s=20'}}" />{{workItem.relationships.creator.data.attributes?.fullName}}
             </a>
           </td>
         </tr>
@@ -51,7 +55,7 @@
             <b>Status:</b>
           </td>
           <td class="table-content" style="width: 500px; border: 1px solid #f2f2f2; border-radius: 2px; background-color: #f7f7f7; color: #3f9c35; text-align: left;">
-            Closed
+            {{workItem.attributes['system.state']}}
           </td>
         </tr>
       </table>

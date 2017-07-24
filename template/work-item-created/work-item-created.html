@@ -16,13 +16,17 @@
   </head>
   <body style="margin: 10px; padding: 0; background-color: #f9f9f9; font-family: 'Overpass', sans-serif; font-size: 14px;">
     <div class="content" style="min-height: 300px; width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; border: 2px solid #d7d7d7; border-radius: 4px; background-color: #fff;">
-      <img src="openshift_logo_black.png" width="25%" />
-      <a href="#" style="color: #0088ce; text-decoration: none; float: right;">
-        [work-item.id]-[work-item.name]
-      </a>
+      <div style="width: 100%; display: inline-flex;">
+        <img src="openshift_logo_black.png" width="25%" height="auto" />
+        <p style="width: 75%; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          <a href="#" style="color: #0088ce; text-decoration: none;">
+            {{workItem.attributes['system.number']}} {{workItem.attributes['system.title']}}
+          </a>
+        </p>
+      </div>
       <div style="width: 95%; margin: 10px auto; border: 1px solid #d7d7d7;"></div>
-      <p style="font-size: 16px; text-align: center;">
-        Work Item [work-item.id] has been created in [space.name] Space.
+      <p style="font-size: 16px; text-align: left;">
+        Work Item {{workItem.attributes['system.number']}} {{workItem.attributes['system.title']}} has been created in {{space?.attributes.name | spaceName}} Space.
       </p>
       <table>
         <tr style="height: 30px;">
@@ -31,7 +35,7 @@
           </td>
           <td class="table-content" style="text-align: left;">
             <a href="#" style="color: #0088ce; text-decoration: none;">
-              <img src="profile_thumbnail.png" />Adam J. Jolicoeur
+              <img src="{{workItem.relationships.creator.data.attributes?.imageURL + '&s=20'}}" />{{workItem.relationships.creator.data.attributes?.fullName}}
             </a>
           </td>
         </tr>
@@ -48,7 +52,7 @@
             <b>Title:</b>
           </td>
           <td class="table-content" style="width: 500px; text-align: left;">
-            Test Work Item Notifications
+            {{workItem.attributes['system.title']}}
           </td>
         </tr>
         <tr style="height: 30px;">
@@ -56,7 +60,7 @@
             <b>Type:</b>
           </td>
           <td class="table-content" style="width: 500px; text-align: left;">
-            Task
+            {{workItem.relationships?.baseType?.data?.attributes?.name}}
           </td>
         </tr>
         <tr style="height: 30px;">
@@ -64,7 +68,7 @@
             <b>Description:</b>
           </td>
           <td class="table-content" style="width: 500px; text-align: left;">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            {{workItem.attributes['system.description']}}
           </td>
         </tr>
       </table>

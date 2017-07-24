@@ -16,13 +16,17 @@
   </head>
   <body style="margin: 10px; padding: 0; background-color: #f9f9f9; font-family: 'Overpass', sans-serif; font-size: 14px;">
     <div class="content" style="min-height: 300px; width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; border: 2px solid #d7d7d7; border-radius: 4px; background-color: #fff;">
-      <img src="openshift_logo_black.png" width="25%" />
-      <a href="#" style="color: #0088ce; text-decoration: none; float: right;">
-        [work-item.id]-[work-item.name]
-      </a>
+      <div style="width: 100%; display: inline-flex;">
+        <img src="openshift_logo_black.png" width="25%" height="auto" />
+        <p style="width: 75%; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          <a href="#" style="color: #0088ce; text-decoration: none;">
+          {{workItem.attributes['system.number']}}-{{workItem.attributes['system.title']}}
+          </a>
+        </p>
+      </div>
       <div style="width: 95%; margin: 10px auto; border: 1px solid #d7d7d7;"></div>
-      <p style="font-size: 16px; text-align: center;">
-        A comment has been added to [work-item.name]-[work-item.id].
+      <p style="font-size: 16px; text-align: left;">
+        A comment has been added to {{workItem.attributes['system.number']}} {{workItem.attributes['system.title']}}.
       </p>
       <table>
         <tr style="height: 30px;">
@@ -31,7 +35,7 @@
           </td>
           <td class="table-content" style="text-align: left;">
             <a href="#" style="color: #0088ce; text-decoration: none;">
-              <img src="profile_thumbnail.png" />Adam J. Jolicoeur
+              {{comment.relationships['created-by']?.data?.attributes?.fullName}}
             </a>
           </td>
         </tr>
@@ -48,7 +52,7 @@
             <b>Comment:</b>
           </td>
           <td class="table-content" style="width: 500px; text-align: left;">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            {{workItem.attributes['system.description']}}
             <br />
             <pre style="background-color: #fafafa; border: 1px solid #f5f5f5;">
             <code class="language-css">
