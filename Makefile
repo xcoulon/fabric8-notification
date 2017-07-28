@@ -139,7 +139,6 @@ template/bindata.go: $(GO_BINDATA_BIN) $(wildcard template/*/*.html)
 		-prefix '' \
 		-nocompress \
 		-ignore=.*go \
-		-debug \
 		template/...
 
 # These are binary tools from our vendored packages
