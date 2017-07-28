@@ -1,0 +1,99 @@
+---
+apiVersion: v1
+kind: Template
+metadata:
+  name: fabric8-notification-service
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: f8notification
+    name: f8notification
+  spec:
+    replicas: 1
+    selector:
+      app: f8notification
+      deploymentconfig: f8notification
+    strategy:
+      resources:
+        limits:
+          memory: 1Gi
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: f8notification
+          deploymentconfig: f8notification
+      spec:
+        containers:
+        - env:
+          - name: F8_MANDRILL_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: f8notification
+                key: madrill.api
+          - name: F8_WIT_API
+            valueFrom:
+              configMapKeyRef:
+                name: f8notification
+                key: wit.api
+          - name: F8_KEYCLOAK_URL
+            valueFrom:
+              configMapKeyRef:
+                name: f8notification
+                key: keycloak.url
+          - name: F8_KEYCLOAK_REALM
+            valueFrom:
+              configMapKeyRef:
+                name: f8notification
+                key: keycloak_realm
+          image: docker.io/fabric8io/fabric8-notification:${IMAGE_TAG}
+          imagePullPolicy: Always
+          name: f8notification
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/status
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/status
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+    triggers:
+    - type: ConfigChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: f8notification
+  spec:
+    ports:
+      - protocol: TCP
+        port: 80
+        targetPort: 8080
+    selector:
+      deploymentconfig: f8notification
+parameters:
+- name: IMAGE_TAG
+  value: latest

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work Item Created</title>
+  <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+  <!--[if mso]>
+    <style type=”text/css”>
+    .body-text {
+    font-family: Arial, sans-serif;
+    }
+    </style>
+    <![endif]-->
+</head>
+
+<body style="margin: 10px; padding: 0; background-color: #f9f9f9; font-family: 'Overpass', sans-serif; font-size: 14px;">
+  <div class="content" style="min-height: 300px; width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; border: 2px solid #d7d7d7; border-radius: 4px; background-color: #fff;">
+    <div style="width: 100%; display: inline-flex;">
+      <img src="https://openshift.io/_openshiftio/assets/images/openshift_logo_black.png" width="25%" height="40px" />
+      <p style="width: 75%; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <a href="https://openshift.io/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
+          style="color: #0088ce; text-decoration: none;">
+          {{index .workitem.Data.Attributes "system.number"}}-{{index .workitem.Data.Attributes "system.title"}}
+          </a>
+      </p>
+    </div>
+    <div style="width: 95%; margin: 10px auto; border: 1px solid #d7d7d7;"></div>
+    <p style="font-size: 16px; text-align: left;">
+      A comment has been updated on {{index .workitem.Data.Attributes "system.number"}} {{index .workitem.Data.Attributes "system.title"}}.
+    </p>
+    <table>
+      <tr style="height: 30px;">
+        <td class="table-label" style="width: 100px; text-align: left;">
+          <b>Commentor:</b>
+        </td>
+        <td class="table-content" style="text-align: left;">
+          <a href="https://openshift.io/{{.commentOwner.Data.Attributes.Username}}" style="color: #0088ce; text-decoration: none;">
+              <img src="{{.commentOwner.Data.Attributes.ImageURL}}?s=22" /> {{.commentOwner.Data.Attributes.FullName}}
+            </a>
+        </td>
+      </tr>
+      <tr style="height: 30px;">
+        <td class="table-label" style="width: 100px; text-align: left;">
+          <b>Updated:</b>
+        </td>
+        <td class="table-content" style="width: 500px; text-align: left;">
+          {{date .comment.Data.Attributes.UpdatedAt}}
+        </td>
+      </tr>
+      <tr style="height: 30px;">
+        <td class="table-label" style="width: 100px; text-align: left; vertical-align: top;">
+          <b>Updated Comment:</b>
+        </td>
+        <td class="table-content" style="width: 500px; text-align: left; background-color: #fafafa; border: 1px solid #f5f5f5;">
+          {{raw .comment.Data.Attributes.BodyRendered}}
+        </td>
+      </tr>
+    </table>
+    <div style="margin-top: 100px;">
+      <span style="width: 50%;">
+          <a href="https://openshift.io/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}" style="color: #0088ce; text-decoration: none; float: left;">Open this item</a>
+        </span>
+    </div>
+  </div>
+</body>
+
+</html>

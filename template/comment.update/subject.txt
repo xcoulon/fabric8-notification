@@ -1,0 +1,1 @@
+[{{lower .spaceOwner.Data.Attributes.Username}}/{{lower .space.Data.Attributes.Name}}] [{{.workitemType.Data.Attributes.Name}}] {{index .workitem.Data.Attributes "system.title"}}
