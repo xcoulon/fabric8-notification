@@ -54,7 +54,7 @@ objects:
             valueFrom:
               configMapKeyRef:
                 name: f8notification
-                key: keycloak_realm
+                key: keycloak.realm
           image: registry.devshift.net/fabric8-services/fabric8-notification:${IMAGE_TAG}
           imagePullPolicy: Always
           name: f8notification
