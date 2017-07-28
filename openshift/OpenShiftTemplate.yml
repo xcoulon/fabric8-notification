@@ -40,11 +40,11 @@ objects:
               secretKeyRef:
                 name: f8notification
                 key: madrill.api
-          - name: F8_WIT_API
+          - name: F8_WIT_URL
             valueFrom:
               configMapKeyRef:
                 name: f8notification
-                key: wit.api
+                key: wit.url
           - name: F8_KEYCLOAK_URL
             valueFrom:
               configMapKeyRef:
