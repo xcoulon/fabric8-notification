@@ -55,7 +55,7 @@ objects:
               configMapKeyRef:
                 name: f8notification
                 key: keycloak_realm
-          image: docker.io/fabric8io/fabric8-notification:${IMAGE_TAG}
+          image: docker.io/fabric8-services/fabric8-notification:${IMAGE_TAG}
           imagePullPolicy: Always
           name: f8notification
           ports:
