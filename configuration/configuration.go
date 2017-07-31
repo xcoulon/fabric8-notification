@@ -102,6 +102,11 @@ func (c *Data) GetWITURL() string {
 	return c.v.GetString(varWITURL)
 }
 
+// GetWebURL returns the base URL for the Web v
+func (c *Data) GetWebURL() string {
+	return strings.Replace(c.GetWITURL(), "api.", "", -1)
+}
+
 // GetMadrillAPIKey returns the API key used by the email sender
 func (c *Data) GetMadrillAPIKey() string {
 	return c.v.GetString(varMadrillAPIKey)

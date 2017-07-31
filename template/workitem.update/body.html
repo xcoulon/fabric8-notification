@@ -19,9 +19,9 @@
 <body style="margin: 10px; padding: 0; background-color: #f9f9f9; font-family: 'Overpass', sans-serif; font-size: 14px;">
   <div class="content" style="min-height: 300px; width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; border: 2px solid #d7d7d7; border-radius: 4px; background-color: #fff;">
     <div style="width: 100%; display: inline-flex;">
-      <img src="https://openshift.io/_openshiftio/assets/images/openshift_logo_black.png" width="25%" height="40px" />
+      <img src="{{.webURL}}/_openshiftio/assets/images/openshift_logo_black.png" width="25%" height="40px" />
       <p style="width: 75%; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-        <a href="https://openshift.io/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
+        <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
           style="color: #0088ce; text-decoration: none;">
            {{index .workitem.Data.Attributes "system.number"}}-{{index .workitem.Data.Attributes "system.title"}}
           </a>
@@ -38,7 +38,7 @@
           <b>Who:</b>
         </td>
         <td class="table-content" style="text-align: left;">
-          <a href="https://openshift.io/{{.actor.Data.Attributes.Username}}" style="color: #0088ce; text-decoration: none;">
+          <a href="{{.webURL}}/{{.actor.Data.Attributes.Username}}" style="color: #0088ce; text-decoration: none;">
               <img src="{{.actor.Data.Attributes.ImageURL}}?s=22" /> {{.actor.Data.Attributes.FullName}}
             </a>
         </td>
@@ -65,7 +65,7 @@
     </table>
     <div style="margin-top: 100px;">
       <span style="width: 50%;">
-         <a href="https://openshift.io/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}" style="color: #0088ce; text-decoration: none; float: left;">Open this item</a>
+         <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}" style="color: #0088ce; text-decoration: none; float: left;">Open this item</a>
       </span>
     </div>
   </div>

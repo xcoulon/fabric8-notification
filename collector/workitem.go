@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/fabric8-services/fabric8-notification/configuration"
 	"github.com/fabric8-services/fabric8-notification/wit"
 	"github.com/fabric8-services/fabric8-notification/wit/api"
 	"github.com/fabric8-services/fabric8-wit/log"
@@ -29,6 +30,18 @@ func NewWorkItemResolver(c *api.Client) ReceiverResolver {
 			return []Receiver{}, nil, fmt.Errorf("unable to lookup Workitem based on id %v", id)
 		}
 		return WorkItem(ctx, c, wID)
+	}
+}
+
+func ConfiguredVars(config *configuration.Data, resolver ReceiverResolver) ReceiverResolver {
+	return func(ctx context.Context, id string) ([]Receiver, map[string]interface{}, error) {
+		r, v, err := resolver(ctx, id)
+		if err != nil {
+			return r, v, err
+		}
+
+		v["webURL"] = config.GetWebURL()
+		return r, v, err
 	}
 }
 

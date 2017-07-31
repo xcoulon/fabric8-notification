@@ -73,10 +73,10 @@ func main() {
 	notifier := email.NewAsyncWorkerNotifier(sender, 1)
 
 	resolvers := &collector.LocalRegistry{}
-	resolvers.Register("workitem.create", collector.NewWorkItemResolver(witClient))
-	resolvers.Register("workitem.update", collector.NewWorkItemResolver(witClient))
-	resolvers.Register("comment.create", collector.NewCommentResolver(witClient))
-	resolvers.Register("comment.update", collector.NewCommentResolver(witClient))
+	resolvers.Register("workitem.create", collector.ConfiguredVars(config, collector.NewWorkItemResolver(witClient)))
+	resolvers.Register("workitem.update", collector.ConfiguredVars(config, collector.NewWorkItemResolver(witClient)))
+	resolvers.Register("comment.create", collector.ConfiguredVars(config, collector.NewCommentResolver(witClient)))
+	resolvers.Register("comment.update", collector.ConfiguredVars(config, collector.NewCommentResolver(witClient)))
 
 	typeRegistry := &template.AssetRegistry{}
 	service := goa.New("notification")
