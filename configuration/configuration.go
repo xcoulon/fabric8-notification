@@ -86,7 +86,7 @@ func (c *Data) setConfigDefaults() {
 }
 
 // GetHTTPAddress returns the HTTP address (as set via default, config file, or environment variable)
-// that the alm server binds to (e.g. "0.0.0.0:8080")
+// that the notification server binds to (e.g. "0.0.0.0:8080")
 func (c *Data) GetHTTPAddress() string {
 	return c.v.GetString(varHTTPAddress)
 }

@@ -5,8 +5,8 @@ import (
 	a "github.com/goadesign/goa/design/apidsl"
 )
 
-// ALMStatus defines the status of the current running ALM instance
-var ALMStatus = a.MediaType("application/vnd.status+json", func() {
+// NotificationStatus defines the status of the current running fabric8-notification instance
+var NotificationStatus = a.MediaType("application/vnd.status+json", func() {
 	a.Description("The status of the current running instance")
 	a.Attributes(func() {
 		a.Attribute("commit", d.String, "Commit SHA this build is based on")
@@ -25,7 +25,7 @@ var ALMStatus = a.MediaType("application/vnd.status+json", func() {
 
 var _ = a.Resource("status", func() {
 
-	a.DefaultMedia(ALMStatus)
+	a.DefaultMedia(NotificationStatus)
 	a.BasePath("/status")
 
 	a.Action("show", func() {
@@ -34,6 +34,6 @@ var _ = a.Resource("status", func() {
 		)
 		a.Description("Show the status of the current running instance")
 		a.Response(d.OK)
-		a.Response(d.ServiceUnavailable, ALMStatus)
+		a.Response(d.ServiceUnavailable, NotificationStatus)
 	})
 })
