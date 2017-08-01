@@ -31,8 +31,11 @@ func (t Template) Render(vars map[string]interface{}) (subject string, body stri
 func (t Template) renderHTML(template string, vars map[string]interface{}) (string, error) {
 	funcMap := tmplHTML.FuncMap{
 		"date": formatDate,
-		"raw": func(s string) tmplHTML.HTML {
-			return tmplHTML.HTML(s)
+		"raw": func(s interface{}) tmplHTML.HTML {
+			if s == nil {
+				return tmplHTML.HTML("")
+			}
+			return tmplHTML.HTML(fmt.Sprint(s))
 		},
 		"lower": lower,
 	}

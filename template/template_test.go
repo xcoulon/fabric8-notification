@@ -73,6 +73,39 @@ func TestRenderWorkitemCreate(t *testing.T) {
 	*/
 }
 
+func TestRenderWorkitemCreateMissingDescription(t *testing.T) {
+	reg := template.AssetRegistry{}
+
+	temp, exist := reg.Get("workitem.create")
+	assert.True(t, exist)
+
+	c := createClient(t)
+	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
+
+	_, vars, err := collector.WorkItem(context.Background(), c, wiID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	wi := vars["workitem"].(*api.WorkItemSingle)
+	delete(wi.Data.Attributes, "system.description")
+	delete(wi.Data.Attributes, "system.description.rendered")
+	delete(wi.Data.Attributes, "system.description.markup")
+
+	subject, body, err := temp.Render(addGlobalVars(vars))
+	assert.NoError(t, err)
+	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
+	assert.True(t, strings.Contains(subject, "[Scenario]"))
+
+	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
+	assert.True(t, strings.Contains(body, "Ruchir Garg"))
+	assert.True(t, strings.Contains(body, "1343"))
+
+	/*
+		ioutil.WriteFile("../test.html", []byte(body), os.FileMode(0777))
+	*/
+}
+
 func TestRenderWorkitemUpdate(t *testing.T) {
 	reg := template.AssetRegistry{}
 
