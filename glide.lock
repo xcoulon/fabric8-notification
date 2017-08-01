@@ -1,5 +1,5 @@
-hash: f7c25b50d4f10bfdd4cc548f5f889b957da00abd370e6d7b113e1f0f0912b688
-updated: 2017-08-01T13:56:39.199646015+02:00
+hash: fae5fcf769ab8183c8bcb735391c113d2cd44908ee008509913dd5f123458811
+updated: 2017-08-02T01:13:43.253451548+02:00
 imports:
 - name: github.com/armon/go-metrics
   version: 97c69685293dce4c0a2d0b19535179bbc976e4d2
@@ -14,7 +14,7 @@ imports:
   subpackages:
   - go-bindata-assetfs
 - name: github.com/fabric8-services/fabric8-wit
-  version: 1332652f50339ee29e50a68f8db14983fb4f9a25
+  version: 58db841e76891f1251bdec86908c61360f11d375
   subpackages:
   - configuration
   - design
