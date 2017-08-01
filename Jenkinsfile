@@ -17,6 +17,9 @@ goTemplate{
           makeTarget = 'build test-unit-no-coverage-junit'
         }
 
+        sh('mv /home/jenkins/go/src/github.com/fabric8-services/fabric8-notification/tmp/junit.xml `pwd`')
+        junit 'junit.xml'
+
   /*
         container(name: "docker") {
           sh "docker tag docker.io/fabric8/fabric8-notification:${v} registry.devshift.net/fabric8-services/fabric8-notification:test"
@@ -34,9 +37,6 @@ goTemplate{
     
         initServiceGitHash = sh(script: 'git rev-parse HEAD', returnStdout: true).toString().trim()
       }
-
-      sh('mv /home/jenkins/go/src/github.com/fabric8-services/fabric8-notification/tmp/junit.xml `pwd`')
-      junit 'junit.xml'
     }
 
 //    if (utils.isCD()){
