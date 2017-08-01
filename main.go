@@ -14,6 +14,7 @@ import (
 	"github.com/fabric8-services/fabric8-notification/wit"
 
 	"github.com/Sirupsen/logrus"
+	witmiddleware "github.com/fabric8-services/fabric8-wit/goamiddleware"
 	"github.com/fabric8-services/fabric8-wit/log"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware"
@@ -83,11 +84,14 @@ func main() {
 
 	// Mount middleware
 	service.Use(middleware.RequestID())
-	service.Use(middleware.LogRequest(config.IsDeveloperModeEnabled()))
 	service.Use(gzip.Middleware(9))
 	service.Use(jsonapi.ErrorHandler(service, true))
 	service.Use(middleware.Recover())
+
+	service.Use(witmiddleware.TokenContext(publicKey, nil, app.NewJWTSecurity()))
+
 	service.WithLogger(goalogrus.New(log.Logger()))
+	service.Use(log.LogRequest(config.IsDeveloperModeEnabled()))
 	app.UseJWTMiddleware(service, goajwt.New(publicKey, nil, app.NewJWTSecurity()))
 
 	// Mount "status" controller
