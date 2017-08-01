@@ -83,14 +83,13 @@ func main() {
 	service := goa.New("notification")
 
 	// Mount middleware
+	service.WithLogger(goalogrus.New(log.Logger()))
 	service.Use(middleware.RequestID())
 	service.Use(gzip.Middleware(9))
 	service.Use(jsonapi.ErrorHandler(service, true))
 	service.Use(middleware.Recover())
 
 	service.Use(witmiddleware.TokenContext(publicKey, nil, app.NewJWTSecurity()))
-
-	service.WithLogger(goalogrus.New(log.Logger()))
 	service.Use(log.LogRequest(config.IsDeveloperModeEnabled()))
 	app.UseJWTMiddleware(service, goajwt.New(publicKey, nil, app.NewJWTSecurity()))
 
