@@ -67,6 +67,7 @@ func TestRenderWorkitemCreate(t *testing.T) {
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
 	assert.True(t, strings.Contains(body, "Ruchir Garg"))
 	assert.True(t, strings.Contains(body, "1343"))
+	assert.True(t, strings.Contains(body, "mode under Backlog")) // part of the Description. Might change since we're on live data
 
 	/*
 		ioutil.WriteFile("../test.html", []byte(body), os.FileMode(0777))
@@ -156,6 +157,7 @@ func TestRenderCommentCreate(t *testing.T) {
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
 	assert.True(t, strings.Contains(body, "1343"))
+	assert.True(t, strings.Contains(body, "just shows loading animation,")) // part of the msg
 
 	/*
 		ioutil.WriteFile("../test.html", []byte(body), os.FileMode(0777))
@@ -184,6 +186,7 @@ func TestRenderCommentUpdate(t *testing.T) {
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
 	assert.True(t, strings.Contains(body, "1343"))
+	assert.True(t, strings.Contains(body, "just shows loading animation,")) // part of the ms
 
 	/*
 		ioutil.WriteFile("../test.html", []byte(body), os.FileMode(0777))

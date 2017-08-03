@@ -35,7 +35,7 @@ func (t Template) renderHTML(template string, vars map[string]interface{}) (stri
 			if s == nil {
 				return tmplHTML.HTML("")
 			}
-			return tmplHTML.HTML(fmt.Sprint(s))
+			return tmplHTML.HTML(resolveString(s))
 		},
 		"lower": lower,
 	}
@@ -92,15 +92,18 @@ func lower(data interface{}) string {
 		return ""
 	}
 
-	var d string
+	return strings.ToLower(resolveString(data))
+}
+
+func resolveString(data interface{}) string {
 
 	value := reflect.ValueOf(data)
 	if value.Type().Kind() == reflect.Ptr {
-		d = fmt.Sprint(value.Elem())
+		return fmt.Sprint(value.Elem())
 	} else {
-		d = fmt.Sprint(data)
+		return fmt.Sprint(data)
 	}
-	return strings.ToLower(d)
+
 }
 
 type Registry interface {
