@@ -39,7 +39,7 @@
         </td>
         <td class="table-content" style="text-align: left;">
           <a href="{{.webURL}}/{{.workitemOwner.Data.Attributes.Username}}" style="color: #0088ce; text-decoration: none;">
-              <img src="{{.workitemOwner.Data.Attributes.ImageURL}}?s=22" /> {{.workitemOwner.Data.Attributes.FullName}}
+              <img src="{{sizeImage .workitemOwner.Data.Attributes.ImageURL 22}}" /> {{.workitemOwner.Data.Attributes.FullName}}
             </a>
         </td>
       </tr>

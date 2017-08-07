@@ -4,10 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	tmplHTML "html/template"
-	"reflect"
-	"strings"
 	tmplTXT "text/template"
-	"time"
 )
 
 type Template struct {
@@ -30,7 +27,8 @@ func (t Template) Render(vars map[string]interface{}) (subject string, body stri
 
 func (t Template) renderHTML(template string, vars map[string]interface{}) (string, error) {
 	funcMap := tmplHTML.FuncMap{
-		"date": formatDate,
+		"date":      formatDate,
+		"sizeImage": sizeImage,
 		"raw": func(s interface{}) tmplHTML.HTML {
 			if s == nil {
 				return tmplHTML.HTML("")
@@ -70,40 +68,6 @@ func (t Template) renderTXT(template string, vars map[string]interface{}) (strin
 		return "", err
 	}
 	return buf.String(), nil
-}
-
-func formatDate(date interface{}) string {
-	format := "02 January 2006"
-	if d, ok := date.(*time.Time); ok {
-		return d.Format(format)
-	}
-	if d, ok := date.(string); ok {
-		p, err := time.Parse(time.RFC3339, d)
-		if err != nil {
-			return "Unknown"
-		}
-		return p.Format(format)
-	}
-	return "Unknown"
-}
-
-func lower(data interface{}) string {
-	if data == nil {
-		return ""
-	}
-
-	return strings.ToLower(resolveString(data))
-}
-
-func resolveString(data interface{}) string {
-
-	value := reflect.ValueOf(data)
-	if value.Type().Kind() == reflect.Ptr {
-		return fmt.Sprint(value.Elem())
-	} else {
-		return fmt.Sprint(data)
-	}
-
 }
 
 type Registry interface {
