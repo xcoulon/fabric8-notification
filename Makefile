@@ -141,6 +141,18 @@ template/bindata.go: $(GO_BINDATA_BIN) $(wildcard template/*/*.html)
 		-ignore=.*go \
 		template/...
 
+.PHONY: template-debug
+template-debug: $(GO_BINDATA_BIN) $(wildcard template/*/*.html)
+	@rm template/bindata.go
+	@$(GO_BINDATA_BIN) \
+		-o template/bindata.go \
+		-pkg template \
+		-prefix '' \
+		-nocompress \
+		-ignore=.*go \
+		-debug \
+		template/...
+
 # These are binary tools from our vendored packages
 $(GOAGEN_BIN): $(VENDOR_DIR)
 	cd $(VENDOR_DIR)/github.com/goadesign/goa/goagen && go build -v
@@ -228,6 +240,10 @@ $(INSTALL_PREFIX):
 
 $(TMP_PATH):
 	mkdir -p $(TMP_PATH)
+
+.PHONY: preview
+preview: prebuild-check deps template-debug
+	@go run preview/main.go
 
 .PHONY: prebuild-check
 prebuild-check: $(TMP_PATH) $(INSTALL_PREFIX) $(CHECK_GOPATH_BIN)
