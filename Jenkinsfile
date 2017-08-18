@@ -3,6 +3,7 @@
 def utils = new io.fabric8.Utils()
 def initServiceGitHash
 def releaseVersion
+def commitMsg
 goTemplate{
   dockerNode{
     ws {
@@ -59,7 +60,7 @@ goTemplate{
 
           sh "sed -i -r 's/- hash: .*/- hash: ${initServiceGitHash}/g' dsaas-services/f8-notification.yaml"
 
-          def commitMsg = sh(script: 'git log --format=%B -n 1 HEAD', returnStdout: true).
+          commitMsg = sh(script: 'git log --format=%B -n 1 HEAD', returnStdout: true).
           def message = """Update notification version to ${releaseVersion}
           
           ```
