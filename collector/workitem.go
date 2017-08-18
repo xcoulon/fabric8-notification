@@ -124,6 +124,7 @@ func Comment(ctx context.Context, c *api.Client, cID uuid.UUID) ([]Receiver, map
 	if err != nil {
 		errors = append(errors, err)
 	}
+	resolved = removeActorFromReceivers(ctx, resolved)
 
 	if len(errors) > 0 {
 		return resolved, values, multiError{Message: "errors during notification resolving", Errors: errors}
@@ -196,6 +197,7 @@ func WorkItem(ctx context.Context, c *api.Client, wiID uuid.UUID) ([]Receiver, m
 	if err != nil {
 		errors = append(errors, err)
 	}
+	resolved = removeActorFromReceivers(ctx, resolved)
 
 	if len(errors) > 0 {
 		return resolved, values, multiError{Message: "errors during notification resolving", Errors: errors}
@@ -307,6 +309,17 @@ func collectSpaceUsers(space *api.SpaceSingle) []uuid.UUID {
 	return users
 }
 
+func removeActorFromReceivers(ctx context.Context, rec []Receiver) []Receiver {
+	var res []Receiver
+	actorEmail := getActorEmail(ctx)
+	for _, rec := range rec {
+		if rec.EMail != actorEmail {
+			res = append(res, rec)
+		}
+	}
+	return res
+}
+
 // SliceUniq removes duplicate values in given slice
 func SliceUniq(a []uuid.UUID) []uuid.UUID {
 	result := []uuid.UUID{}
@@ -336,4 +349,21 @@ func getActorID(ctx context.Context) (uuid.UUID, error) {
 		return uuid.UUID{}, err
 	}
 	return ID, nil
+}
+
+func getActorEmail(ctx context.Context) string {
+	token := goajwt.ContextJWT(ctx)
+	if token == nil {
+		return ""
+	}
+	e := token.Claims.(jwt.MapClaims)["email"]
+	if e == nil {
+		return ""
+	}
+
+	email, err := e.(string)
+	if !err {
+		return ""
+	}
+	return email
 }
