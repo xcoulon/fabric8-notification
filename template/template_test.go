@@ -59,10 +59,12 @@ func TestRenderWorkitemCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	subject, body, err := temp.Render(addGlobalVars(vars))
+	subject, body, headers, err := temp.Render(addGlobalVars(vars))
 	assert.NoError(t, err)
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
+
+	assert.Contains(t, headers, "Message-ID")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
 	assert.True(t, strings.Contains(body, "Ruchir Garg"))
@@ -93,10 +95,12 @@ func TestRenderWorkitemCreateMissingDescription(t *testing.T) {
 	delete(wi.Data.Attributes, "system.description.rendered")
 	delete(wi.Data.Attributes, "system.description.markup")
 
-	subject, body, err := temp.Render(addGlobalVars(vars))
+	subject, body, headers, err := temp.Render(addGlobalVars(vars))
 	assert.NoError(t, err)
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
+
+	assert.Contains(t, headers, "Message-ID")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
 	assert.True(t, strings.Contains(body, "Ruchir Garg"))
@@ -121,11 +125,14 @@ func TestRenderWorkitemUpdate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	subject, body, err := temp.Render(addGlobalVars(vars))
+	subject, body, headers, err := temp.Render(addGlobalVars(vars))
 	assert.NoError(t, err)
 
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
+
+	assert.Contains(t, headers, "In-Reply-To")
+	assert.Contains(t, headers, "References")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
 	assert.True(t, strings.Contains(body, "1343"))
@@ -149,11 +156,14 @@ func TestRenderCommentCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	subject, body, err := temp.Render(addGlobalVars(vars))
+	subject, body, headers, err := temp.Render(addGlobalVars(vars))
 	assert.NoError(t, err)
 
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
+
+	assert.Contains(t, headers, "In-Reply-To")
+	assert.Contains(t, headers, "References")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
 	assert.True(t, strings.Contains(body, "1343"))
@@ -178,11 +188,14 @@ func TestRenderCommentUpdate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	subject, body, err := temp.Render(addGlobalVars(vars))
+	subject, body, headers, err := temp.Render(addGlobalVars(vars))
 	assert.NoError(t, err)
 
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
+
+	assert.Contains(t, headers, "In-Reply-To")
+	assert.Contains(t, headers, "References")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
 	assert.True(t, strings.Contains(body, "1343"))

@@ -9,7 +9,7 @@ import (
 )
 
 type Sender interface {
-	Send(ctx context.Context, subject string, body string, receivers []collector.Receiver)
+	Send(ctx context.Context, subject string, body string, headers map[string]string, receivers []collector.Receiver)
 }
 
 func NewMandrillSender(apiKey string) (Sender, error) {
@@ -24,7 +24,7 @@ type MandrillSender struct {
 	mandrillAPI *gochimp.MandrillAPI
 }
 
-func (m *MandrillSender) Send(ctx context.Context, subject string, body string, receivers []collector.Receiver) {
+func (m *MandrillSender) Send(ctx context.Context, subject string, body string, headers map[string]string, receivers []collector.Receiver) {
 	recipients := toRecipients(receivers)
 
 	message := gochimp.Message{
@@ -33,6 +33,7 @@ func (m *MandrillSender) Send(ctx context.Context, subject string, body string, 
 		FromEmail: "noreply@notify.openshift.io",
 		FromName:  "openshift.io",
 		To:        recipients,
+		Headers:   headers,
 	}
 
 	resps, err := m.mandrillAPI.MessageSend(message, false)

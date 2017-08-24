@@ -48,6 +48,7 @@ import:
   subpackages:
   - go/ast/astutil
 - package: github.com/satori/go.uuid
+- package: github.com/magiconair/properties
 testImport:
 - package: github.com/wadey/gocovmerge
 - package: github.com/jstemmer/go-junit-report

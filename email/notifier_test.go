@@ -12,7 +12,7 @@ type TestSender struct {
 	callback chan bool
 }
 
-func (t *TestSender) Send(ctx context.Context, subject string, body string, receivers []collector.Receiver) {
+func (t *TestSender) Send(ctx context.Context, subject string, body string, headers map[string]string, receivers []collector.Receiver) {
 	t.callback <- true
 }
 

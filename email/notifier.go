@@ -80,7 +80,7 @@ func (a *AsyncWorkerNotifier) do(cn contextualNotification) {
 
 		return
 	}
-	subject, body, err := notification.Template.Render(vars)
+	subject, body, headers, err := notification.Template.Render(vars)
 	if err != nil {
 		log.Error(ctx, map[string]interface{}{
 			"type": notification.ID,
@@ -90,7 +90,7 @@ func (a *AsyncWorkerNotifier) do(cn contextualNotification) {
 
 		return
 	}
-	a.Sender.Send(ctx, subject, body, receivers)
+	a.Sender.Send(ctx, subject, body, headers, receivers)
 }
 
 func (a *AsyncWorkerNotifier) Send(ctx context.Context, notification Notification) {

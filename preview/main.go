@@ -80,7 +80,7 @@ func generate(c *api.Client, id, tmplName string) error {
 	if err != nil {
 		return err
 	}
-	subject, body, err := temp.Render(addGlobalVars(vars))
+	subject, body, _, err := temp.Render(addGlobalVars(vars))
 	fmt.Println("Subject:", subject)
 	fmt.Println("Output :", "file://"+fileName)
 

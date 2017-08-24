@@ -1,5 +1,5 @@
-hash: fae5fcf769ab8183c8bcb735391c113d2cd44908ee008509913dd5f123458811
-updated: 2017-08-02T01:13:43.253451548+02:00
+hash: f875c6dfb774e9364c3caa3ae098a5d75d65afc04a69d4d05e2a11893791a571
+updated: 2017-08-24T03:53:07.984787437+02:00
 imports:
 - name: github.com/armon/go-metrics
   version: 97c69685293dce4c0a2d0b19535179bbc976e4d2
@@ -126,7 +126,7 @@ testImports:
   subpackages:
   - spew
 - name: github.com/fabric8-services/fabric8-tenant
-  version: 869b06d634f744e3bb171982b54950989f260c34
+  version: 5ce38dea6287d9bac7789a8bc24556867a4fcee6
   subpackages:
   - keycloak
 - name: github.com/fzipp/gocyclo

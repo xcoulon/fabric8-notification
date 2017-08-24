@@ -5,24 +5,32 @@ import (
 	"fmt"
 	tmplHTML "html/template"
 	tmplTXT "text/template"
+
+	"github.com/magiconair/properties"
 )
 
 type Template struct {
 	Name    string
 	Subject string
 	Body    string
+	Headers string
 }
 
-func (t Template) Render(vars map[string]interface{}) (subject string, body string, err error) {
+func (t Template) Render(vars map[string]interface{}) (subject string, body string, headers map[string]string, err error) {
 	body, err = t.renderHTML(t.Body, vars)
 	if err != nil {
-		return "", "", err
+		return "", "", nil, err
 	}
 	subject, err = t.renderTXT(t.Subject, vars)
 	if err != nil {
-		return "", "", err
+		return "", "", nil, err
 	}
-	return subject, body, nil
+	headers, err = t.renderHeaders(t.Headers, vars)
+	if err != nil {
+		return "", "", nil, err
+	}
+
+	return subject, body, headers, err
 }
 
 func (t Template) renderHTML(template string, vars map[string]interface{}) (string, error) {
@@ -70,6 +78,18 @@ func (t Template) renderTXT(template string, vars map[string]interface{}) (strin
 	return buf.String(), nil
 }
 
+func (t Template) renderHeaders(template string, vars map[string]interface{}) (map[string]string, error) {
+	h, err := t.renderTXT(template, vars)
+	if err != nil {
+		return nil, err
+	}
+	headers, err := properties.LoadString(h)
+	if err != nil {
+		return nil, err
+	}
+	return headers.Map(), nil
+}
+
 type Registry interface {
 	Get(string) (Template, bool)
 }
@@ -88,10 +108,16 @@ func (a *AssetRegistry) Get(name string) (Template, bool) {
 	if err != nil {
 		return Template{}, false
 	}
+	hpath := fmt.Sprintf("template/%s/headers.prop", name)
+	h, err := Asset(hpath)
+	if err != nil {
+		h = []byte{}
+	}
 
 	return Template{
 		Name:    name,
 		Subject: string(s),
 		Body:    string(b),
+		Headers: string(h),
 	}, true
 }
