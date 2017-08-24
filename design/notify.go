@@ -6,11 +6,11 @@ import (
 )
 
 var notification = a.Type("Notification", func() {
-	a.Description(`JSONAPI for the notification object. See also http://jsonapi.org/format/#document-resource-object`)
+	a.Description(`JSONAPI for the Notification object. See also http://jsonapi.org/format/#document-resource-object`)
 	a.Attribute("type", d.String, func() {
 		a.Enum("notifications")
 	})
-	a.Attribute("id", d.UUID, "ID of tenant", func() {
+	a.Attribute("id", d.UUID, "ID of notification", func() {
 		a.Example("40bbdd3d-8b5d-4fd6-ac90-7236b669af04")
 	})
 	a.Attribute("attributes", notificationAttributes)
@@ -19,7 +19,7 @@ var notification = a.Type("Notification", func() {
 })
 
 var notificationAttributes = a.Type("NotificationAttributes", func() {
-	a.Description(`JSONAPI store for all the "attributes" of a Tenant. See also see http://jsonapi.org/format/#document-resource-object-attributes`)
+	a.Description(`JSONAPI store for all the "attributes" of a Notification. See also see http://jsonapi.org/format/#document-resource-object-attributes`)
 	a.Attribute("type", d.String, "The notification type", func() {
 		a.Example("workitem.create")
 	})
@@ -42,7 +42,7 @@ var _ = a.Resource("notify", func() {
 			a.POST(""),
 		)
 		a.Payload(notificationSingle)
-		a.Description("Initialize new tenant environment.")
+		a.Description("Register a new notification.")
 		a.Response(d.Accepted)
 		a.Response(d.BadRequest, JSONAPIErrors)
 		a.Response(d.InternalServerError, JSONAPIErrors)

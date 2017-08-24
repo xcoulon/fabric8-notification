@@ -5,7 +5,7 @@ import (
 	a "github.com/goadesign/goa/design/apidsl"
 )
 
-var _ = a.API("tenant", func() {
+var _ = a.API("notification", func() {
 	a.Title("Notification Service")
 	a.Description("Notify user about actions in the system")
 	a.Version("1.0")
