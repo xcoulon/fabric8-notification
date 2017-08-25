@@ -5,63 +5,125 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Work Item Created</title>
-  <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
-  <!--[if mso]>
-    <style type=”text/css”>
-    .body-text {
-    font-family: Arial, sans-serif;
+  <title>Work Item Comment Created</title>
+  <style>
+    tr td ul li img {
+      max-width: 500px;
     }
-    </style>
-    <![endif]-->
+    tr td pre {
+      overflow: auto;
+    }
+    a:hover {
+      text-decoration: underline !important;
+    }
+  </style>
 </head>
 
-<body style="margin: 10px; padding: 0; background-color: #f9f9f9; font-family: 'Overpass', sans-serif; font-size: 14px;">
-  <div class="content" style="min-height: 300px; width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; border: 2px solid #d7d7d7; border-radius: 4px; background-color: #fff;">
-    <div style="width: 100%; display: inline-flex;">
-      <img src="{{.webURL}}/_openshiftio/assets/images/openshift_logo_black.png" width="25%" height="40px" />
-      <p style="width: 75%; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-        <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
-          style="color: #0088ce; text-decoration: none;">
-                {{index .workitem.Data.Attributes "system.number"}}-{{index .workitem.Data.Attributes "system.title"}}
-        </a>
+<body style="
+        margin: 10px;
+        padding: 0;
+        background-color: #f9f9f9;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-weight: lighter;
+        line-height: 1.2;">
+  <div style="
+        min-height: 300px;
+        width: 100%;
+        max-width: 750px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #d7d7d7;
+        border-radius: 4px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px #d7d7d7;">
+    <div style="
+          width: 100%;">
+      <img src="{{.webURL}}/_openshiftio/assets/images/openshift_logo_black.png" width="25%" height="45px" />
+      <div style="
+            width: 95%;
+            margin: 10px auto;
+            border: 1px solid #d7d7d7;">
+      </div>
+      <p>
+        <img src="{{sizeImage .commentOwner.Data.Attributes.ImageURL 22}}" style="height: 22px; width: 22px; vertical-align: middle;" />&nbsp;
+        <span style="
+              margin-top: 5px;">
+          <a href="{{.webURL}}/{{.commentOwner.Data.Attributes.Username}}" style="color: #0088ce; text-decoration: none;">{{.commentOwner.Data.Attributes.FullName}}</a>&nbsp;
+          <span style="font-weight: 700;">commented</span> on work item
+        <span style="
+                  max-width: 250px;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  display: inline-block;
+                  vertical-align: middle;">
+            <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
+              style="
+                color: #0088ce;
+                font-weight: 700;
+                text-decoration: none;">
+              {{index .workitem.Data.Attributes "system.number"}}
+            </a>
+          </span>
+        <span style="
+                  border: 1px solid purple;
+                  width: auto;
+                  margin-left: 10px;">
+            <a href="#"
+               style="
+                  padding: 5px;
+                  font-size: 12px;
+                  color: purple;
+                  text-decoration: none;">
+              {{lower .spaceOwner.Data.Attributes.Username}}/{{lower .space.Data.Attributes.Name}}
+            </a>
+          </span>
+        </span>
       </p>
     </div>
-    <div style="width: 95%; margin: 10px auto; border: 1px solid #d7d7d7;"></div>
-    <p style="font-size: 16px; text-align: left;">
-      A comment has been added to {{index .workitem.Data.Attributes "system.number"}} {{index .workitem.Data.Attributes "system.title"}}.
-    </p>
-    <table>
-      <tr style="height: 30px;">
-        <td class="table-label" style="width: 100px; text-align: left;">
-          <b>Commentor:</b>
-        </td>
-        <td class="table-content" style="text-align: left;">
-          <a href="{{.webURL}}/{{.commentOwner.Data.Attributes.Username}}" style="color: #0088ce; text-decoration: none;">
-              <img src="{{sizeImage .commentOwner.Data.Attributes.ImageURL 22}}" style="height: 22px; width: 22px;" /> {{.commentOwner.Data.Attributes.FullName}}
-            </a>
-        </td>
-      </tr>
-      <tr style="height: 30px;">
-        <td class="table-label" style="width: 100px; text-align: left;">
-          <b>Created:</b>
-        </td>
-        <td class="table-content" style="width: 500px; text-align: left;">
-          {{date .comment.Data.Attributes.CreatedAt}}
-        </td>
-      </tr>
-      <tr style="height: 30px;">
-        <td class="table-label" style="width: 100px; text-align: left; vertical-align: top;">
-          <b>Comment:</b>
-        </td>
-        <td class="table-content" style="width: 500px; text-align: left;">
-          {{raw .comment.Data.Attributes.BodyRendered}}
-        </td>
-      </tr>
-    </table>
-    <div style="margin-top: 100px;">
-      <span style="width: 50%;">
-         <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}" style="color: #0088ce; text-decoration: none; float: left;">Open this item</a>
+    <div style="
+          background-color: #f9f9f9;
+          padding: 10px 20px;">
+      <h3 style="margin-bottom: 5px;">
+        <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
+          style="
+            color: #0088ce;
+            font-weight: 700;
+            text-decoration: none;">
+          {{index .workitem.Data.Attributes "system.title"}}
+        </a>
+      </h3>
+      <span style="font-size: 12px; color: #8b8d8f;">comment created at {{date .comment.Data.Attributes.CreatedAt}}</span>
+      <p style="
+          font-size: 16px;
+          text-align: left;
+          min-height: 150px;
+          max-width: 700px;">
+        {{raw .comment.Data.Attributes.BodyRendered}}
+      </p>
+    </div>
+    <div style="
+            margin-top: 25px;
+            margin-bottom: 5px;
+            display: inline-flex;">
+      <span style="width: 150px;">
+        <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
+            style="
+              color: #0088ce;
+              text-decoration: none;
+              font-weight: 500;
+              vertical-align: sub;">
+              Link to this item</a>
+      </span>
+      <span style="width: 150px;">
+        <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
+            style="
+              color: #0088ce;
+              text-decoration: none;
+              font-weight: 500;
+              vertical-align: sub;">
+              Comment</a>
       </span>
     </div>
   </div>
