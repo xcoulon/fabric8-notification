@@ -12,6 +12,7 @@ import (
 	"github.com/fabric8-services/fabric8-notification/wit/api"
 	"github.com/goadesign/goa/uuid"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 const (
@@ -60,13 +61,13 @@ func TestRenderWorkitemCreate(t *testing.T) {
 	}
 
 	subject, body, headers, err := temp.Render(addGlobalVars(vars))
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
 
 	assert.Contains(t, headers, "Message-ID")
 
-	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
+	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "Ruchir Garg"))
 	assert.True(t, strings.Contains(body, "1343"))
 	assert.True(t, strings.Contains(body, "mode under Backlog")) // part of the Description. Might change since we're on live data
@@ -96,13 +97,13 @@ func TestRenderWorkitemCreateMissingDescription(t *testing.T) {
 	delete(wi.Data.Attributes, "system.description.markup")
 
 	subject, body, headers, err := temp.Render(addGlobalVars(vars))
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
 
 	assert.Contains(t, headers, "Message-ID")
 
-	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
+	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "Ruchir Garg"))
 	assert.True(t, strings.Contains(body, "1343"))
 
@@ -126,7 +127,7 @@ func TestRenderWorkitemUpdate(t *testing.T) {
 	}
 
 	subject, body, headers, err := temp.Render(addGlobalVars(vars))
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
@@ -134,7 +135,7 @@ func TestRenderWorkitemUpdate(t *testing.T) {
 	assert.Contains(t, headers, "In-Reply-To")
 	assert.Contains(t, headers, "References")
 
-	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
+	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "1343"))
 
 	/*
@@ -157,7 +158,7 @@ func TestRenderCommentCreate(t *testing.T) {
 	}
 
 	subject, body, headers, err := temp.Render(addGlobalVars(vars))
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
@@ -165,7 +166,7 @@ func TestRenderCommentCreate(t *testing.T) {
 	assert.Contains(t, headers, "In-Reply-To")
 	assert.Contains(t, headers, "References")
 
-	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
+	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "1343"))
 	assert.True(t, strings.Contains(body, "just shows loading animation,")) // part of the msg
 
@@ -189,7 +190,7 @@ func TestRenderCommentUpdate(t *testing.T) {
 	}
 
 	subject, body, headers, err := temp.Render(addGlobalVars(vars))
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	assert.True(t, strings.Contains(subject, "[openshiftio/openshiftio]"))
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
@@ -197,7 +198,7 @@ func TestRenderCommentUpdate(t *testing.T) {
 	assert.Contains(t, headers, "In-Reply-To")
 	assert.Contains(t, headers, "References")
 
-	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/8bccc228-bba7-43ad-b077-15fbb9148f7f"))
+	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "1343"))
 	assert.True(t, strings.Contains(body, "just shows loading animation,")) // part of the ms
 
