@@ -10,12 +10,15 @@
     tr td ul li img {
       max-width: 500px;
     }
+
     tr td pre {
       overflow: auto;
     }
+
     .description-text p:first-of-type {
       margin-top: 0;
     }
+
     a:hover {
       text-decoration: underline !important;
     }
@@ -49,7 +52,8 @@
             border: 1px solid #d7d7d7;">
       </div>
       <p>
-        <img src="{{sizeImage .workitemOwner.Data.Attributes.ImageURL 22}}" style="height: 22px; width: 22px; vertical-align: middle;" />&nbsp;
+        <img src="{{sizeImage .workitemOwner.Data.Attributes.ImageURL 22}}" style="height: 22px; width: 22px; vertical-align: middle;"
+        />&nbsp;
         <span style="
               margin-top: 5px;">
           <a href="{{.webURL}}/{{.workitemOwner.Data.Attributes.Username}}" style="color: #0088ce; text-decoration: none;">{{.workitemOwner.Data.Attributes.FullName}}</a>&nbsp;
@@ -61,7 +65,7 @@
                   text-overflow: ellipsis;
                   display: inline-block;
                   vertical-align: middle;">
-            <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
+            <a href="{{detailURL .webURL .spaceOwner .space .workitem}}"
               style="
                 color: #0088ce;
                 font-weight: 700;
@@ -92,8 +96,7 @@
           max-width: 700px;
           text-align: left;">
       <h3 style="margin-bottom: 5px;">
-        <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
-          style="
+        <a href="{{detailURL .webURL .spaceOwner .space .workitem}}" style="
             color: #0088ce;
             font-weight: 700;
             text-decoration: none;">
@@ -143,7 +146,7 @@
             margin-bottom: 5px;
             display: inline-flex;">
       <span style="width: 150px;">
-        <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
+        <a href="{{detailURL .webURL .spaceOwner .space .workitem}}"
             style="
               color: #0088ce;
               text-decoration: none;
@@ -152,7 +155,7 @@
               Link to this item</a>
       </span>
       <span style="width: 150px;">
-        <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan/detail/{{.workitem.Data.ID}}"
+        <a href="{{detailURL .webURL .spaceOwner .space .workitem}}"
             style="
               color: #0088ce;
               text-decoration: none;
