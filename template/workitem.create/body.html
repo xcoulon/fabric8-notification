@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>New Work Item Created</title>
+  <title>New Work Item Created in Planner</title>
   <style>
     tr td ul li img {
       max-width: 500px;
@@ -77,13 +77,13 @@
                   border: 1px solid purple;
                   width: auto;
                   margin-left: 10px;">
-            <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}"
+            <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan?area=Planner"
                style="
                   padding: 5px;
                   font-size: 12px;
                   color: purple;
                   text-decoration: none;">
-              {{lower .spaceOwner.Data.Attributes.Username}}/{{lower .space.Data.Attributes.Name}}
+              {{lower .spaceOwner.Data.Attributes.Username}}/{{lower .space.Data.Attributes.Name}}/Planner
             </a>
           </span>
         </span>
@@ -128,6 +128,19 @@
             </td>
             <td class="table-content" style="text-align: left; padding-left: 10px; max-width: 500px;">
               {{lower .spaceOwner.Data.Attributes.Username}}/{{lower .space.Data.Attributes.Name}}
+            </td>
+          </tr>
+          <tr style="height: 30px;">
+            <td style="width: 100px; text-align: right;">
+              <span style="font-weight: 700;">Area</span>
+            </td>
+            <td class="table-content" style="text-align: left; padding-left: 10px; max-width: 500px;">
+              <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan?area=Planner" style="
+                  color: #0088ce;
+                  font-weight: 500;
+                  text-decoration: none;">
+                Planner
+              </a>
             </td>
           </tr>
           <tr style="height: 30px;">
