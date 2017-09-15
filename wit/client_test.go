@@ -48,6 +48,19 @@ func TestWorkItem(t *testing.T) {
 	assert.Equal(t, "Cannot resolve Area/Iteration info for new WI created in in-memory mode", u.Data.Attributes["system.title"])
 }
 
+func TestArea(t *testing.T) {
+
+	c := createClient(t)
+	ID, err := uuid.FromString("b611ebaa-dfc9-489e-bb2f-c1d8d8237e40")
+
+	u, err := wit.GetArea(context.Background(), c, ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assert.Equal(t, "Planner", *u.Data.Attributes.Name)
+}
+
 func TestComment(t *testing.T) {
 
 	c := createClient(t)

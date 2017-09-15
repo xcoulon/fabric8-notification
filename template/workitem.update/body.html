@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Updated Work Item in Planner</title>
+  <title>Updated Work Item in {{.workitemArea.Data.Attributes.Name}}</title>
   <style>
     tr td ul li img {
       max-width: 500px;
@@ -73,13 +73,13 @@
                   border: 1px solid purple;
                   width: auto;
                   margin-left: 10px;">
-            <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan?area=Planner"
+            <a href="{{.webURL}}/{{.spaceOwner.Data.Attributes.Username}}/{{.space.Data.Attributes.Name}}/plan?area={{.workitemArea.Data.Attributes.Name}}"
                style="
                   padding: 5px;
                   font-size: 12px;
                   color: purple;
                   text-decoration: none;">
-              {{lower .spaceOwner.Data.Attributes.Username}}/{{lower .space.Data.Attributes.Name}}/Planner
+              {{lower .spaceOwner.Data.Attributes.Username}}{{areaPath .workitemArea.Data.Attributes.ParentPathResolved .workitemArea.Data.Attributes.Name}}
             </a>
           </span>
         </span>

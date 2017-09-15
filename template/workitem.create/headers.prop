@@ -1,1 +1,3 @@
 Message-ID: <workitems/{{.workitem.Data.ID}}@notify.openshift.io>
+X-OSIO-Space: {{lower .spaceOwner.Data.Attributes.Username}}/{{lower .space.Data.Attributes.Name}}
+X-OSIO-Area: {{areaPath .workitemArea.Data.Attributes.ParentPathResolved .workitemArea.Data.Attributes.Name}}

@@ -66,11 +66,14 @@ func TestRenderWorkitemCreate(t *testing.T) {
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
 
 	assert.Contains(t, headers, "Message-ID")
+	assert.Contains(t, headers, "X-OSIO-Space")
+	assert.Contains(t, headers, "X-OSIO-Area")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "Ruchir Garg"))
 	assert.True(t, strings.Contains(body, "1343"))
 	assert.True(t, strings.Contains(body, "mode under Backlog")) // part of the Description. Might change since we're on live data
+	assert.True(t, strings.Contains(body, "/openshiftio"))       // Space/Area tag. Might change since we're on live data
 
 	/*
 		ioutil.WriteFile("../test.html", []byte(body), os.FileMode(0777))
@@ -102,6 +105,8 @@ func TestRenderWorkitemCreateMissingDescription(t *testing.T) {
 	assert.True(t, strings.Contains(subject, "[Scenario]"))
 
 	assert.Contains(t, headers, "Message-ID")
+	assert.Contains(t, headers, "X-OSIO-Space")
+	assert.Contains(t, headers, "X-OSIO-Area")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "Ruchir Garg"))
@@ -134,6 +139,8 @@ func TestRenderWorkitemUpdate(t *testing.T) {
 
 	assert.Contains(t, headers, "In-Reply-To")
 	assert.Contains(t, headers, "References")
+	assert.Contains(t, headers, "X-OSIO-Space")
+	assert.Contains(t, headers, "X-OSIO-Area")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "1343"))
@@ -165,6 +172,8 @@ func TestRenderCommentCreate(t *testing.T) {
 
 	assert.Contains(t, headers, "In-Reply-To")
 	assert.Contains(t, headers, "References")
+	assert.Contains(t, headers, "X-OSIO-Space")
+	assert.Contains(t, headers, "X-OSIO-Area")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "1343"))
@@ -197,6 +206,8 @@ func TestRenderCommentUpdate(t *testing.T) {
 
 	assert.Contains(t, headers, "In-Reply-To")
 	assert.Contains(t, headers, "References")
+	assert.Contains(t, headers, "X-OSIO-Space")
+	assert.Contains(t, headers, "X-OSIO-Area")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
 	assert.True(t, strings.Contains(body, "1343"))

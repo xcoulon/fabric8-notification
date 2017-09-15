@@ -45,6 +45,7 @@ func (t Template) renderHTML(template string, vars map[string]interface{}) (stri
 		},
 		"lower":     lower,
 		"detailURL": detailURL,
+		"areaPath":  areaPath,
 	}
 
 	templ, err := tmplHTML.New(t.Name).Funcs(funcMap).Parse(template)
@@ -62,8 +63,10 @@ func (t Template) renderHTML(template string, vars map[string]interface{}) (stri
 
 func (t Template) renderTXT(template string, vars map[string]interface{}) (string, error) {
 	funcMap := tmplTXT.FuncMap{
-		"date":  formatDate,
-		"lower": lower,
+		"date":      formatDate,
+		"lower":     lower,
+		"detailURL": detailURL,
+		"areaPath":  areaPath,
 	}
 
 	templ, err := tmplTXT.New(t.Name).Funcs(funcMap).Parse(template)

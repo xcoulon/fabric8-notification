@@ -59,3 +59,11 @@ func detailURL(webURL string, spaceOwner api.User, space api.SpaceSingle, workit
 		*space.Data.Attributes.Name,
 		workitem.Data.Attributes["system.number"])
 }
+
+func areaPath(parentPath, name string) string {
+	p := parentPath
+	if p == "/" {
+		p = ""
+	}
+	return fmt.Sprintf("%v/%v", lower(p), lower(name))
+}

@@ -35,6 +35,7 @@ func TestWorkItem(t *testing.T) {
 
 	assert.NotNil(t, vars["workitem"])
 	assert.NotNil(t, vars["workitemOwner"])
+	assert.NotNil(t, vars["workitemArea"])
 	assert.NotNil(t, vars["workitemType"])
 	assert.NotNil(t, vars["space"])
 	assert.NotNil(t, vars["spaceOwner"])
@@ -62,6 +63,7 @@ func TestComment(t *testing.T) {
 	assert.NotNil(t, vars["commentOwner"])
 	assert.NotNil(t, vars["workitem"])
 	assert.NotNil(t, vars["workitemOwner"])
+	assert.NotNil(t, vars["workitemArea"])
 	assert.NotNil(t, vars["workitemType"])
 	assert.NotNil(t, vars["space"])
 	assert.NotNil(t, vars["spaceOwner"])

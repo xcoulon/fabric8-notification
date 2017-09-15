@@ -62,6 +62,22 @@ func GetWorkItem(ctx context.Context, client *api.Client, wiID uuid.UUID) (*api.
 	return client.DecodeWorkItemSingle(resp)
 }
 
+func GetArea(ctx context.Context, client *api.Client, areaID uuid.UUID) (*api.AreaSingle, error) {
+	resp, err := client.ShowArea(goasupport.ForwardContextRequestID(ctx), api.ShowAreaPath(areaID.String()), nil, nil)
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("non %v status code for %v, returned %v", http.StatusOK, "GET space", resp.StatusCode)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+	return client.DecodeAreaSingle(resp)
+}
+
 func GetWorkItemType(ctx context.Context, client *api.Client, spaceID, witID uuid.UUID) (*api.WorkItemTypeSingle, error) {
 	resp, err := client.ShowWorkitemtype(goasupport.ForwardContextRequestID(ctx), api.ShowWorkitemtypePath(spaceID, witID), nil, nil)
 	if resp != nil {

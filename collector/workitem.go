@@ -79,6 +79,13 @@ func Comment(ctx context.Context, c *api.Client, cID uuid.UUID) ([]Receiver, map
 	}
 	values["workitemOwner"] = workitemOwner
 
+	areaID, _ := uuid.FromString(*wi.Data.Relationships.Area.Data.ID)
+	workitemArea, err := wit.GetArea(ctx, c, areaID)
+	if err != nil {
+		errors = append(errors, err)
+	}
+	values["workitemArea"] = workitemArea
+
 	cs, err := wit.GetComments(ctx, c, wiID)
 	if err != nil {
 		errors = append(errors, err)
@@ -151,6 +158,13 @@ func WorkItem(ctx context.Context, c *api.Client, wiID uuid.UUID) ([]Receiver, m
 		errors = append(errors, err)
 	}
 	values["workitemOwner"] = workitemOwner
+
+	areaID, _ := uuid.FromString(*wi.Data.Relationships.Area.Data.ID)
+	workitemArea, err := wit.GetArea(ctx, c, areaID)
+	if err != nil {
+		errors = append(errors, err)
+	}
+	values["workitemArea"] = workitemArea
 
 	cs, err := wit.GetComments(ctx, c, wiID)
 	if err != nil {
