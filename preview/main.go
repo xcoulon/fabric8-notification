@@ -31,6 +31,7 @@ func main() {
 	}
 
 	var testdata []data
+	testdata = append(testdata, data{"de4871ce-0bfd-4b4b-aee2-e02427f4e38b", "workitem.create"})
 	testdata = append(testdata, data{"43024450-fe8c-4082-8828-88512cebfdb0", "workitem.create"})
 	testdata = append(testdata, data{"3a331aa3-6423-4fd7-85e4-95d7932b168c", "workitem.create"})
 	testdata = append(testdata, data{"d85e19a1-f4aa-486e-a8fe-3211cac9b68f", "workitem.create"})
@@ -80,12 +81,17 @@ func generate(c *api.Client, id, tmplName string) error {
 	if err != nil {
 		return err
 	}
-	subject, body, _, err := temp.Render(addGlobalVars(vars))
+	subject, body, headers, err := temp.Render(addGlobalVars(vars))
 	if err != nil {
 		return err
 	}
 	fmt.Println("Subject:", subject)
 	fmt.Println("Output :", "file://"+fileName)
+	fmt.Println("Headers:")
+	for k, v := range headers {
+		fmt.Println(k, v)
+	}
+	fmt.Println("")
 
 	ioutil.WriteFile(fileName, []byte(body), os.FileMode(0777))
 	return nil
