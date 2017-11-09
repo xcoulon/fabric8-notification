@@ -9,10 +9,20 @@ RUN useradd --no-create-home -s /bin/bash ${USER_NAME}
 
 COPY bin/fabric8-notification ${INSTALL_PREFIX}/bin/fabric8-notification
 
+# Install little pcp pmcd server for metrics collection
+# would prefer only pmcd, and not the /bin/pm*tools etc.
+COPY pcp.repo /etc/yum.repos.d/pcp.repo
+RUN yum install -y pcp pcp-pmda-prometheus && yum clean all && \
+    mkdir -p /etc/pcp /var/run/pcp /var/lib/pcp /var/log/pcp && \
+    chown -R ${USER_NAME} /etc/pcp /var/run/pcp /var/lib/pcp /var/log/pcp && \
+    chmod -R ug+rw /etc/pcp /var/run/pcp /var/lib/pcp /var/log/pcp
+COPY ./notification+pmcd.sh /notification+pmcd.sh
+EXPOSE 44321
+
 # From here onwards, any RUN, CMD, or ENTRYPOINT will be run under the following user
 USER ${USER_NAME}
 
 WORKDIR ${INSTALL_PREFIX}
-ENTRYPOINT [ "bin/fabric8-notification" ]
+ENTRYPOINT [ "/notification+pmcd.sh" ]
 
 EXPOSE 8080
