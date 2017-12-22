@@ -217,3 +217,28 @@ func TestRenderCommentUpdate(t *testing.T) {
 		ioutil.WriteFile("../test.html", []byte(body), os.FileMode(0777))
 	*/
 }
+
+func TestRenderEmailUpdate(t *testing.T) {
+	reg := template.AssetRegistry{}
+
+	temp, exist := reg.Get("user.email.update")
+	assert.True(t, exist)
+
+	c := createClient(t)
+	ciID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
+
+	_, vars, err := collector.User(context.Background(), c, ciID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if vars == nil {
+		vars = map[string]interface{}{}
+	}
+	vars["custom"] = map[string]interface{}{
+		"verifyURL": "https://verift.url.openshift.io",
+	}
+	_, body, _, err := temp.Render(addGlobalVars(vars))
+	require.NoError(t, err)
+	assert.True(t, strings.Contains(body, "https://verift.url.openshift.io"))
+}

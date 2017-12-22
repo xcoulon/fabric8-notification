@@ -40,6 +40,7 @@ func main() {
 	testdata = append(testdata, data{"d28f8344-4956-497a-b43b-7f217087a931", "comment.create"})
 	testdata = append(testdata, data{"51d968b1-b9e5-4ec1-884a-ff256902c753", "comment.create"})
 	testdata = append(testdata, data{"51d968b1-b9e5-4ec1-884a-ff256902c753", "comment.update"})
+	testdata = append(testdata, data{"3383826c-51e4-401b-9ccd-b898f7e2397d", "user.email.update"})
 
 	fmt.Println("Generating test templates..")
 	fmt.Println("")
@@ -69,6 +70,11 @@ func generate(c *api.Client, id, tmplName string) error {
 		_, vars, err = collector.WorkItem(context.Background(), c, wiID)
 	} else if strings.HasPrefix(tmplName, "comment") {
 		_, vars, err = collector.Comment(context.Background(), c, wiID)
+	} else if strings.HasPrefix(tmplName, "user") {
+		_, vars, err = collector.User(context.Background(), c, wiID)
+		vars["custom"] = map[string]interface{}{
+			"verifyURL": "https://auth.openshift.io?verify",
+		}
 	} else {
 		return fmt.Errorf("Unkown resovler for template %v", tmplName)
 	}

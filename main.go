@@ -11,6 +11,7 @@ import (
 	"github.com/fabric8-services/fabric8-notification/jsonapi"
 	"github.com/fabric8-services/fabric8-notification/keycloak"
 	"github.com/fabric8-services/fabric8-notification/template"
+	"github.com/fabric8-services/fabric8-notification/validator"
 	"github.com/fabric8-services/fabric8-notification/wit"
 
 	"github.com/Sirupsen/logrus"
@@ -74,10 +75,11 @@ func main() {
 	notifier := email.NewAsyncWorkerNotifier(sender, 1)
 
 	resolvers := &collector.LocalRegistry{}
-	resolvers.Register("workitem.create", collector.ConfiguredVars(config, collector.NewWorkItemResolver(witClient)))
-	resolvers.Register("workitem.update", collector.ConfiguredVars(config, collector.NewWorkItemResolver(witClient)))
-	resolvers.Register("comment.create", collector.ConfiguredVars(config, collector.NewCommentResolver(witClient)))
-	resolvers.Register("comment.update", collector.ConfiguredVars(config, collector.NewCommentResolver(witClient)))
+	resolvers.Register("workitem.create", collector.ConfiguredVars(config, collector.NewWorkItemResolver(witClient)), nil)
+	resolvers.Register("workitem.update", collector.ConfiguredVars(config, collector.NewWorkItemResolver(witClient)), nil)
+	resolvers.Register("comment.create", collector.ConfiguredVars(config, collector.NewCommentResolver(witClient)), nil)
+	resolvers.Register("comment.update", collector.ConfiguredVars(config, collector.NewCommentResolver(witClient)), nil)
+	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(witClient)), validator.ValidateUser)
 
 	typeRegistry := &template.AssetRegistry{}
 	service := goa.New("notification")

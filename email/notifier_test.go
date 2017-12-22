@@ -27,7 +27,7 @@ func TestAsyncWorkerNotifier(t *testing.T) {
 	sender := &TestSender{callback: callback}
 	notifier := NewAsyncWorkerNotifier(sender, 1)
 
-	notifier.Send(context.Background(), Notification{ID: "TEST", Type: "workitem.create", Resolver: resolver, Template: template.Template{}})
+	notifier.Send(context.Background(), Notification{ID: "TEST", CustomAttributes: map[string]interface{}{}, Type: "workitem.create", Resolver: resolver, Template: template.Template{}})
 
 	<-sender.callback
 }

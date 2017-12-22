@@ -30,11 +30,19 @@ func NewNotifyController(service *goa.Service, cRegistry collector.Registry, tRe
 func (c *NotifyController) Send(ctx *app.SendNotifyContext) error {
 	nID := ctx.Payload.Data.Attributes.ID
 	nType := ctx.Payload.Data.Attributes.Type
+	customAttributes := ctx.Payload.Data.Attributes.Custom
 
 	var found bool
 	var template template.Template
 	var receiverResolver collector.ReceiverResolver
 
+	validator, found := c.CollectorRegistry.Validator(nType)
+	if found {
+		err := validator(ctx, customAttributes)
+		if err != nil {
+			return jsonapi.JSONErrorResponse(ctx, err)
+		}
+	}
 	if template, found = c.TemplateRegistry.Get(nType); !found {
 		log.Error(ctx, map[string]interface{}{
 			"err":  "template type not found",
@@ -52,7 +60,7 @@ func (c *NotifyController) Send(ctx *app.SendNotifyContext) error {
 		return jsonapi.JSONErrorResponse(ctx, errors.NewInternalError(ctx, fmt.Errorf("could not find ReceiverResolver for type %v", nType)))
 	}
 
-	c.Notifier.Send(ctx, email.Notification{ID: nID, Type: nType, Resolver: receiverResolver, Template: template})
+	c.Notifier.Send(ctx, email.Notification{ID: nID, Type: nType, CustomAttributes: customAttributes, Resolver: receiverResolver, Template: template})
 
 	return ctx.Accepted()
 }

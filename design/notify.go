@@ -26,6 +26,9 @@ var notificationAttributes = a.Type("NotificationAttributes", func() {
 	a.Attribute("id", d.String, "ID of the main resource that was created/changed", func() {
 		a.Example("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 	})
+	a.Attribute("custom", a.HashOf(d.String, d.Any), "custom information to be passed as a json", func() {
+		a.Example(map[string]interface{}{"verification_url": "https://auth.openshift.io/api/user/verifyEmail?code=bb9148f7"})
+	})
 	a.Required("type", "id")
 })
 
