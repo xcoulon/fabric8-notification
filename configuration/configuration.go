@@ -111,7 +111,7 @@ func (c *Data) GetWITURL() string {
 // This will be used by the notification service to request for a service account token
 // from the Auth service.
 func (c *Data) GetServiceAccountID() string {
-	return c.v.GetString(varWITURL)
+	return c.v.GetString(varServiceAccountID)
 }
 
 // GetServiceAccountSecret returns service account secret for the notification service.
