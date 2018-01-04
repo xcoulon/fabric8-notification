@@ -87,7 +87,7 @@ func (c *Data) setConfigDefaults() {
 	c.v.SetDefault(varLogLevel, defaultLogLevel)
 
 	c.v.SetDefault(varServiceAccountID, "4c83ca2d-6dcc-41c9-ac7d-b068ad4d17c5")
-	c.v.SetDefault(varServiceAccountSecret, "$2a$04$sbC/AfW2c33hv8orGA.1D.LXa/.IY76VWhsfqxCVhrhFkDfL0/XGK")
+	c.v.SetDefault(varServiceAccountSecret, "notificationsecret")
 }
 
 // GetHTTPAddress returns the HTTP address (as set via default, config file, or environment variable)
