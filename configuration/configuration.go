@@ -22,6 +22,8 @@ const (
 	varKeycloakURL          = "keycloak.url"
 	varLogLevel             = "log.level"
 	varLogJSON              = "log.json"
+	varServiceAccountID     = "service.account.id"
+	varServiceAccountSecret = "service.account.secret"
 )
 
 // Data encapsulates the Viper configuration object which stores the configuration data in-memory.
@@ -83,6 +85,9 @@ func (c *Data) setConfigDefaults() {
 	// Enable development related features, e.g. token generation endpoint
 	c.v.SetDefault(varDeveloperModeEnabled, false)
 	c.v.SetDefault(varLogLevel, defaultLogLevel)
+
+	c.v.SetDefault(varServiceAccountID, "4c83ca2d-6dcc-41c9-ac7d-b068ad4d17c5")
+	c.v.SetDefault(varServiceAccountSecret, "notificationsecret")
 }
 
 // GetHTTPAddress returns the HTTP address (as set via default, config file, or environment variable)
@@ -100,6 +105,20 @@ func (c *Data) IsDeveloperModeEnabled() bool {
 // GetWITURL return the base WorkItemTracker API URL
 func (c *Data) GetWITURL() string {
 	return c.v.GetString(varWITURL)
+}
+
+// GetServiceAccountID returns service account ID for the notification service.
+// This will be used by the notification service to request for a service account token
+// from the Auth service.
+func (c *Data) GetServiceAccountID() string {
+	return c.v.GetString(varServiceAccountID)
+}
+
+// GetServiceAccountSecret returns service account secret for the notification service.
+// This will be used by the notification service to request for a service account token
+// from the Auth service.
+func (c *Data) GetServiceAccountSecret() string {
+	return c.v.GetString(varServiceAccountSecret)
 }
 
 // GetWebURL returns the base URL for the Web v
