@@ -1,10 +1,12 @@
-hash: f875c6dfb774e9364c3caa3ae098a5d75d65afc04a69d4d05e2a11893791a571
-updated: 2017-08-24T05:24:29.31397775+02:00
+hash: 5ca475c05c90b09f3ad15fbb5c573ec32a4dac9929b430356b370bbbcc8381d2
+updated: 2018-01-08T17:36:06.215808867+05:30
 imports:
+- name: github.com/ajg/form
+  version: cc2954064ec9ea8d93917f0f87456e11d7b881ad
 - name: github.com/armon/go-metrics
-  version: 97c69685293dce4c0a2d0b19535179bbc976e4d2
+  version: 9a4b6e10bed6220a1665955aa2b75afc91eb10b3
 - name: github.com/dgrijalva/jwt-go
-  version: d2709f9f1f31ebcda9651b03077758c1f3a0018c
+  version: dbeaa9332f19a944acb5736b4456cfcc02140e29
 - name: github.com/dimfeld/httppath
   version: c8e499c3ef3c3e272ed8bdcc1ccf39f73c88debc
 - name: github.com/dimfeld/httptreemux
@@ -13,8 +15,12 @@ imports:
   version: 9a6736ed45b44bf3835afeebb3034b57ed329f3e
   subpackages:
   - go-bindata-assetfs
+- name: github.com/fabric8-services/fabric8-auth
+  version: f67317193c3108895f853f80f9330c1a65b11004
+  subpackages:
+  - design
 - name: github.com/fabric8-services/fabric8-wit
-  version: 58db841e76891f1251bdec86908c61360f11d375
+  version: ff1746954f6c1a89dc2c35b72731e19b63d842d2
   subpackages:
   - configuration
   - design
@@ -29,7 +35,7 @@ imports:
 - name: github.com/fsnotify/fsnotify
   version: 629574ca2a5df945712d3079857300b5e4da0236
 - name: github.com/goadesign/goa
-  version: 58f3177f36f2c50ee6119da92795e48bac6d6243
+  version: 5646a430cdeb66983d5ace3384e0a667c185abc7
   vcs: git
   subpackages:
   - client
@@ -37,6 +43,7 @@ imports:
   - design
   - design/apidsl
   - dslengine
+  - encoding/form
   - goagen
   - goagen/codegen
   - goagen/gen_app
@@ -50,6 +57,12 @@ imports:
   - uuid
 - name: github.com/gregjones/httpcache
   version: 0d2297f241a3503b4d464cd434e6d1490ec76e9a
+- name: github.com/hashicorp/go-immutable-radix
+  version: 8aac2701530899b64bdea735a1de8da899815220
+- name: github.com/hashicorp/golang-lru
+  version: 0a025b7e63adc15a622f29b0b2c4c3848243bbf6
+  subpackages:
+  - simplelru
 - name: github.com/hashicorp/hcl
   version: 37ab263305aaeb501a60eb16863e808d426e37f2
   subpackages:
@@ -68,7 +81,7 @@ imports:
 - name: github.com/lib/pq
   version: 4a82388ebc5138c8289fe9bc602cb0b3e32cd617
 - name: github.com/magiconair/properties
-  version: be5ece7dd465ab0765a9682137865547526d1dfb
+  version: d419a98cdbed11a922bf76f257b7c4be79b50e73
 - name: github.com/manveru/faker
   version: 717f7cf83fb78669bfab612749c2e8ff63d5be11
 - name: github.com/mattbaird/gochimp
@@ -83,7 +96,7 @@ imports:
   version: 645ef00459ed84a119197bfb8d8205042c6df63d
 - name: github.com/satori/go.uuid
   version: b061729afc07e77a8aa4fad0a2fd840958f1942a
-- name: github.com/Sirupsen/logrus
+- name: github.com/sirupsen/logrus
   version: c078b1e43f58d563c74cebe63c85789e76ddb627
 - name: github.com/spf13/afero
   version: 2f30b2a92c0e5700bcfe4715891adb1f2a7a406d

@@ -2,7 +2,7 @@ package: github.com/fabric8-services/fabric8-notification
 license: Apache-2.0
 import:
 - package: github.com/fabric8-services/fabric8-wit
-  version: 58db841e76891f1251bdec86908c61360f11d375
+  version: ff1746954f6c1a89dc2c35b72731e19b63d842d2
   subpackages:
     - log
     - errors
@@ -11,6 +11,10 @@ import:
     - jsonapi
     - design
     - goasupport
+- package: github.com/fabric8-services/fabric8-auth
+  version: f67317193c3108895f853f80f9330c1a65b11004
+  subpackages:
+    - design
 - package: github.com/gregjones/httpcache
 - package: github.com/mattbaird/gochimp
 - package: github.com/goadesign/goa
@@ -34,7 +38,7 @@ import:
 - package: github.com/zach-klippenstein/goregen
 - package: github.com/spf13/cobra
 - package: github.com/spf13/viper
-- package: github.com/Sirupsen/logrus
+- package: github.com/sirupsen/logrus
 - package: github.com/lib/pq
 - package: gopkg.in/yaml.v2
 - package: github.com/jteeuwen/go-bindata

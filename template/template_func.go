@@ -6,7 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fabric8-services/fabric8-notification/wit/api"
+	authapi "github.com/fabric8-services/fabric8-notification/auth/api"
+	witapi "github.com/fabric8-services/fabric8-notification/wit/api"
 )
 
 func formatDate(date interface{}) string {
@@ -51,7 +52,7 @@ func resolveString(data interface{}) string {
 	return fmt.Sprint(data)
 }
 
-func detailURL(webURL string, spaceOwner api.User, space api.SpaceSingle, workitem api.WorkItemSingle) string {
+func detailURL(webURL string, spaceOwner *authapi.User, space witapi.SpaceSingle, workitem witapi.WorkItemSingle) string {
 	return fmt.Sprintf(
 		"%v/%v/%v/plan/detail/%v",
 		webURL,

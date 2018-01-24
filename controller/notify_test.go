@@ -9,12 +9,12 @@ import (
 
 	"github.com/fabric8-services/fabric8-notification/app"
 	"github.com/fabric8-services/fabric8-notification/app/test"
+	"github.com/fabric8-services/fabric8-notification/auth"
 	"github.com/fabric8-services/fabric8-notification/collector"
 	"github.com/fabric8-services/fabric8-notification/configuration"
 	"github.com/fabric8-services/fabric8-notification/email"
 	"github.com/fabric8-services/fabric8-notification/template"
 	"github.com/fabric8-services/fabric8-notification/validator"
-	"github.com/fabric8-services/fabric8-notification/wit"
 	"github.com/goadesign/goa"
 )
 
@@ -44,9 +44,9 @@ func TestNotifySendWithCustomParam(t *testing.T) {
 
 	resolvers := &collector.LocalRegistry{}
 	typeRegistry := &template.AssetRegistry{}
-	witClient, _ := wit.NewCachedClient(config.GetWITURL())
+	authClient, _ := auth.NewCachedClient(config.GetWITURL())
 
-	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(witClient)), validator.ValidateUser)
+	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), validator.ValidateUser)
 	notifier := &email.CallbackNotifier{
 		Callback: func(ctx context.Context, notification email.Notification) {
 			require.NotNil(t, notification.CustomAttributes)
@@ -77,9 +77,9 @@ func TestNotifySendWithoutustomParamBadRequest(t *testing.T) {
 
 	resolvers := &collector.LocalRegistry{}
 	typeRegistry := &template.AssetRegistry{}
-	witClient, _ := wit.NewCachedClient(config.GetWITURL())
+	authClient, _ := auth.NewCachedClient(config.GetWITURL())
 
-	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(witClient)), validator.ValidateUser)
+	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), validator.ValidateUser)
 	notifier := &email.CallbackNotifier{
 		Callback: func(ctx context.Context, notification email.Notification) {
 			require.NotNil(t, notification.CustomAttributes)
@@ -107,9 +107,9 @@ func TestNotifySendWithCustomParamBadRequest(t *testing.T) {
 
 	resolvers := &collector.LocalRegistry{}
 	typeRegistry := &template.AssetRegistry{}
-	witClient, _ := wit.NewCachedClient(config.GetWITURL())
+	authClient, _ := auth.NewCachedClient(config.GetWITURL())
 
-	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(witClient)), validator.ValidateUser)
+	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), validator.ValidateUser)
 	notifier := &email.CallbackNotifier{
 		Callback: func(ctx context.Context, notification email.Notification) {
 			require.NotNil(t, notification.CustomAttributes)
@@ -140,9 +140,9 @@ func TestNotifySendWithoutCustomParamSuccess(t *testing.T) {
 
 	resolvers := &collector.LocalRegistry{}
 	typeRegistry := &template.AssetRegistry{}
-	witClient, _ := wit.NewCachedClient(config.GetWITURL())
+	authClient, _ := auth.NewCachedClient(config.GetWITURL())
 
-	resolvers.Register("workitem.update", collector.ConfiguredVars(config, collector.NewUserResolver(witClient)), nil)
+	resolvers.Register("workitem.update", collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), nil)
 	notifier := &email.CallbackNotifier{
 		Callback: func(ctx context.Context, notification email.Notification) {
 		}}

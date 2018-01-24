@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/fabric8-services/fabric8-notification/auth"
+	authapi "github.com/fabric8-services/fabric8-notification/auth/api"
 	"github.com/fabric8-services/fabric8-notification/collector"
 	"github.com/fabric8-services/fabric8-notification/template"
 	"github.com/fabric8-services/fabric8-notification/wit"
@@ -16,11 +18,13 @@ import (
 )
 
 const (
-	OpenshiftIOAPI = "https://api.openshift.io"
+	OpenshiftIOAPI     = "https://api.openshift.io"
+	AuthOpenShiftIOAPI = "https://auth.openshift.io"
 )
 
 func main() {
 	c, err := wit.NewCachedClient(OpenshiftIOAPI)
+	authClient, err := auth.NewCachedClient(OpenshiftIOAPI)
 	if err != nil {
 		panic(err)
 	}
@@ -46,14 +50,14 @@ func main() {
 	fmt.Println("")
 
 	for _, d := range testdata {
-		err = generate(c, d.id, d.templateName)
+		err = generate(authClient, c, d.id, d.templateName)
 		if err != nil {
 			fmt.Printf(err.Error())
 		}
 	}
 }
 
-func generate(c *api.Client, id, tmplName string) error {
+func generate(authClient *authapi.Client, c *api.Client, id, tmplName string) error {
 	reg := template.AssetRegistry{}
 
 	temp, exist := reg.Get(tmplName)
@@ -67,11 +71,11 @@ func generate(c *api.Client, id, tmplName string) error {
 	var err error
 
 	if strings.HasPrefix(tmplName, "workitem") {
-		_, vars, err = collector.WorkItem(context.Background(), c, wiID)
+		_, vars, err = collector.WorkItem(context.Background(), authClient, c, wiID)
 	} else if strings.HasPrefix(tmplName, "comment") {
-		_, vars, err = collector.Comment(context.Background(), c, wiID)
+		_, vars, err = collector.Comment(context.Background(), authClient, c, wiID)
 	} else if strings.HasPrefix(tmplName, "user") {
-		_, vars, err = collector.User(context.Background(), c, wiID)
+		_, vars, err = collector.User(context.Background(), authClient, wiID)
 		vars["custom"] = map[string]interface{}{
 			// a realistic verifyURL
 			"verifyURL": "https://auth.prod-preview.openshift.io/api/users/verifyemail?code=580f7d71-853c-48df-8206-d1265bcf44f1",

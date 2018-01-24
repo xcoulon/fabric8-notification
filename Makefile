@@ -186,6 +186,7 @@ clean-generated:
 	-rm -rf ./swagger/
 	-rm -f ./migration/sqlbindata.go
 	-rm -f ./template/bindata.go
+	-rm -rf auth/api
 
 CLEAN_TARGETS += clean-vendor
 .PHONY: clean-vendor
@@ -211,6 +212,7 @@ app/controllers.go: $(DESIGNS) $(GOAGEN_BIN) $(VENDOR_DIR)
 	$(GOAGEN_BIN) app -d ${PACKAGE_NAME}/${DESIGN_DIR}
 	$(GOAGEN_BIN) controller -d ${PACKAGE_NAME}/${DESIGN_DIR} -o controller/ --pkg controller --app-pkg app
 	$(GOAGEN_BIN) client -d github.com/fabric8-services/fabric8-wit/design --notool --pkg api -o wit
+	$(GOAGEN_BIN) client -d github.com/fabric8-services/fabric8-auth/design --notool --pkg api -o auth
 
 .PHONY: migrate-database
 ## Compiles the server and runs the database migration with it

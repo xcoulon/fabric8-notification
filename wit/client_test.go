@@ -11,41 +11,28 @@ import (
 )
 
 const (
-	OpenshiftIOAPI = "http://api.openshift.io"
+	openshiftIOAPI = "http://api.openshift.io"
 )
 
 func createClient(t *testing.T) *api.Client {
-	c, err := wit.NewCachedClient(OpenshiftIOAPI)
+	c, err := wit.NewCachedClient(openshiftIOAPI)
 	if err != nil {
 		t.Fatal(err)
 	}
 	return c
 }
 
-func TestGetUser(t *testing.T) {
-
-	c := createClient(t)
-	ID, err := uuid.FromString("b67f1cee-0a9f-40da-8e52-504c092e54e0")
-
-	u, err := wit.GetUser(context.Background(), c, ID)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	assert.Equal(t, "aslak@redhat.com", *u.Data.Attributes.Email)
-}
-
 func TestWorkItem(t *testing.T) {
 
 	c := createClient(t)
-	ID, err := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
+	ID, err := uuid.FromString("4728edab-6ccb-4c99-bd4c-f4aeabc560ad")
 
 	u, err := wit.GetWorkItem(context.Background(), c, ID)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, "Cannot resolve Area/Iteration info for new WI created in in-memory mode", u.Data.Attributes["system.title"])
+	assert.Equal(t, "The default workitem type for inline quick-add in Experiences context is set to Bug instead of Feature", u.Data.Attributes["system.title"])
 }
 
 func TestArea(t *testing.T) {
@@ -98,17 +85,4 @@ func TestSpace(t *testing.T) {
 	}
 
 	assert.Equal(t, "openshiftio", *u.Data.Attributes.Name)
-}
-
-func TestSpaceCollaborators(t *testing.T) {
-
-	c := createClient(t)
-	id, _ := uuid.FromString("020f756e-b51a-4b43-b113-45cec16b9ce9")
-
-	u, err := wit.GetSpaceCollaborators(context.Background(), c, id)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	assert.True(t, len(u.Data) > 10)
 }

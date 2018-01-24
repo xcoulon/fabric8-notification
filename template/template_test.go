@@ -6,17 +6,20 @@ import (
 
 	"strings"
 
+	"github.com/fabric8-services/fabric8-notification/auth"
+	authApi "github.com/fabric8-services/fabric8-notification/auth/api"
 	"github.com/fabric8-services/fabric8-notification/collector"
 	"github.com/fabric8-services/fabric8-notification/template"
 	"github.com/fabric8-services/fabric8-notification/wit"
-	"github.com/fabric8-services/fabric8-notification/wit/api"
+	witApi "github.com/fabric8-services/fabric8-notification/wit/api"
 	"github.com/goadesign/goa/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 const (
-	OpenshiftIOAPI = "http://api.openshift.io"
+	OpenshiftIOAPI     = "http://api.openshift.io"
+	OpenShiftIOAuthAPI = "https://auth.openshift.io"
 )
 
 func addGlobalVars(vars map[string]interface{}) map[string]interface{} {
@@ -24,12 +27,16 @@ func addGlobalVars(vars map[string]interface{}) map[string]interface{} {
 	return vars
 }
 
-func createClient(t *testing.T) *api.Client {
+func createClient(t *testing.T) (*witApi.Client, *authApi.Client) {
 	c, err := wit.NewCachedClient(OpenshiftIOAPI)
 	if err != nil {
 		t.Fatal(err)
 	}
-	return c
+	authClient, err := auth.NewCachedClient(OpenShiftIOAuthAPI)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return c, authClient
 }
 
 func TestTrueOnFoundName(t *testing.T) {
@@ -52,10 +59,10 @@ func TestRenderWorkitemCreate(t *testing.T) {
 	temp, exist := reg.Get("workitem.create")
 	assert.True(t, exist)
 
-	c := createClient(t)
+	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	_, vars, err := collector.WorkItem(context.Background(), c, wiID)
+	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -86,15 +93,15 @@ func TestRenderWorkitemCreateMissingDescription(t *testing.T) {
 	temp, exist := reg.Get("workitem.create")
 	assert.True(t, exist)
 
-	c := createClient(t)
+	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	_, vars, err := collector.WorkItem(context.Background(), c, wiID)
+	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	wi := vars["workitem"].(*api.WorkItemSingle)
+	wi := vars["workitem"].(*witApi.WorkItemSingle)
 	delete(wi.Data.Attributes, "system.description")
 	delete(wi.Data.Attributes, "system.description.rendered")
 	delete(wi.Data.Attributes, "system.description.markup")
@@ -123,10 +130,10 @@ func TestRenderWorkitemUpdate(t *testing.T) {
 	temp, exist := reg.Get("workitem.update")
 	assert.True(t, exist)
 
-	c := createClient(t)
+	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	_, vars, err := collector.WorkItem(context.Background(), c, wiID)
+	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -156,10 +163,10 @@ func TestRenderCommentCreate(t *testing.T) {
 	temp, exist := reg.Get("comment.create")
 	assert.True(t, exist)
 
-	c := createClient(t)
+	witClient, authClient := createClient(t)
 	ciID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
 
-	_, vars, err := collector.Comment(context.Background(), c, ciID)
+	_, vars, err := collector.Comment(context.Background(), authClient, witClient, ciID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -190,10 +197,10 @@ func TestRenderCommentUpdate(t *testing.T) {
 	temp, exist := reg.Get("comment.update")
 	assert.True(t, exist)
 
-	c := createClient(t)
+	witClient, authClient := createClient(t)
 	ciID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
 
-	_, vars, err := collector.Comment(context.Background(), c, ciID)
+	_, vars, err := collector.Comment(context.Background(), authClient, witClient, ciID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -224,10 +231,10 @@ func TestRenderEmailUpdate(t *testing.T) {
 	temp, exist := reg.Get("user.email.update")
 	assert.True(t, exist)
 
-	c := createClient(t)
+	_, authClient := createClient(t)
 	ciID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
 
-	_, vars, err := collector.User(context.Background(), c, ciID)
+	_, vars, err := collector.User(context.Background(), authClient, ciID)
 	if err != nil {
 		t.Fatal(err)
 	}

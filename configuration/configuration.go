@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/spf13/viper"
@@ -17,6 +17,7 @@ const (
 	varHTTPAddress          = "http.address"
 	varDeveloperModeEnabled = "developer.mode.enabled"
 	varWITURL               = "wit.url"
+	varAuthURL              = "auth.url"
 	varMadrillAPIKey        = "mandrill.apikey"
 	varKeycloakRealm        = "keycloak.realm"
 	varKeycloakURL          = "keycloak.url"
@@ -77,6 +78,7 @@ func (c *Data) setConfigDefaults() {
 	c.v.SetDefault(varHTTPAddress, "0.0.0.0:8080")
 
 	c.v.SetDefault(varWITURL, defaultWITURL)
+	c.v.SetDefault(varAuthURL, defaultAuthURL)
 
 	//-----
 	// Misc
@@ -86,8 +88,10 @@ func (c *Data) setConfigDefaults() {
 	c.v.SetDefault(varDeveloperModeEnabled, false)
 	c.v.SetDefault(varLogLevel, defaultLogLevel)
 
-	c.v.SetDefault(varServiceAccountID, "4c83ca2d-6dcc-41c9-ac7d-b068ad4d17c5")
-	c.v.SetDefault(varServiceAccountSecret, "notificationsecret")
+	c.v.SetDefault(varServiceAccountID, "4c34f6d4-f00b-487b-9a1f-e7d1adba6866")
+	c.v.SetDefault(varServiceAccountSecret, "secret")
+
+	// c.v.SetDefault(varMadrillAPIKey, "1234") // Enable for local testing.
 }
 
 // GetHTTPAddress returns the HTTP address (as set via default, config file, or environment variable)
@@ -105,6 +109,11 @@ func (c *Data) IsDeveloperModeEnabled() bool {
 // GetWITURL return the base WorkItemTracker API URL
 func (c *Data) GetWITURL() string {
 	return c.v.GetString(varWITURL)
+}
+
+// GetAuthURL return the base Auth API URL
+func (c *Data) GetAuthURL() string {
+	return c.v.GetString(varAuthURL)
 }
 
 // GetServiceAccountID returns service account ID for the notification service.
@@ -177,7 +186,8 @@ func (c *Data) Validate() error {
 }
 
 const (
-	defaultWITURL = "https://api.openshift.io/"
+	defaultWITURL  = "https://api.openshift.io/"
+	defaultAuthURL = "http://localhost:8089/"
 
 	// Auth-related defaults
 	defaultKeycloakURL   = "https://sso.prod-preview.openshift.io"

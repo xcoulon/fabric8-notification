@@ -81,6 +81,7 @@ tool/cli/
 migration/sqlbindata.go
 template/bindata.go
 wit/api
+auth/api
 
 # Ignore artifacts directory
 bin/

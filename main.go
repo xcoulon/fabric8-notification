@@ -1,26 +1,31 @@
 package main
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/fabric8-services/fabric8-notification/app"
+	"github.com/fabric8-services/fabric8-notification/auth"
 	"github.com/fabric8-services/fabric8-notification/collector"
+	goaclient "github.com/goadesign/goa/client"
+
 	"github.com/fabric8-services/fabric8-notification/configuration"
 	"github.com/fabric8-services/fabric8-notification/controller"
 	"github.com/fabric8-services/fabric8-notification/email"
 	"github.com/fabric8-services/fabric8-notification/jsonapi"
 	"github.com/fabric8-services/fabric8-notification/keycloak"
 	"github.com/fabric8-services/fabric8-notification/template"
+	"github.com/fabric8-services/fabric8-notification/token"
 	"github.com/fabric8-services/fabric8-notification/validator"
 	"github.com/fabric8-services/fabric8-notification/wit"
 
-	"github.com/Sirupsen/logrus"
 	witmiddleware "github.com/fabric8-services/fabric8-wit/goamiddleware"
 	"github.com/fabric8-services/fabric8-wit/log"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware"
 	"github.com/goadesign/goa/middleware/gzip"
 	goajwt "github.com/goadesign/goa/middleware/security/jwt"
+	"github.com/sirupsen/logrus"
 
 	goalogrus "github.com/goadesign/goa/logging/logrus"
 )
@@ -65,6 +70,34 @@ func main() {
 		}, "Could not create WIT client")
 	}
 
+	authClient, err := auth.NewCachedClient(config.GetAuthURL())
+	if err != nil {
+		log.Panic(nil, map[string]interface{}{
+			"url": config.GetAuthURL(),
+			"err": err,
+		}, "could not create Auth client")
+	}
+
+	// Calling the Auth service to generate a fabric8 service account token.
+	// This is needed to call /api/users/ID and 'see' the
+	// email address even if the user has made it 'private'
+	saService := token.NewFabric8ServiceAccountTokenClient(authClient, config.GetServiceAccountID(), config.GetServiceAccountSecret())
+	saToken, err := saService.Get(context.Background())
+	if err != nil {
+		log.Panic(nil, map[string]interface{}{
+			"err": err,
+		}, "could not generate service account token")
+	}
+
+	// update the client with the signer.
+	authClient.SetJWTSigner(&goaclient.JWTSigner{
+		TokenSource: &goaclient.StaticTokenSource{
+			StaticToken: &goaclient.StaticToken{
+				Value: saToken,
+			},
+		},
+	})
+
 	sender, err := email.NewMandrillSender(config.GetMadrillAPIKey())
 	if err != nil {
 		log.Panic(nil, map[string]interface{}{
@@ -75,11 +108,11 @@ func main() {
 	notifier := email.NewAsyncWorkerNotifier(sender, 1)
 
 	resolvers := &collector.LocalRegistry{}
-	resolvers.Register("workitem.create", collector.ConfiguredVars(config, collector.NewWorkItemResolver(witClient)), nil)
-	resolvers.Register("workitem.update", collector.ConfiguredVars(config, collector.NewWorkItemResolver(witClient)), nil)
-	resolvers.Register("comment.create", collector.ConfiguredVars(config, collector.NewCommentResolver(witClient)), nil)
-	resolvers.Register("comment.update", collector.ConfiguredVars(config, collector.NewCommentResolver(witClient)), nil)
-	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(witClient)), validator.ValidateUser)
+	resolvers.Register("workitem.create", collector.ConfiguredVars(config, collector.NewWorkItemResolver(authClient, witClient)), nil)
+	resolvers.Register("workitem.update", collector.ConfiguredVars(config, collector.NewWorkItemResolver(authClient, witClient)), nil)
+	resolvers.Register("comment.create", collector.ConfiguredVars(config, collector.NewCommentResolver(authClient, witClient)), nil)
+	resolvers.Register("comment.update", collector.ConfiguredVars(config, collector.NewCommentResolver(authClient, witClient)), nil)
+	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), validator.ValidateUser)
 
 	typeRegistry := &template.AssetRegistry{}
 	service := goa.New("notification")

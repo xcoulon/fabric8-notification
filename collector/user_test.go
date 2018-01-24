@@ -10,9 +10,9 @@ import (
 )
 
 func TestUser(t *testing.T) {
-	c := createClient(t)
+	_, authClient := createClient(t)
 	uID, _ := uuid.FromString("3383826c-51e4-401b-9ccd-b898f7e2397d")
-	users, vars, err := collector.User(context.Background(), c, uID)
+	users, vars, err := collector.User(context.Background(), authClient, uID)
 
 	assert.Nil(t, err)
 	assert.Len(t, users, 1)
