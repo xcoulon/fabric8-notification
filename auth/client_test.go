@@ -2,6 +2,7 @@ package auth_test
 
 import (
 	"context"
+	"github.com/stretchr/testify/require"
 	"testing"
 
 	"github.com/fabric8-services/fabric8-notification/auth"
@@ -31,6 +32,16 @@ func TestSpaceCollaborators(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	assert.True(t, len(u.Data) > 10)
+
+	// there is no easy way to test if the sa token really gets to override the privacy of emails.
+	// the following lines only checks whether the emails show up at all if privacy is set to true
+	for _, user := range u.Data {
+		require.NotNil(t, user.Attributes.Email)
+		if user.Attributes.EmailPrivate != nil && *user.Attributes.EmailPrivate {
+			assert.Empty(t, *user.Attributes.Email)
+		} else {
+			assert.NotEmpty(t, *user.Attributes.Email)
+		}
+	}
 }
