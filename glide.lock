@@ -1,10 +1,14 @@
-hash: 5ca475c05c90b09f3ad15fbb5c573ec32a4dac9929b430356b370bbbcc8381d2
-updated: 2018-01-08T17:36:06.215808867+05:30
+hash: c16b98a7011ac8358e25053f8646a3516e9824e61d0e8d87aa02e045189d5042
+updated: 2018-01-27T03:21:20.824000124+01:00
 imports:
 - name: github.com/ajg/form
   version: cc2954064ec9ea8d93917f0f87456e11d7b881ad
 - name: github.com/armon/go-metrics
   version: 9a4b6e10bed6220a1665955aa2b75afc91eb10b3
+- name: github.com/beorn7/perks
+  version: 3ac7bf7a47d159a033b107610db8a1b6575507a4
+  subpackages:
+  - quantile
 - name: github.com/dgrijalva/jwt-go
   version: dbeaa9332f19a944acb5736b4456cfcc02140e29
 - name: github.com/dimfeld/httppath
@@ -33,7 +37,7 @@ imports:
   - resource
   - rest
 - name: github.com/fsnotify/fsnotify
-  version: 629574ca2a5df945712d3079857300b5e4da0236
+  version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
 - name: github.com/goadesign/goa
   version: 5646a430cdeb66983d5ace3384e0a667c185abc7
   vcs: git
@@ -55,6 +59,10 @@ imports:
   - middleware/gzip
   - middleware/security/jwt
   - uuid
+- name: github.com/golang/protobuf
+  version: 8ee79997227bf9b34611aee7946ae64735e6fd93
+  subpackages:
+  - proto
 - name: github.com/gregjones/httpcache
   version: 0d2297f241a3503b4d464cd434e6d1490ec76e9a
 - name: github.com/hashicorp/go-immutable-radix
@@ -86,6 +94,10 @@ imports:
   version: 717f7cf83fb78669bfab612749c2e8ff63d5be11
 - name: github.com/mattbaird/gochimp
   version: 6d419e83c665e4385abd2f6f37cc60ff5a7f375c
+- name: github.com/matttproud/golang_protobuf_extensions
+  version: fc2b8d3a73c4867e51861bbdd5ae3c1f0869dd6a
+  subpackages:
+  - pbutil
 - name: github.com/mitchellh/mapstructure
   version: 5a0325d7fafaac12dda6e7fb8bd222ec1b69875e
 - name: github.com/pelletier/go-buffruneio
@@ -94,8 +106,24 @@ imports:
   version: 13d49d4606eb801b8f01ae542b4afc4c6ee3d84a
 - name: github.com/pkg/errors
   version: 645ef00459ed84a119197bfb8d8205042c6df63d
+- name: github.com/prometheus/client_golang
+  version: e51041b3fa41cece0dca035740ba6411905be473
+  subpackages:
+  - prometheus
+- name: github.com/prometheus/client_model
+  version: fa8ad6fec33561be4280a8f0514318c79d7f6cb6
+  subpackages:
+  - go
+- name: github.com/prometheus/common
+  version: a6ab08426bb262e2d190097751f5cfd1cfdfd17d
+  subpackages:
+  - expfmt
+  - internal/bitbucket.org/ww/goautoneg
+  - model
+- name: github.com/prometheus/procfs
+  version: 454a56f35412459b5e684fd5ec0f9211b94f002a
 - name: github.com/satori/go.uuid
-  version: b061729afc07e77a8aa4fad0a2fd840958f1942a
+  version: 879c5887cd475cd7864858769793b2ceb0d44feb
 - name: github.com/sirupsen/logrus
   version: c078b1e43f58d563c74cebe63c85789e76ddb627
 - name: github.com/spf13/afero
@@ -134,6 +162,8 @@ imports:
 - name: gopkg.in/yaml.v2
   version: a5b47d31c556af34a302ce5d659e6fea44d90de0
 testImports:
+- name: github.com/corpix/uarand
+  version: 2b8494104d86337cdd41d0a49cbed8e4583c0ab4
 - name: github.com/davecgh/go-spew
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
   subpackages:
@@ -144,6 +174,8 @@ testImports:
   version: c7bacac2b21ca01afa1dee0acf64df3ce047c28f
   subpackages:
   - golint
+- name: github.com/icrowley/fake
+  version: e64cc2cf92049a299f359734c6ea76073f2a8b2c
 - name: github.com/jstemmer/go-junit-report
   version: 15422cf504f9dc030386499a5c68053a38763e58
 - name: github.com/pmezard/go-difflib

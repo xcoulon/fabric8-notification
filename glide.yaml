@@ -18,7 +18,7 @@ import:
 - package: github.com/gregjones/httpcache
 - package: github.com/mattbaird/gochimp
 - package: github.com/goadesign/goa
-  version: ^1.2.0
+  version: v1.3.0
   vcs: git
   subpackages:
   - client
@@ -52,7 +52,9 @@ import:
   subpackages:
   - go/ast/astutil
 - package: github.com/satori/go.uuid
+  version: v1.1.0
 - package: github.com/magiconair/properties
+- package: github.com/prometheus/client_golang
 testImport:
 - package: github.com/wadey/gocovmerge
 - package: github.com/jstemmer/go-junit-report

@@ -8,6 +8,7 @@ import (
 	"github.com/fabric8-services/fabric8-notification/auth"
 	"github.com/fabric8-services/fabric8-notification/collector"
 	goaclient "github.com/goadesign/goa/client"
+	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/fabric8-services/fabric8-notification/configuration"
 	"github.com/fabric8-services/fabric8-notification/controller"
@@ -143,6 +144,23 @@ func main() {
 
 	http.Handle("/api/", service.Mux)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
+
+	// Start/mount metrics http
+	if config.GetHTTPAddress() == config.GetMetricsHTTPAddress() {
+		http.Handle("/metrics", prometheus.Handler())
+	} else {
+		go func(metricAddress string) {
+			mx := http.NewServeMux()
+			mx.Handle("/metrics", prometheus.Handler())
+			if err := http.ListenAndServe(metricAddress, mx); err != nil {
+				log.Error(nil, map[string]interface{}{
+					"addr": metricAddress,
+					"err":  err,
+				}, "unable to connect to metrics server")
+				service.LogError("startup", "err", err)
+			}
+		}(config.GetMetricsHTTPAddress())
+	}
 
 	// Start http
 	if err := http.ListenAndServe(config.GetHTTPAddress(), nil); err != nil {

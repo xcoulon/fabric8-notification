@@ -15,6 +15,7 @@ const (
 	// default values as well as to get each value
 
 	varHTTPAddress          = "http.address"
+	varMetricsHTTPAddress   = "metrics.http.address"
 	varDeveloperModeEnabled = "developer.mode.enabled"
 	varWITURL               = "wit.url"
 	varAuthURL              = "auth.url"
@@ -76,6 +77,7 @@ func (c *Data) setConfigDefaults() {
 	// HTTP
 	//-----
 	c.v.SetDefault(varHTTPAddress, "0.0.0.0:8080")
+	c.v.SetDefault(varMetricsHTTPAddress, "0.0.0.0:8080")
 
 	c.v.SetDefault(varWITURL, defaultWITURL)
 	c.v.SetDefault(varAuthURL, defaultAuthURL)
@@ -98,6 +100,12 @@ func (c *Data) setConfigDefaults() {
 // that the notification server binds to (e.g. "0.0.0.0:8080")
 func (c *Data) GetHTTPAddress() string {
 	return c.v.GetString(varHTTPAddress)
+}
+
+// GetMetricsHTTPAddress returns the address the /metrics endpoing will be mounted.
+// By default GetMetricsHTTPAddress is the same as GetHTTPAddress
+func (c *Data) GetMetricsHTTPAddress() string {
+	return c.v.GetString(varMetricsHTTPAddress)
 }
 
 // IsDeveloperModeEnabled returns if development related features (as set via default, config file, or environment variable),
