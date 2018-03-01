@@ -1,5 +1,5 @@
-hash: c16b98a7011ac8358e25053f8646a3516e9824e61d0e8d87aa02e045189d5042
-updated: 2018-01-27T03:21:20.824000124+01:00
+hash: 619faa0d751f3953b8636e14b9e03ead95b47d5910d5250f2208cd08711d70af
+updated: 2018-03-01T04:23:07.74567537+01:00
 imports:
 - name: github.com/ajg/form
   version: cc2954064ec9ea8d93917f0f87456e11d7b881ad
@@ -24,7 +24,7 @@ imports:
   subpackages:
   - design
 - name: github.com/fabric8-services/fabric8-wit
-  version: ff1746954f6c1a89dc2c35b72731e19b63d842d2
+  version: c598aee69eff322f4b40a8c7c6edc62657996e52
   subpackages:
   - configuration
   - design
@@ -89,7 +89,7 @@ imports:
 - name: github.com/lib/pq
   version: 4a82388ebc5138c8289fe9bc602cb0b3e32cd617
 - name: github.com/magiconair/properties
-  version: d419a98cdbed11a922bf76f257b7c4be79b50e73
+  version: c3beff4c2358b44d0493c7dda585e7db7ff28ae6
 - name: github.com/manveru/faker
   version: 717f7cf83fb78669bfab612749c2e8ff63d5be11
 - name: github.com/mattbaird/gochimp
@@ -123,7 +123,7 @@ imports:
 - name: github.com/prometheus/procfs
   version: 454a56f35412459b5e684fd5ec0f9211b94f002a
 - name: github.com/satori/go.uuid
-  version: 879c5887cd475cd7864858769793b2ceb0d44feb
+  version: f58768cc1a7a7e77a3bd49e98cdd21419399b6a3
 - name: github.com/sirupsen/logrus
   version: c078b1e43f58d563c74cebe63c85789e76ddb627
 - name: github.com/spf13/afero
@@ -165,7 +165,7 @@ testImports:
 - name: github.com/corpix/uarand
   version: 2b8494104d86337cdd41d0a49cbed8e4583c0ab4
 - name: github.com/davecgh/go-spew
-  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
+  version: adab96458c51a58dc1783b3335dcce5461522e75
   subpackages:
   - spew
 - name: github.com/fzipp/gocyclo
@@ -183,7 +183,7 @@ testImports:
   subpackages:
   - difflib
 - name: github.com/stretchr/testify
-  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
+  version: 12b6f73e6084dad08a7c6e575284b177ecafbc71
   subpackages:
   - assert
   - require

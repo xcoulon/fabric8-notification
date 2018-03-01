@@ -59,7 +59,8 @@ func Comment(ctx context.Context, authClient *authapi.Client, c *api.Client, cID
 	values["comment"] = comment
 	users = append(users, collectCommentUsers(comment)...)
 
-	commentOwner, err := auth.GetUser(ctx, authClient, *comment.Data.Relationships.CreatedBy.Data.ID)
+	ccID, _ := uuid.FromString(*comment.Data.Relationships.Creator.Data.ID)
+	commentOwner, err := auth.GetUser(ctx, authClient, ccID)
 	if err != nil {
 		errors = append(errors, err)
 	}
@@ -277,8 +278,11 @@ func collectCommentsUsers(cl *api.CommentList) []uuid.UUID {
 	var users []uuid.UUID
 
 	for _, c := range cl.Data {
-		if c.Relationships.CreatedBy != nil {
-			users = append(users, *c.Relationships.CreatedBy.Data.ID)
+		if c.Relationships.Creator != nil {
+			cID, err := uuid.FromString(*c.Relationships.Creator.Data.ID)
+			if err == nil {
+				users = append(users, cID)
+			}
 		}
 	}
 
@@ -288,8 +292,11 @@ func collectCommentsUsers(cl *api.CommentList) []uuid.UUID {
 func collectCommentUsers(c *api.CommentSingle) []uuid.UUID {
 	var users []uuid.UUID
 
-	if c.Data.Relationships.CreatedBy != nil {
-		users = append(users, *c.Data.Relationships.CreatedBy.Data.ID)
+	if c.Data.Relationships.Creator != nil {
+		cID, err := uuid.FromString(*c.Data.Relationships.Creator.Data.ID)
+		if err == nil {
+			users = append(users, cID)
+		}
 	}
 
 	return users

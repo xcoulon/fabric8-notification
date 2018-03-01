@@ -2,7 +2,7 @@ package: github.com/fabric8-services/fabric8-notification
 license: Apache-2.0
 import:
 - package: github.com/fabric8-services/fabric8-wit
-  version: ff1746954f6c1a89dc2c35b72731e19b63d842d2
+  version: c598aee69eff322f4b40a8c7c6edc62657996e52
   subpackages:
     - log
     - errors
@@ -52,7 +52,7 @@ import:
   subpackages:
   - go/ast/astutil
 - package: github.com/satori/go.uuid
-  version: v1.1.0
+  version: v1.2.0
 - package: github.com/magiconair/properties
 - package: github.com/prometheus/client_golang
 testImport:
