@@ -21,7 +21,7 @@ func NewCommentResolver(authclient *authapi.Client, c *api.Client) ReceiverResol
 		if err != nil {
 			return []Receiver{}, nil, fmt.Errorf("unable to lookup comment based on id %v", id)
 		}
-		return Comment(ctx, authclient, c, cID)
+		return Comment(ctx, authclient, c, nil, cID)
 	}
 }
 
@@ -31,7 +31,7 @@ func NewWorkItemResolver(authclient *authapi.Client, c *api.Client) ReceiverReso
 		if err != nil {
 			return []Receiver{}, nil, fmt.Errorf("unable to lookup Workitem based on id %v", id)
 		}
-		return WorkItem(ctx, authclient, c, wID)
+		return WorkItem(ctx, authclient, c, nil, wID)
 	}
 }
 
@@ -47,7 +47,10 @@ func ConfiguredVars(config *configuration.Data, resolver ReceiverResolver) Recei
 	}
 }
 
-func Comment(ctx context.Context, authClient *authapi.Client, c *api.Client, cID uuid.UUID) ([]Receiver, map[string]interface{}, error) {
+func Comment(ctx context.Context, authClient *authapi.Client, c *api.Client, collaboratorCollector auth.CollaboratorCollector, cID uuid.UUID) ([]Receiver, map[string]interface{}, error) {
+	if collaboratorCollector == nil {
+		collaboratorCollector = &auth.AuthCollector{}
+	}
 	var values = map[string]interface{}{}
 	var errors []error
 	var users []uuid.UUID
@@ -124,13 +127,13 @@ func Comment(ctx context.Context, authClient *authapi.Client, c *api.Client, cID
 		values["actor"] = actor
 	}
 
-	sc, err := auth.GetSpaceCollaborators(ctx, authClient, spaceID)
+	sc, err := collaboratorCollector.GetSpaceCollaborators(ctx, authClient, spaceID)
 	if err != nil {
 		errors = append(errors, err)
 	}
 	users = append(users, collectSpaceCollaboratorUsers(sc)...)
 
-	resolved, err := resolveAllUsers(ctx, authClient, SliceUniq(users), sc.Data)
+	resolved, err := resolveAllUsers(ctx, authClient, SliceUniq(users), sc.Data, false)
 	if err != nil {
 		errors = append(errors, err)
 	}
@@ -143,7 +146,10 @@ func Comment(ctx context.Context, authClient *authapi.Client, c *api.Client, cID
 	return resolved, values, nil
 }
 
-func WorkItem(ctx context.Context, authclient *authapi.Client, c *api.Client, wiID uuid.UUID) ([]Receiver, map[string]interface{}, error) {
+func WorkItem(ctx context.Context, authclient *authapi.Client, c *api.Client, collaboratorCollector auth.CollaboratorCollector, wiID uuid.UUID) ([]Receiver, map[string]interface{}, error) {
+	if collaboratorCollector == nil {
+		collaboratorCollector = &auth.AuthCollector{}
+	}
 	var values = map[string]interface{}{}
 	var errors []error
 	var users []uuid.UUID
@@ -204,13 +210,13 @@ func WorkItem(ctx context.Context, authclient *authapi.Client, c *api.Client, wi
 		values["actor"] = actor
 	}
 
-	sc, err := auth.GetSpaceCollaborators(ctx, authclient, spaceID)
+	sc, err := collaboratorCollector.GetSpaceCollaborators(ctx, authclient, spaceID)
 	if err != nil {
 		errors = append(errors, err)
 	}
 	users = append(users, collectSpaceCollaboratorUsers(sc)...)
 
-	resolved, err := resolveAllUsers(ctx, authclient, SliceUniq(users), sc.Data)
+	resolved, err := resolveAllUsers(ctx, authclient, SliceUniq(users), sc.Data, false)
 	if err != nil {
 		errors = append(errors, err)
 	}
@@ -223,7 +229,7 @@ func WorkItem(ctx context.Context, authclient *authapi.Client, c *api.Client, wi
 	return resolved, values, nil
 }
 
-func resolveAllUsers(ctx context.Context, c *authapi.Client, users []uuid.UUID, collaborators []*authapi.UserData) ([]Receiver, error) {
+func resolveAllUsers(ctx context.Context, c *authapi.Client, users []uuid.UUID, collaborators []*authapi.UserData, sendToUnverifiedEmails bool) ([]Receiver, error) {
 	var resolved []Receiver
 
 	for _, u := range users {
@@ -231,7 +237,7 @@ func resolveAllUsers(ctx context.Context, c *authapi.Client, users []uuid.UUID, 
 		for _, c := range collaborators {
 			if u.String() == *c.ID {
 				found = true
-				if c.Attributes.Email != nil {
+				if validateEmail(c.Attributes, sendToUnverifiedEmails) {
 					user := Receiver{EMail: *c.Attributes.Email}
 					if c.Attributes.FullName != nil {
 						user.FullName = *c.Attributes.FullName
@@ -243,7 +249,7 @@ func resolveAllUsers(ctx context.Context, c *authapi.Client, users []uuid.UUID, 
 		if !found {
 			usr, err := auth.GetUser(ctx, c, u)
 			if err == nil {
-				if usr.Data.Attributes.Email != nil {
+				if validateEmail(usr.Data.Attributes, sendToUnverifiedEmails) {
 					user := Receiver{EMail: *usr.Data.Attributes.Email}
 					if usr.Data.Attributes.FullName != nil {
 						user.FullName = *usr.Data.Attributes.FullName
@@ -261,6 +267,10 @@ func resolveAllUsers(ctx context.Context, c *authapi.Client, users []uuid.UUID, 
 	}
 
 	return resolved, nil
+}
+
+func validateEmail(userAttributes *authapi.UserDataAttributes, allowUnverifiedEmails bool) bool {
+	return userAttributes.Email != nil && (allowUnverifiedEmails || (userAttributes.EmailVerified != nil && *userAttributes.EmailVerified))
 }
 
 func collectSpaceCollaboratorUsers(cl *authapi.UserList) []uuid.UUID {

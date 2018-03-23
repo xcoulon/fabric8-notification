@@ -28,7 +28,8 @@ func TestSpaceCollaborators(t *testing.T) {
 	c := createClient(t)
 	id, _ := uuid.FromString("020f756e-b51a-4b43-b113-45cec16b9ce9")
 
-	u, err := auth.GetSpaceCollaborators(context.Background(), c, id)
+	collector := auth.AuthCollector{}
+	u, err := collector.GetSpaceCollaborators(context.Background(), c, id)
 	if err != nil {
 		t.Fatal(err)
 	}

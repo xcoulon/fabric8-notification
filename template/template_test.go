@@ -62,7 +62,7 @@ func TestRenderWorkitemCreate(t *testing.T) {
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, wiID)
+	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, nil, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -96,7 +96,7 @@ func TestRenderWorkitemCreateMissingDescription(t *testing.T) {
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, wiID)
+	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, nil, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -133,7 +133,7 @@ func TestRenderWorkitemUpdate(t *testing.T) {
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, wiID)
+	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, nil, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -166,7 +166,7 @@ func TestRenderCommentCreate(t *testing.T) {
 	witClient, authClient := createClient(t)
 	ciID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
 
-	_, vars, err := collector.Comment(context.Background(), authClient, witClient, ciID)
+	_, vars, err := collector.Comment(context.Background(), authClient, witClient, nil, ciID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -200,7 +200,7 @@ func TestRenderCommentUpdate(t *testing.T) {
 	witClient, authClient := createClient(t)
 	ciID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
 
-	_, vars, err := collector.Comment(context.Background(), authClient, witClient, ciID)
+	_, vars, err := collector.Comment(context.Background(), authClient, witClient, nil, ciID)
 	if err != nil {
 		t.Fatal(err)
 	}

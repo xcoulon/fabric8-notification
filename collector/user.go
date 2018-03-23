@@ -24,7 +24,7 @@ func User(ctx context.Context, c *api.Client, userID uuid.UUID) ([]Receiver, map
 	var users []uuid.UUID
 
 	users = append(users, userID)
-	resolved, err := resolveAllUsers(ctx, c, SliceUniq(users), nil)
+	resolved, err := resolveAllUsers(ctx, c, SliceUniq(users), nil, true)
 	if err != nil {
 		return nil, nil, err
 	}

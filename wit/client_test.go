@@ -8,6 +8,7 @@ import (
 	"github.com/fabric8-services/fabric8-notification/wit/api"
 	"github.com/goadesign/goa/uuid"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 const (
@@ -67,10 +68,10 @@ func TestComments(t *testing.T) {
 	id, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
 	u, err := wit.GetComments(context.Background(), c, id)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, err)
 
+	require.NotNil(t, u)
+	require.NotEmpty(t, u.Data)
 	assert.Equal(t, "The fields for Area/Iteration just shows loading animation, when the new WI is opened.", *u.Data[0].Attributes.Body)
 }
 

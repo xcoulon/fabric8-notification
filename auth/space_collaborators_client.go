@@ -13,7 +13,14 @@ import (
 	"github.com/goadesign/goa/uuid"
 )
 
-func GetSpaceCollaborators(ctx context.Context, client *api.Client, spaceID uuid.UUID) (*api.UserList, error) {
+type CollaboratorCollector interface {
+	GetSpaceCollaborators(ctx context.Context, client *api.Client, spaceID uuid.UUID) (*api.UserList, error)
+}
+
+type AuthCollector struct {
+}
+
+func (c *AuthCollector) GetSpaceCollaborators(ctx context.Context, client *api.Client, spaceID uuid.UUID) (*api.UserList, error) {
 	pageLimit := 100
 	pageOffset := "0"
 	resp, err := listCollaborators(goasupport.ForwardContextRequestID(ctx), client, api.ListCollaboratorsPath(spaceID), &pageLimit, &pageOffset, nil, nil)
