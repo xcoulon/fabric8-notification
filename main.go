@@ -106,7 +106,7 @@ func main() {
 		}, "Could not create Madrill Sender")
 	}
 
-	notifier := email.NewAsyncWorkerNotifier(sender, 1)
+	notifier := email.NewAsyncWorkerNotifier(sender, 10)
 
 	resolvers := &collector.LocalRegistry{}
 	resolvers.Register("workitem.create", collector.ConfiguredVars(config, collector.NewWorkItemResolver(authClient, witClient)), nil)
