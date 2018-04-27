@@ -67,7 +67,7 @@ objects:
               secretKeyRef:
                 name: f8notification
                 key: service.account.secret
-          image: registry.devshift.net/fabric8-services/fabric8-notification:${IMAGE_TAG}
+          image: ${IMAGE}:${IMAGE_TAG}
           imagePullPolicy: Always
           name: f8notification
           ports:
@@ -95,7 +95,7 @@ objects:
             timeoutSeconds: 1
           resources:
             limits:
-              memory: 1Gi            
+              memory: 1Gi
     triggers:
     - type: ConfigChange
 - apiVersion: v1
@@ -110,5 +110,7 @@ objects:
     selector:
       deploymentconfig: f8notification
 parameters:
+- name: IMAGE
+  value: registry.devshift.net/fabric8-services/fabric8-notification
 - name: IMAGE_TAG
   value: latest

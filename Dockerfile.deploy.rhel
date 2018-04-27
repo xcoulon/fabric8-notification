@@ -1,0 +1,22 @@
+FROM prod.registry.devshift.net/osio-prod/base/pcp:latest
+LABEL maintainer "Devtools <devtools@redhat.com>"
+LABEL author "Devtools <devtools@redhat.com>"
+ENV LANG=en_US.utf8
+ENV INSTALL_PREFIX=/usr/local/f8
+
+# Create a non-root user and a group with the same name: "f8"
+ENV USER_NAME=f8
+RUN useradd --no-create-home -s /bin/bash ${USER_NAME}
+
+COPY bin/fabric8-notification ${INSTALL_PREFIX}/bin/fabric8-notification
+
+COPY ./notification+pmcd.sh /notification+pmcd.sh
+EXPOSE 44321
+
+# From here onwards, any RUN, CMD, or ENTRYPOINT will be run under the following user
+USER ${USER_NAME}
+
+WORKDIR ${INSTALL_PREFIX}
+ENTRYPOINT [ "/notification+pmcd.sh" ]
+
+EXPOSE 8080
