@@ -2,7 +2,7 @@ package: github.com/fabric8-services/fabric8-notification
 license: Apache-2.0
 import:
 - package: github.com/fabric8-services/fabric8-wit
-  version: c598aee69eff322f4b40a8c7c6edc62657996e52
+  version: 8e74c765391d51a548ffb351038c32fe932398d9
   subpackages:
     - log
     - errors

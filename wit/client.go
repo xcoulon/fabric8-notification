@@ -62,8 +62,8 @@ func GetArea(ctx context.Context, client *api.Client, areaID uuid.UUID) (*api.Ar
 	return client.DecodeAreaSingle(resp)
 }
 
-func GetWorkItemType(ctx context.Context, client *api.Client, spaceID, witID uuid.UUID) (*api.WorkItemTypeSingle, error) {
-	resp, err := client.ShowWorkitemtype(goasupport.ForwardContextRequestID(ctx), api.ShowWorkitemtypePath(spaceID, witID), nil, nil)
+func GetWorkItemType(ctx context.Context, client *api.Client, witID uuid.UUID) (*api.WorkItemTypeSingle, error) {
+	resp, err := client.ShowWorkitemtype(goasupport.ForwardContextRequestID(ctx), api.ShowWorkitemtypePath(witID), nil, nil)
 	if resp != nil {
 		defer resp.Body.Close()
 	}

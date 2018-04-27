@@ -112,7 +112,7 @@ func Comment(ctx context.Context, authClient *authapi.Client, c *api.Client, col
 	}
 	values["spaceOwner"] = spaceOwner
 
-	witype, err := wit.GetWorkItemType(ctx, c, spaceID, wi.Data.Relationships.BaseType.Data.ID)
+	witype, err := wit.GetWorkItemType(ctx, c, wi.Data.Relationships.BaseType.Data.ID)
 	if err != nil {
 		errors = append(errors, err)
 	}
@@ -195,7 +195,7 @@ func WorkItem(ctx context.Context, authclient *authapi.Client, c *api.Client, co
 	}
 	values["spaceOwner"] = spaceOwner
 
-	witype, err := wit.GetWorkItemType(ctx, c, spaceID, wi.Data.Relationships.BaseType.Data.ID)
+	witype, err := wit.GetWorkItemType(ctx, c, wi.Data.Relationships.BaseType.Data.ID)
 	if err != nil {
 		errors = append(errors, err)
 	}
