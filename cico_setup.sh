@@ -109,6 +109,9 @@ function tag_push() {
 }
 
 function deploy() {
+  TAG=$(echo $GIT_COMMIT | cut -c1-${DEVSHIFT_TAG_LEN})
+  REGISTRY="push.registry.devshift.net"
+
   if [ -n "${DEVSHIFT_USERNAME}" -a -n "${DEVSHIFT_PASSWORD}" ]; then
     docker login -u ${DEVSHIFT_USERNAME} -p ${DEVSHIFT_PASSWORD} ${REGISTRY}
   else
@@ -117,9 +120,6 @@ function deploy() {
 
   # Let's deploy
   make docker-image-deploy
-
-  TAG=$(echo $GIT_COMMIT | cut -c1-${DEVSHIFT_TAG_LEN})
-  REGISTRY="push.registry.devshift.net"
 
   if [ "$TARGET" = "rhel" ]; then
     tag_push ${REGISTRY}/osio-prod/fabric8-services/fabric8-notification:$TAG
