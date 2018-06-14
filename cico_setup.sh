@@ -118,11 +118,11 @@ function deploy() {
   make docker-image-deploy
 
   if [ "$TARGET" = "rhel" ]; then
-    tag_push ${REGISTRY}/rhel-fabric8-services-fabric8-notification:$TAG
-    tag_push ${REGISTRY}/rhel-fabric8-services-fabric8-notification:latest
+    tag_push ${REGISTRY}/openshiftio/rhel-fabric8-services-fabric8-notification:$TAG
+    tag_push ${REGISTRY}/openshiftio/rhel-fabric8-services-fabric8-notification:latest
   else
-    tag_push ${REGISTRY}/fabric8-services-fabric8-notification:$TAG
-    tag_push ${REGISTRY}/fabric8-services-fabric8-notification:latest
+    tag_push ${REGISTRY}/openshiftio/fabric8-services-fabric8-notification:$TAG
+    tag_push ${REGISTRY}/openshiftio/fabric8-services-fabric8-notification:latest
   fi
   echo 'CICO: Image pushed, ready to update deployed app'
 }
