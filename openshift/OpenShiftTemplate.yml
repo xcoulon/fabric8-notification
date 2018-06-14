@@ -111,6 +111,6 @@ objects:
       deploymentconfig: f8notification
 parameters:
 - name: IMAGE
-  value: registry.devshift.net/fabric8-services/fabric8-notification
+  value: quay.io/openshiftio/rhel-fabric8-services-fabric8-notification
 - name: IMAGE_TAG
   value: latest
