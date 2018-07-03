@@ -45,6 +45,8 @@ func main() {
 	testdata = append(testdata, data{"51d968b1-b9e5-4ec1-884a-ff256902c753", "comment.create"})
 	testdata = append(testdata, data{"51d968b1-b9e5-4ec1-884a-ff256902c753", "comment.update"})
 	testdata = append(testdata, data{"3383826c-51e4-401b-9ccd-b898f7e2397d", "user.email.update"})
+	testdata = append(testdata, data{"81d1c3bf-fcf2-4c4e-9d12-f9e5c15fb9ab", "invitation.team.noorg"})
+	testdata = append(testdata, data{"297f2037-72e9-42b3-a5fc-76d843877163", "invitation.space.noorg"})
 
 	fmt.Println("Generating test templates..")
 	fmt.Println("")
@@ -80,12 +82,24 @@ func generate(authClient *authapi.Client, c *api.Client, id, tmplName string) er
 			// a realistic verifyURL
 			"verifyURL": "https://auth.prod-preview.openshift.io/api/users/verifyemail?code=580f7d71-853c-48df-8206-d1265bcf44f1",
 		}
+	} else if strings.HasPrefix(tmplName, "invitation") {
+		vars = make(map[string]interface{})
+		vars["custom"] = map[string]interface{}{
+			"inviter":   "Albert Einstein",
+			"spaceName": "Physics Research Club",
+			"teamName":  "Temporal Dynamics",
+			"roleNames": "Scientist, Researcher",
+			"acceptURL": "http://openshift.io/invitations/accept/12345-ABCDE-FFFFF-99999-88888",
+		}
+
 	} else {
-		return fmt.Errorf("Unkown resovler for template %v", tmplName)
+		return fmt.Errorf("Unkown resolver for template %v", tmplName)
 	}
 
 	if err != nil {
-		return err
+		if len(vars) == 0 {
+			return err
+		}
 	}
 
 	fileName, err := filepath.Abs("tmp/" + tmplName + "-" + id + ".html")

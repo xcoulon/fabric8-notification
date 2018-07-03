@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>You have been invited to collaborate on a space</title>
+  <style>
+    tr td ul li img {
+      max-width: 500px;
+    }
+
+    tr td pre {
+      overflow: auto;
+    }
+
+    a:hover {
+      text-decoration: underline !important;
+    }
+    
+    div.details {
+     background-color:#f9f9f9;
+     margin-left: 12px;
+     margin-top:10px;
+     padding-top: 8px;
+     padding-bottom: 8px;
+     padding-left:80px
+    }
+    
+    div.details div {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+    
+    div.details div span {
+      font-weight: bold;
+      margin-right: 40px;
+    }
+    
+    .accept {
+      display: inline-block; padding: 12px 18px;
+      background-color: #39a5dc;
+      text-decoration: none; font: menu;
+      color: #ffffff;
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .accept:active {
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body style="
+        margin: 10px;
+        padding: 0;
+        background-color: #f9f9f9;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-weight: lighter;
+        line-height: 1.2;">
+  <div style="
+        min-height: 300px;
+        width: 100%;
+        max-width: 750px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #d7d7d7;
+        border-radius: 4px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px #d7d7d7;">
+    <div style="
+          width: 100%;">
+      <img src="{{.webURL}}/_openshiftio/assets/images/openshift_logo_black.png" width="25%" height="45px" />
+      <div style="
+            width: 95%;
+            margin: 10px auto;
+            border: 1px solid #d7d7d7;">
+      </div>
+    </div>
+
+
+    <p style="
+    font-size: 15px;
+    text-align: left;
+    width: 95%;
+    padding: 15px;
+    ">
+        You have been invited by {{.custom.inviter}} to join <b>{{.custom.spaceName}}</b>.
+    </p>
+
+    <p style="
+    font-size: 15px;
+    text-align: left;
+    width: 95%;
+    padding: 15px;
+    ">
+        Click the accept button below to accept your invitation and gain access to {{.custom.spaceName}}.  
+        Once you have accepted the invite to {{.custom.spaceName}} you can start contributing to projects 
+        within {{.custom.spaceName}}.
+    </p>
+
+    <p style="
+    font-size: 15px;
+    text-align: left;
+    width: 95%;
+    padding: 15px;
+    ">
+        If this invitation does not apply to you or if you wish to decline the invitation to {{.custom.spaceName}} 
+        please disregard this e-mail.
+    </p>
+
+    <div class="details">
+       <div><span>Space</span>{{.custom.spaceName}}</div>
+       <div><span>Roles</span>{{.custom.roleNames}}</div>
+    </div>
+
+    <div style="text-align: center">
+      <a href="{{.custom.acceptURL}}">
+        <div class="accept">Accept invite & view space</div>
+      </a>
+    </div>
+
+  </div>
+</body>
+
+</html>

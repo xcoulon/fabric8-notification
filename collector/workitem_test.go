@@ -8,6 +8,7 @@ import (
 	"github.com/fabric8-services/fabric8-notification/auth"
 	authApi "github.com/fabric8-services/fabric8-notification/auth/api"
 	"github.com/fabric8-services/fabric8-notification/collector"
+	"github.com/fabric8-services/fabric8-notification/testsupport"
 	"github.com/fabric8-services/fabric8-notification/wit"
 	witApi "github.com/fabric8-services/fabric8-notification/wit/api"
 	"github.com/goadesign/goa/uuid"
@@ -38,11 +39,11 @@ func TestWorkItem(t *testing.T) {
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	users, vars, err := collector.WorkItem(context.Background(), authClient, witClient, nil, wiID)
+	users, vars, err := collector.WorkItem(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, wiID)
 	require.NoError(t, err)
 
 	assertWorkItemVars(t, vars)
-	assert.True(t, len(users) > 10)
+	assert.Len(t, users, 8) // 5 from dummy collabs + 3 from the workitem.
 
 	/*
 		for _, u := range users {
@@ -56,11 +57,11 @@ func TestWorkItemUnverifiedEmails(t *testing.T) {
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	users, vars, err := collector.WorkItem(context.Background(), authClient, witClient, &DummyCollaboratorCollector{}, wiID)
+	users, vars, err := collector.WorkItem(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, wiID)
 	require.NoError(t, err)
 
 	assertWorkItemVars(t, vars)
-	assert.True(t, len(users) >= 5)
+	assert.Len(t, users, 8)
 	for _, u := range users {
 		assert.False(t, strings.HasPrefix(u.EMail, "unverified"))
 	}
@@ -71,11 +72,14 @@ func TestComment(t *testing.T) {
 	witClient, authClient := createClient(t)
 	cID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
 
-	users, vars, err := collector.Comment(context.Background(), authClient, witClient, nil, cID)
+	//5e7c1da9-af62-4b73-b18a-e88b7a6b9054
+
+	users, vars, err := collector.Comment(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, cID)
 	require.NoError(t, err)
 
 	assertCommentVars(t, vars)
-	assert.True(t, len(users) > 10)
+
+	assert.Len(t, users, 8)
 
 	/*
 		for _, u := range users {
@@ -89,11 +93,11 @@ func TestCommentUnverifiedEmails(t *testing.T) {
 	witClient, authClient := createClient(t)
 	cID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
 
-	users, vars, err := collector.Comment(context.Background(), authClient, witClient, &DummyCollaboratorCollector{}, cID)
+	users, vars, err := collector.Comment(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, cID)
 	require.NoError(t, err)
 
 	assertCommentVars(t, vars)
-	assert.True(t, len(users) >= 5)
+	assert.Len(t, users, 8)
 	for _, u := range users {
 		assert.False(t, strings.HasPrefix(u.EMail, "unverified"))
 	}
@@ -117,40 +121,4 @@ func assertCommentVars(t *testing.T, vars map[string]interface{}) {
 	assert.NotNil(t, vars["workitemType"])
 	assert.NotNil(t, vars["space"])
 	assert.NotNil(t, vars["spaceOwner"])
-}
-
-type DummyCollaboratorCollector struct {
-}
-
-func (c *DummyCollaboratorCollector) GetSpaceCollaborators(ctx context.Context, client *authApi.Client, spaceID uuid.UUID) (*authApi.UserList, error) {
-	users := authApi.UserList{
-		Data: []*authApi.UserData{},
-	}
-	for i := 0; i < 5; i++ {
-		users.Data = append(users.Data, generateUserData(false))
-		users.Data = append(users.Data, generateUserData(true))
-	}
-
-	return &users, nil
-}
-
-func generateUserData(verifiedEmail bool) *authApi.UserData {
-	id := uuid.NewV4().String()
-	var email string
-	if verifiedEmail {
-		email = "verified" + id
-	} else {
-		email = "unverified" + id
-	}
-	data := authApi.UserData{
-		ID:   &id,
-		Type: "identities",
-		Attributes: &authApi.UserDataAttributes{
-			Username:      &id,
-			Email:         &email,
-			FullName:      &id,
-			EmailVerified: &verifiedEmail,
-		},
-	}
-	return &data
 }

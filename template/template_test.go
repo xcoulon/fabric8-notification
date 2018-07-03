@@ -10,6 +10,7 @@ import (
 	authApi "github.com/fabric8-services/fabric8-notification/auth/api"
 	"github.com/fabric8-services/fabric8-notification/collector"
 	"github.com/fabric8-services/fabric8-notification/template"
+	"github.com/fabric8-services/fabric8-notification/testsupport"
 	"github.com/fabric8-services/fabric8-notification/wit"
 	witApi "github.com/fabric8-services/fabric8-notification/wit/api"
 	"github.com/goadesign/goa/uuid"
@@ -62,7 +63,7 @@ func TestRenderWorkitemCreate(t *testing.T) {
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, nil, wiID)
+	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -96,7 +97,7 @@ func TestRenderWorkitemCreateMissingDescription(t *testing.T) {
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, nil, wiID)
+	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -133,7 +134,7 @@ func TestRenderWorkitemUpdate(t *testing.T) {
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
 
-	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, nil, wiID)
+	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -166,7 +167,7 @@ func TestRenderCommentCreate(t *testing.T) {
 	witClient, authClient := createClient(t)
 	ciID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
 
-	_, vars, err := collector.Comment(context.Background(), authClient, witClient, nil, ciID)
+	_, vars, err := collector.Comment(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, ciID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -200,7 +201,7 @@ func TestRenderCommentUpdate(t *testing.T) {
 	witClient, authClient := createClient(t)
 	ciID, _ := uuid.FromString("5e7c1da9-af62-4b73-b18a-e88b7a6b9054")
 
-	_, vars, err := collector.Comment(context.Background(), authClient, witClient, nil, ciID)
+	_, vars, err := collector.Comment(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, ciID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -248,4 +249,48 @@ func TestRenderEmailUpdate(t *testing.T) {
 	_, body, _, err := temp.Render(addGlobalVars(vars))
 	require.NoError(t, err)
 	assert.True(t, strings.Contains(body, "https://verift.url.openshift.io"))
+}
+
+func TestRenderInvitationSpaceNoorg(t *testing.T) {
+	reg := template.AssetRegistry{}
+
+	template, exist := reg.Get("invitation.space.noorg")
+	assert.True(t, exist)
+
+	vars := map[string]interface{}{}
+	vars["custom"] = map[string]interface{}{
+		"inviter":   "John Smith",
+		"spaceName": "Customer Orders",
+		"roleNames": "Contributor, Project Lead",
+		"acceptURL": "http://openshift.io/invitations/accept/12345-ABCDE-FFFFF-99999-88888",
+	}
+
+	_, body, _, err := template.Render(addGlobalVars(vars))
+	require.NoError(t, err)
+
+	assert.True(t, strings.Contains(body, "http://openshift.io/invitations/accept/12345-ABCDE-FFFFF-99999-88888"))
+
+	//ioutil.WriteFile("../invitation-space.html", []byte(body), os.FileMode(0777))
+}
+
+func TestRenderInvitationTeamNoorg(t *testing.T) {
+	reg := template.AssetRegistry{}
+
+	template, exist := reg.Get("invitation.team.noorg")
+	assert.True(t, exist)
+
+	vars := map[string]interface{}{}
+	vars["custom"] = map[string]interface{}{
+		"teamName":  "Developers",
+		"inviter":   "John Smith",
+		"spaceName": "Financial Backend",
+		"acceptURL": "http://openshift.io/invitations/accept/12345-ABCDE-FFFFF-99999-77777",
+	}
+
+	_, body, _, err := template.Render(addGlobalVars(vars))
+	require.NoError(t, err)
+
+	assert.True(t, strings.Contains(body, "http://openshift.io/invitations/accept/12345-ABCDE-FFFFF-99999-77777"))
+
+	//ioutil.WriteFile("../invitation-team.html", []byte(body), os.FileMode(0777))
 }

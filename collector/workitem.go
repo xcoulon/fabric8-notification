@@ -54,6 +54,7 @@ func Comment(ctx context.Context, authClient *authapi.Client, c *api.Client, col
 	var values = map[string]interface{}{}
 	var errors []error
 	var users []uuid.UUID
+	var resolved []Receiver
 
 	comment, err := wit.GetComment(ctx, c, cID)
 	if err != nil {
@@ -131,13 +132,16 @@ func Comment(ctx context.Context, authClient *authapi.Client, c *api.Client, col
 	if err != nil {
 		errors = append(errors, err)
 	}
-	users = append(users, collectSpaceCollaboratorUsers(sc)...)
 
-	resolved, err := resolveAllUsers(ctx, authClient, SliceUniq(users), sc.Data, false)
-	if err != nil {
-		errors = append(errors, err)
+	if sc != nil {
+		users = append(users, collectSpaceCollaboratorUsers(sc)...)
+
+		resolved, err = resolveAllUsers(ctx, authClient, SliceUniq(users), sc.Data, false)
+		if err != nil {
+			errors = append(errors, err)
+		}
+		resolved = removeActorFromReceivers(ctx, resolved)
 	}
-	resolved = removeActorFromReceivers(ctx, resolved)
 
 	if len(errors) > 0 {
 		return resolved, values, multiError{Message: "errors during notification resolving", Errors: errors}
@@ -153,6 +157,7 @@ func WorkItem(ctx context.Context, authclient *authapi.Client, c *api.Client, co
 	var values = map[string]interface{}{}
 	var errors []error
 	var users []uuid.UUID
+	var resolved []Receiver
 
 	wi, err := wit.GetWorkItem(ctx, c, wiID)
 	if err != nil {
@@ -214,13 +219,16 @@ func WorkItem(ctx context.Context, authclient *authapi.Client, c *api.Client, co
 	if err != nil {
 		errors = append(errors, err)
 	}
-	users = append(users, collectSpaceCollaboratorUsers(sc)...)
 
-	resolved, err := resolveAllUsers(ctx, authclient, SliceUniq(users), sc.Data, false)
-	if err != nil {
-		errors = append(errors, err)
+	if sc != nil {
+		users = append(users, collectSpaceCollaboratorUsers(sc)...)
+
+		resolved, err = resolveAllUsers(ctx, authclient, SliceUniq(users), sc.Data, false)
+		if err != nil {
+			errors = append(errors, err)
+		}
+		resolved = removeActorFromReceivers(ctx, resolved)
 	}
-	resolved = removeActorFromReceivers(ctx, resolved)
 
 	if len(errors) > 0 {
 		return resolved, values, multiError{Message: "errors during notification resolving", Errors: errors}
