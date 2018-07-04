@@ -20,8 +20,6 @@ const (
 	varWITURL               = "wit.url"
 	varAuthURL              = "auth.url"
 	varMadrillAPIKey        = "mandrill.apikey"
-	varKeycloakRealm        = "keycloak.realm"
-	varKeycloakURL          = "keycloak.url"
 	varLogLevel             = "log.level"
 	varLogJSON              = "log.json"
 	varServiceAccountID     = "service.account.id"
@@ -148,28 +146,6 @@ func (c *Data) GetMadrillAPIKey() string {
 	return c.v.GetString(varMadrillAPIKey)
 }
 
-// GetKeycloakRealm returns the keyclaok realm name
-func (c *Data) GetKeycloakRealm() string {
-	if c.v.IsSet(varKeycloakRealm) {
-		return c.v.GetString(varKeycloakRealm)
-	}
-	if c.IsDeveloperModeEnabled() {
-		return devModeKeycloakRealm
-	}
-	return defaultKeycloakRealm
-}
-
-// GetKeycloakURL returns Keycloak URL used by default in Dev mode
-func (c *Data) GetKeycloakURL() string {
-	if c.v.IsSet(varKeycloakURL) {
-		return c.v.GetString(varKeycloakURL)
-	}
-	if c.IsDeveloperModeEnabled() {
-		return devModeKeycloakURL
-	}
-	return defaultKeycloakURL
-}
-
 // GetLogLevel returns the loggging level (as set via config file or environment variable)
 func (c *Data) GetLogLevel() string {
 	return c.v.GetString(varLogLevel)
@@ -194,16 +170,7 @@ func (c *Data) Validate() error {
 }
 
 const (
-	defaultWITURL  = "https://api.openshift.io/"
-	defaultAuthURL = "http://localhost:8089/"
-
-	// Auth-related defaults
-	defaultKeycloakURL   = "https://sso.prod-preview.openshift.io"
-	defaultKeycloakRealm = "fabric8"
-
-	// Keycloak vars to be used in dev mode. Can be overridden by setting up keycloak.url & keycloak.realm
-	devModeKeycloakURL   = "https://sso.prod-preview.openshift.io"
-	devModeKeycloakRealm = "fabric8-test"
-
+	defaultWITURL   = "https://api.openshift.io/"
+	defaultAuthURL  = "http://localhost:8089/"
 	defaultLogLevel = "info"
 )

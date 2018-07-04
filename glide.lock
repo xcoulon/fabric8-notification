@@ -1,5 +1,5 @@
-hash: 3cd9506a5157d3b749ea15d96743d5fabe9acf42a6d77ecb00ca482c9c4f024a
-updated: 2018-04-27T17:49:43.403266672+02:00
+hash: 1286c7ed7350e6808f0dcda3b67fb1831fc544956decd5ab8b658c7062f93bc1
+updated: 2018-07-02T21:50:50.686865538+05:30
 imports:
 - name: github.com/ajg/form
   version: cc2954064ec9ea8d93917f0f87456e11d7b881ad
@@ -20,7 +20,7 @@ imports:
   subpackages:
   - go-bindata-assetfs
 - name: github.com/fabric8-services/fabric8-auth
-  version: f67317193c3108895f853f80f9330c1a65b11004
+  version: 81bf87a6bdae7528a88041f0493555a9fd45a847
   subpackages:
   - design
 - name: github.com/fabric8-services/fabric8-wit
@@ -163,11 +163,11 @@ imports:
   version: a888bfdffa4526cc6987572bca9a2c6b7758290f
   subpackages:
   - go/ast/astutil
+- name: gopkg.in/square/go-jose.v2
+  version: 552e98edab5d620205ff1a8960bf52a5a10aad03
 - name: gopkg.in/yaml.v2
   version: a5b47d31c556af34a302ce5d659e6fea44d90de0
 testImports:
-- name: github.com/corpix/uarand
-  version: 2b8494104d86337cdd41d0a49cbed8e4583c0ab4
 - name: github.com/davecgh/go-spew
   version: adab96458c51a58dc1783b3335dcce5461522e75
   subpackages:
@@ -178,8 +178,6 @@ testImports:
   version: c7bacac2b21ca01afa1dee0acf64df3ce047c28f
   subpackages:
   - golint
-- name: github.com/icrowley/fake
-  version: e64cc2cf92049a299f359734c6ea76073f2a8b2c
 - name: github.com/jstemmer/go-junit-report
   version: 15422cf504f9dc030386499a5c68053a38763e58
 - name: github.com/pmezard/go-difflib

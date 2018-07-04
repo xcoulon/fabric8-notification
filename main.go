@@ -14,7 +14,6 @@ import (
 	"github.com/fabric8-services/fabric8-notification/controller"
 	"github.com/fabric8-services/fabric8-notification/email"
 	"github.com/fabric8-services/fabric8-notification/jsonapi"
-	"github.com/fabric8-services/fabric8-notification/keycloak"
 	"github.com/fabric8-services/fabric8-notification/template"
 	"github.com/fabric8-services/fabric8-notification/token"
 	"github.com/fabric8-services/fabric8-notification/validator"
@@ -44,16 +43,11 @@ func main() {
 	// Initialized developer mode flag for the logger
 	log.InitializeLogger(config.IsLogJSON(), config.GetLogLevel())
 
-	keycloakConfig := keycloak.Config{
-		BaseURL: config.GetKeycloakURL(),
-		Realm:   config.GetKeycloakRealm(),
-	}
-
-	publicKey, err := keycloak.GetPublicKey(keycloakConfig)
+	tokenManager, err := token.NewManager(config)
 	if err != nil {
 		log.Panic(nil, map[string]interface{}{
 			"err": err,
-		}, "failed to parse public token")
+		}, "failed to create token manager")
 	}
 
 	err = config.Validate()
@@ -127,9 +121,9 @@ func main() {
 	service.Use(jsonapi.ErrorHandler(service, true))
 	service.Use(middleware.Recover())
 
-	service.Use(witmiddleware.TokenContext(publicKey, nil, app.NewJWTSecurity()))
+	service.Use(witmiddleware.TokenContext(tokenManager.PublicKeys(), nil, app.NewJWTSecurity()))
 	service.Use(log.LogRequest(config.IsDeveloperModeEnabled()))
-	app.UseJWTMiddleware(service, goajwt.New(publicKey, nil, app.NewJWTSecurity()))
+	app.UseJWTMiddleware(service, goajwt.New(tokenManager.PublicKeys(), nil, app.NewJWTSecurity()))
 
 	// Mount "status" controller
 	statusCtrl := controller.NewStatusController(service)

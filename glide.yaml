@@ -4,17 +4,18 @@ import:
 - package: github.com/fabric8-services/fabric8-wit
   version: 8e74c765391d51a548ffb351038c32fe932398d9
   subpackages:
-    - log
-    - errors
-    - login/token_context
-    - resource
-    - jsonapi
-    - design
-    - goasupport
+  - log
+  - errors
+  - login/token_context
+  - resource
+  - jsonapi
+  - design
+  - goasupport
 - package: github.com/fabric8-services/fabric8-auth
-  version: f67317193c3108895f853f80f9330c1a65b11004
+  version: 81bf87a6bdae7528a88041f0493555a9fd45a847
   subpackages:
-    - design
+  - design
+  - token/jwk
 - package: github.com/gregjones/httpcache
 - package: github.com/mattbaird/gochimp
 - package: github.com/goadesign/goa
@@ -55,12 +56,13 @@ import:
   version: v1.2.0
 - package: github.com/magiconair/properties
 - package: github.com/prometheus/client_golang
+- package: gopkg.in/square/go-jose.v2
 testImport:
 - package: github.com/wadey/gocovmerge
 - package: github.com/jstemmer/go-junit-report
 - package: github.com/stretchr/testify
   subpackages:
-    - assert
+  - assert
 - package: github.com/golang/lint
   subpackages:
   - golint

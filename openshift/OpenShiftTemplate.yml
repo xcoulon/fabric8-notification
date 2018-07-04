@@ -47,16 +47,6 @@ objects:
               configMapKeyRef:
                 name: f8notification
                 key: auth.url
-          - name: F8_KEYCLOAK_URL
-            valueFrom:
-              configMapKeyRef:
-                name: f8notification
-                key: keycloak.url
-          - name: F8_KEYCLOAK_REALM
-            valueFrom:
-              configMapKeyRef:
-                name: f8notification
-                key: keycloak.realm
           - name: F8_SERVICE_ACCOUNT_ID
             valueFrom:
               secretKeyRef:
