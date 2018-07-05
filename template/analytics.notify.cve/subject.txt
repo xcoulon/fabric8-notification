@@ -1,0 +1,1 @@
+Scan report for GitHub repository https://github.com/fabric8-ui/fabric8-ui
