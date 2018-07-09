@@ -110,6 +110,7 @@ func main() {
 	resolvers.Register("user.email.update", collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), validator.ValidateUser)
 	resolvers.Register("invitation.team.noorg", collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), nil)
 	resolvers.Register("invitation.space.noorg", collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), nil)
+	resolvers.Register("analytics.notify.cve", collector.ConfiguredVars(config, collector.NewCVEResolver(authClient, witClient)), nil)
 
 	typeRegistry := &template.AssetRegistry{}
 	service := goa.New("notification")

@@ -46,6 +46,7 @@ func (t Template) renderHTML(template string, vars map[string]interface{}) (stri
 		"lower":     lower,
 		"detailURL": detailURL,
 		"areaPath":  areaPath,
+		"inc":       inc,
 	}
 
 	templ, err := tmplHTML.New(t.Name).Funcs(funcMap).Parse(template)

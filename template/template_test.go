@@ -2,6 +2,7 @@ package template_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"strings"
@@ -293,4 +294,78 @@ func TestRenderInvitationTeamNoorg(t *testing.T) {
 	assert.True(t, strings.Contains(body, "http://openshift.io/invitations/accept/12345-ABCDE-FFFFF-99999-77777"))
 
 	//ioutil.WriteFile("../invitation-team.html", []byte(body), os.FileMode(0777))
+}
+
+func TestRenderCVE(t *testing.T) {
+	files := []string{"cve.basic", "cve.many"}
+
+	reg := template.AssetRegistry{}
+	template, exist := reg.Get("analytics.notify.cve")
+	assert.True(t, exist)
+
+	for _, file := range files {
+		t.Run(file, func(t *testing.T) {
+			vars := make(map[string]interface{})
+			payload, err := testsupport.GetFileContent(fmt.Sprintf("test-files/%s.json", file))
+			require.NoError(t, err)
+			vars["custom"] = testsupport.GetCustomElement(payload)
+
+			sub, body, _, err := template.Render(addGlobalVars(vars))
+			require.NoError(t, err)
+
+			custom := toMap(vars["custom"])
+			assert.True(t, strings.Contains(sub, toString(custom["repo_url"])))
+			checkCVEBody(t, body, custom)
+		})
+	}
+}
+
+func checkCVEBody(t *testing.T, body string, custom map[string]interface{}) {
+	t.Helper()
+	assert.True(t, strings.Contains(body, toString(custom["repo_url"])))
+	assert.True(t, strings.Contains(body, toString(custom["scanned_at"])))
+
+	depArr := toArrMap(custom["vulnerable_deps"])
+	assert.NotNil(t, depArr)
+
+	for _, dep := range depArr {
+		assert.True(t, strings.Contains(body, toString(dep["name"])))
+		cveArr := toArrMap(dep["cves"])
+		assert.NotNil(t, depArr)
+		for _, cve := range cveArr {
+			assert.True(t, strings.Contains(body, toString(cve["CVE"])))
+			cvss := fmt.Sprintf("[%s/10]", toString(cve["CVSS"]))
+			assert.True(t, strings.Contains(body, cvss))
+		}
+	}
+}
+
+func toString(val interface{}) string {
+	if str, ok := val.(string); ok {
+		return str
+	}
+	return ""
+}
+
+func toMap(val interface{}) map[string]interface{} {
+	if m, ok := val.(map[string]interface{}); ok {
+		return m
+	}
+	return nil
+}
+
+func toArrMap(val interface{}) []map[string]interface{} {
+	if arr, ok := val.([]interface{}); ok {
+		res := make([]map[string]interface{}, 0, 0)
+		for _, e := range arr {
+			val := toMap(e)
+			if val != nil {
+				res = append(res, val)
+			} else {
+				return nil
+			}
+		}
+		return res
+	}
+	return nil
 }

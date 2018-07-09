@@ -1,1 +1,1 @@
-Scan report for GitHub repository https://github.com/fabric8-ui/fabric8-ui
+Scan report for codebase {{.custom.repo_url}}

@@ -68,3 +68,7 @@ func areaPath(parentPath, name string) string {
 	}
 	return fmt.Sprintf("%v/%v", lower(p), lower(name))
 }
+
+func inc(i int) int {
+	return i + 1
+}

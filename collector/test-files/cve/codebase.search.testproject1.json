@@ -1,0 +1,275 @@
+{
+    "data": [
+      {
+        "attributes": {
+          "createdAt": "2018-07-03T13:01:03.521885Z",
+          "cve-scan": true,
+          "last_used_workspace": "",
+          "type": "git",
+          "url": "git@github.com:testrepo/testproject1.git"
+        },
+        "id": "9fb1065d-8d25-42b3-bd62-01dd23c225c9",
+        "links": {
+          "edit": "http://127.0.0.1:8080/api/codebases/9fb1065d-8d25-42b3-bd62-01dd23c225c9/edit",
+          "related": "http://127.0.0.1:8080/api/codebases/9fb1065d-8d25-42b3-bd62-01dd23c225c9",
+          "self": "http://127.0.0.1:8080/api/codebases/9fb1065d-8d25-42b3-bd62-01dd23c225c9"
+        },
+        "relationships": {
+          "space": {
+            "data": {
+              "id": "012be0a3-8ae9-4e09-9e54-35ea34957731",
+              "type": "spaces"
+            },
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731",
+              "self": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731"
+            }
+          },
+          "workspaces": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/codebases/9fb1065d-8d25-42b3-bd62-01dd23c225c9/workspaces",
+              "self": "http://127.0.0.1:8080/api/codebases/9fb1065d-8d25-42b3-bd62-01dd23c225c9/workspaces"
+            }
+          }
+        },
+        "type": "codebases"
+      },
+      {
+        "attributes": {
+          "createdAt": "2018-07-03T13:31:08.563119Z",
+          "cve-scan": true,
+          "last_used_workspace": "",
+          "type": "git",
+          "url": "git@github.com:testrepo/testproject1.git"
+        },
+        "id": "28e9e600-8ae5-4079-895b-9552dc8915d6",
+        "links": {
+          "edit": "http://127.0.0.1:8080/api/codebases/28e9e600-8ae5-4079-895b-9552dc8915d6/edit",
+          "related": "http://127.0.0.1:8080/api/codebases/28e9e600-8ae5-4079-895b-9552dc8915d6",
+          "self": "http://127.0.0.1:8080/api/codebases/28e9e600-8ae5-4079-895b-9552dc8915d6"
+        },
+        "relationships": {
+          "space": {
+            "data": {
+              "id": "f438b002-958b-4bfa-af1c-1580b03c1138",
+              "type": "spaces"
+            },
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138",
+              "self": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138"
+            }
+          },
+          "workspaces": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/codebases/28e9e600-8ae5-4079-895b-9552dc8915d6/workspaces",
+              "self": "http://127.0.0.1:8080/api/codebases/28e9e600-8ae5-4079-895b-9552dc8915d6/workspaces"
+            }
+          }
+        },
+        "type": "codebases"
+      }
+    ],
+    "included": [
+      {
+        "attributes": {
+          "created-at": "2018-07-03T12:55:09.1789Z",
+          "description": "",
+          "name": "my-space2",
+          "updated-at": "2018-07-03T12:55:09.1789Z",
+          "version": 0
+        },
+        "id": "012be0a3-8ae9-4e09-9e54-35ea34957731",
+        "links": {
+          "backlog": {
+            "self": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731/backlog"
+          },
+          "filters": "http://127.0.0.1:8080/api/filters",
+          "related": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731",
+          "self": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731",
+          "workitemlinktypes": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemlinktypes",
+          "workitemtypes": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemtypes"
+        },
+        "relationships": {
+          "areas": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731/areas"
+            }
+          },
+          "backlog": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731/backlog"
+            }
+          },
+          "codebases": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731/codebases"
+            }
+          },
+          "collaborators": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731/collaborators"
+            }
+          },
+          "filters": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/filters"
+            }
+          },
+          "iterations": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731/iterations"
+            }
+          },
+          "labels": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731/labels"
+            }
+          },
+          "owned-by": {
+            "data": {
+              "id": "a06fa7e7-46f3-4947-988b-d708d990f491",
+              "type": "identities"
+            },
+            "links": {
+              "related": "http://127.0.0.1:8080/api/users/a06fa7e7-46f3-4947-988b-d708d990f491"
+            }
+          },
+          "space-template": {
+            "data": {
+              "id": "929c963a-174c-4c37-b487-272067e88bd4",
+              "type": "spacetemplates"
+            },
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4",
+              "self": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4"
+            }
+          },
+          "workitemlinktypes": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemlinktypes"
+            }
+          },
+          "workitems": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/012be0a3-8ae9-4e09-9e54-35ea34957731/workitems"
+            }
+          },
+          "workitemtypegroups": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemtypegroups"
+            }
+          },
+          "workitemtypes": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemtypes"
+            }
+          }
+        },
+        "type": "spaces"
+      },
+      {
+        "attributes": {
+          "created-at": "2018-07-03T13:29:17.459549Z",
+          "description": "",
+          "name": "my-space3",
+          "updated-at": "2018-07-03T13:29:17.459549Z",
+          "version": 0
+        },
+        "id": "f438b002-958b-4bfa-af1c-1580b03c1138",
+        "links": {
+          "backlog": {
+            "self": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/backlog"
+          },
+          "filters": "http://127.0.0.1:8080/api/filters",
+          "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138",
+          "self": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138",
+          "workitemlinktypes": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemlinktypes",
+          "workitemtypes": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemtypes"
+        },
+        "relationships": {
+          "areas": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/areas"
+            }
+          },
+          "backlog": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/backlog"
+            }
+          },
+          "codebases": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/codebases"
+            }
+          },
+          "collaborators": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/collaborators"
+            }
+          },
+          "filters": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/filters"
+            }
+          },
+          "iterations": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/iterations"
+            }
+          },
+          "labels": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/labels"
+            }
+          },
+          "owned-by": {
+            "data": {
+              "id": "a06fa7e7-46f3-4947-988b-d708d990f491",
+              "type": "identities"
+            },
+            "links": {
+              "related": "http://127.0.0.1:8080/api/users/a06fa7e7-46f3-4947-988b-d708d990f491"
+            }
+          },
+          "space-template": {
+            "data": {
+              "id": "929c963a-174c-4c37-b487-272067e88bd4",
+              "type": "spacetemplates"
+            },
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4",
+              "self": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4"
+            }
+          },
+          "workitemlinktypes": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemlinktypes"
+            }
+          },
+          "workitems": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/workitems"
+            }
+          },
+          "workitemtypegroups": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemtypegroups"
+            }
+          },
+          "workitemtypes": {
+            "links": {
+              "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemtypes"
+            }
+          }
+        },
+        "type": "spaces"
+      }
+    ],
+    "links": {
+      "first": "http://127.0.0.1:8080/api/search/codebases?page[offset]=0&page[limit]=20&url=git@github.com:testrepo/testproject1.git",
+      "last": "http://127.0.0.1:8080/api/search/codebases?page[offset]=0&page[limit]=20&url=git@github.com:testrepo/testproject1.git"
+    },
+    "meta": {
+      "totalCount": 2
+    }
+}

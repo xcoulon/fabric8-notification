@@ -1,0 +1,105 @@
+{
+    "data": {
+      "attributes": {
+        "created-at": "2018-07-03T12:55:09.1789Z",
+        "description": "",
+        "name": "my-space3",
+        "updated-at": "2018-07-03T12:55:09.1789Z",
+        "version": 0
+      },
+      "id": "f438b002-958b-4bfa-af1c-1580b03c1138",
+      "links": {
+        "backlog": {
+          "meta": {
+            "totalCount": 0
+          },
+          "self": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/backlog"
+        },
+        "filters": "http://127.0.0.1:8080/api/filters",
+        "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138",
+        "self": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138",
+        "workitemlinktypes": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemlinktypes",
+        "workitemtypes": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemtypes"
+      },
+      "relationships": {
+        "areas": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/areas"
+          }
+        },
+        "backlog": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/backlog"
+          },
+          "meta": {
+            "totalCount": 0
+          }
+        },
+        "codebases": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/codebases"
+          }
+        },
+        "collaborators": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/collaborators"
+          }
+        },
+        "filters": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/filters"
+          }
+        },
+        "iterations": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/iterations"
+          }
+        },
+        "labels": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/labels"
+          }
+        },
+        "owned-by": {
+          "data": {
+            "id": "a06fa7e7-46f3-4947-988b-d708d990f491",
+            "type": "identities"
+          },
+          "links": {
+            "related": "http://127.0.0.1:8080/api/users/a06fa7e7-46f3-4947-988b-d708d990f491"
+          }
+        },
+        "space-template": {
+          "data": {
+            "id": "929c963a-174c-4c37-b487-272067e88bd4",
+            "type": "spacetemplates"
+          },
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4",
+            "self": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4"
+          }
+        },
+        "workitemlinktypes": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemlinktypes"
+          }
+        },
+        "workitems": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spaces/f438b002-958b-4bfa-af1c-1580b03c1138/workitems"
+          }
+        },
+        "workitemtypegroups": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemtypegroups"
+          }
+        },
+        "workitemtypes": {
+          "links": {
+            "related": "http://127.0.0.1:8080/api/spacetemplates/929c963a-174c-4c37-b487-272067e88bd4/workitemtypes"
+          }
+        }
+      },
+      "type": "spaces"
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "data": {
+      "attributes": {
+        "bio": "",
+        "cluster": "https://api.starter-us-east-2a.openshift.com/",
+        "company": "Red Hat",
+        "contextInformation": {
+          "experimentalFeatures": {
+            "enabled": true
+          },
+          "recentContexts": [
+            {
+              "space": "fc73fbc2-566b-4bf1-ace2-2c7b841c9805",
+              "user": "a06fa7e7-46f3-4947-988b-d708d990f491"
+            },
+            {
+              "space": null,
+              "user": "a06fa7e7-46f3-4947-988b-d708d990f491"
+            }
+          ],
+          "recentSpaces": [
+            "fc73fbc2-566b-4bf1-ace2-2c7b841c9805"
+          ]
+        },
+        "created-at": "2018-03-21T11:13:34.806965Z",
+        "email": "testuser1@redhat.com",
+        "emailPrivate": false,
+        "emailVerified": true,
+        "featureLevel": "internal",
+        "fullName": "Test User1",
+        "identityID": "a06fa7e7-46f3-4947-988b-d708d990f491",
+        "imageURL": "https://www.gravatar.com/avatar/b11dc78da9184405889bc3ebe4425bbf.jpg",
+        "providerType": "kc",
+        "registrationCompleted": false,
+        "updated-at": "2018-07-03T13:09:58.193786Z",
+        "url": "",
+        "userID": "2466e0a9-3fb9-496b-bfaa-a69392603a8a",
+        "username": "testuser1-preview"
+      },
+      "id": "a06fa7e7-46f3-4947-988b-d708d990f491",
+      "links": {
+        "related": "https://api.prod-preview.openshift.io/api/users/a06fa7e7-46f3-4947-988b-d708d990f491",
+        "self": "https://api.prod-preview.openshift.io/api/users/a06fa7e7-46f3-4947-988b-d708d990f491"
+      },
+      "type": "identities"
+    }
+}

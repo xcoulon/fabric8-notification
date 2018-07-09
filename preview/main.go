@@ -12,6 +12,7 @@ import (
 	authapi "github.com/fabric8-services/fabric8-notification/auth/api"
 	"github.com/fabric8-services/fabric8-notification/collector"
 	"github.com/fabric8-services/fabric8-notification/template"
+	"github.com/fabric8-services/fabric8-notification/testsupport"
 	"github.com/fabric8-services/fabric8-notification/wit"
 	"github.com/fabric8-services/fabric8-notification/wit/api"
 	"github.com/goadesign/goa/uuid"
@@ -47,6 +48,8 @@ func main() {
 	testdata = append(testdata, data{"3383826c-51e4-401b-9ccd-b898f7e2397d", "user.email.update"})
 	testdata = append(testdata, data{"81d1c3bf-fcf2-4c4e-9d12-f9e5c15fb9ab", "invitation.team.noorg"})
 	testdata = append(testdata, data{"297f2037-72e9-42b3-a5fc-76d843877163", "invitation.space.noorg"})
+
+	testdata = append(testdata, data{"0a9c6814-462e-411c-8560-d74297bf1ceb", "analytics.notify.cve"})
 
 	fmt.Println("Generating test templates..")
 	fmt.Println("")
@@ -92,6 +95,12 @@ func generate(authClient *authapi.Client, c *api.Client, id, tmplName string) er
 			"acceptURL": "http://openshift.io/invitations/accept/12345-ABCDE-FFFFF-99999-88888",
 		}
 
+	} else if strings.HasPrefix(tmplName, "analytics") {
+		vars = make(map[string]interface{})
+		payload, err := testsupport.GetFileContent("preview/test-files/cve.payload.json")
+		if err == nil {
+			vars["custom"] = testsupport.GetCustomElement(payload)
+		}
 	} else {
 		return fmt.Errorf("Unkown resolver for template %v", tmplName)
 	}

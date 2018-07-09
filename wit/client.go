@@ -128,3 +128,29 @@ func GetSpace(ctx context.Context, client *api.Client, spaceID uuid.UUID) (*api.
 	}
 	return client.DecodeSpaceSingle(resp)
 }
+
+func GetSpaces(ctx context.Context, client *api.Client, spaceIDs []uuid.UUID) ([]*api.SpaceSingle, error) {
+	var spaces []*api.SpaceSingle
+	for _, spaceID := range spaceIDs {
+		space, err := GetSpace(ctx, client, spaceID)
+		if err != nil {
+			return nil, err
+		}
+		spaces = append(spaces, space)
+	}
+	return spaces, nil
+}
+
+func GetCodebases(ctx context.Context, client *api.Client, url string) (*api.CodebaseList, error) {
+	resp, err := client.CodebasesSearch(context.Background(), api.CodebasesSearchPath(), url, nil, nil)
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("non %v status code for %v, returned %v", http.StatusOK, "GET space", resp.StatusCode)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return client.DecodeCodebaseList(resp)
+}
