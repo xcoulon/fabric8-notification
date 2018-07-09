@@ -1,5 +1,5 @@
-hash: 1286c7ed7350e6808f0dcda3b67fb1831fc544956decd5ab8b658c7062f93bc1
-updated: 2018-07-02T21:50:50.686865538+05:30
+hash: b02518d737f39b2c7153f639298e378adab0d3653ff48e648a63587cce33cb30
+updated: 2018-07-09T16:18:44.849483216+05:30
 imports:
 - name: github.com/ajg/form
   version: cc2954064ec9ea8d93917f0f87456e11d7b881ad
@@ -23,8 +23,12 @@ imports:
   version: 81bf87a6bdae7528a88041f0493555a9fd45a847
   subpackages:
   - design
+  - errors
+  - log
+  - rest
+  - token/jwk
 - name: github.com/fabric8-services/fabric8-wit
-  version: 8e74c765391d51a548ffb351038c32fe932398d9
+  version: 88b4ed94f58e2455953ee4c452e07e12b4a087c2
   subpackages:
   - configuration
   - design
@@ -145,6 +149,8 @@ imports:
 - name: golang.org/x/crypto
   version: d172538b2cfce0c13cee31e647d0367aa8cd2486
   subpackages:
+  - ed25519
+  - ed25519/internal/edwards25519
   - ssh/terminal
 - name: golang.org/x/net
   version: f2499483f923065a842d38eb4c7f1927e6fc6e6d
@@ -165,6 +171,9 @@ imports:
   - go/ast/astutil
 - name: gopkg.in/square/go-jose.v2
   version: 552e98edab5d620205ff1a8960bf52a5a10aad03
+  subpackages:
+  - cipher
+  - json
 - name: gopkg.in/yaml.v2
   version: a5b47d31c556af34a302ce5d659e6fea44d90de0
 testImports:

@@ -106,7 +106,16 @@
           <td>#{{inc $depsInd}}</td>
           <td>{{$dependency.name}}</td>
           <td>{{$dependency.version}}</td>
-          <td>{{ $cvesArr := $dependency.cves }}{{ range $ind, $cveMap := $cvesArr }}{{ if (eq $ind 0) }}{{ $cveMap.CVE }} <b>[{{ $cveMap.CVSS }}/10]</b>{{ else }},&nbsp;{{ $cveMap.CVE }} <b>[{{ $cveMap.CVSS }}/10]</b>{{ end }}{{ end }}</td>
+          <td>
+            {{ $cvesArr := $dependency.cves }}
+            {{- range $ind, $cveMap := $cvesArr -}}
+              {{ if (eq $ind 0) }}
+                {{ $cveMap.CVE }} <b>[{{ $cveMap.CVSS }}/10]</b>
+              {{- else -}}
+                ,&nbsp;{{ $cveMap.CVE }} <b>[{{ $cveMap.CVSS }}/10]</b>
+              {{- end -}}
+            {{ end }}
+          </td>
         </tr>
         {{ end }}
       </table>
