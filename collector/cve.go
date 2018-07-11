@@ -26,7 +26,7 @@ func NewCVEResolver(authClient *authapi.Client, witClient *api.Client) ReceiverR
 		if err != nil {
 			return nil, nil, err
 		}
-		return resolved, nil, nil
+		return resolved, map[string]interface{}{}, nil
 	}
 }
 
