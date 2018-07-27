@@ -16,12 +16,18 @@ func NewCVEResolver(authClient *authapi.Client, witClient *api.Client) ReceiverR
 			return nil, nil, err
 		}
 		spaceIDs := collectCodebasesSpaces(codebases)
+		if len(spaceIDs) == 0 {
+			return []Receiver{}, map[string]interface{}{}, nil
+		}
 		spaces, err := wit.GetSpaces(ctx, witClient, spaceIDs)
 		if err != nil {
 			return nil, nil, err
 		}
 
 		users := collectSpacesUsers(spaces)
+		if len(users) == 0 {
+			return []Receiver{}, map[string]interface{}{}, nil
+		}
 		resolved, err := resolveAllUsers(ctx, authClient, SliceUniq(users), []*authapi.UserData{}, false)
 		if err != nil {
 			return nil, nil, err

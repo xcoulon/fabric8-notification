@@ -59,8 +59,8 @@ func (a *AsyncWorkerNotifier) start() {
 func (a *AsyncWorkerNotifier) work() {
 	for task := range a.tasks {
 		log.Debug(task.context, map[string]interface{}{
-			"type": task.notification.ID,
-			"id":   task.notification.Type,
+			"type": task.notification.Type,
+			"id":   task.notification.ID,
 		}, "working on new notificaiton send of notification")
 
 		a.do(task)
@@ -74,11 +74,18 @@ func (a *AsyncWorkerNotifier) do(cn contextualNotification) {
 	receivers, vars, err := notification.Resolver(ctx, notification.ID)
 	if err != nil {
 		log.Error(ctx, map[string]interface{}{
-			"type": notification.ID,
-			"id":   notification.Type,
+			"type": notification.Type,
+			"id":   notification.ID,
 			"err":  err,
 		}, "failed to resolve receivers")
 
+		return
+	}
+	if receivers == nil || len(receivers) == 0 {
+		log.Info(ctx, map[string]interface{}{
+			"type": notification.Type,
+			"id":   notification.ID,
+		}, "skipping send email as no receivers resolved")
 		return
 	}
 
@@ -91,8 +98,8 @@ func (a *AsyncWorkerNotifier) do(cn contextualNotification) {
 	subject, body, headers, err := notification.Template.Render(vars)
 	if err != nil {
 		log.Error(ctx, map[string]interface{}{
-			"type": notification.ID,
-			"id":   notification.Type,
+			"type": notification.Type,
+			"id":   notification.ID,
 			"err":  err,
 		}, "failed to render template")
 
@@ -105,7 +112,7 @@ func (a *AsyncWorkerNotifier) Send(ctx context.Context, notification Notificatio
 	a.tasks <- contextualNotification{context: ctx, notification: notification}
 
 	log.Debug(ctx, map[string]interface{}{
-		"type": notification.ID,
-		"id":   notification.Type,
+		"type": notification.Type,
+		"id":   notification.ID,
 	}, "scheduled send of notification")
 }

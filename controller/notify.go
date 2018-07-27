@@ -69,6 +69,10 @@ func (c *NotifyController) Send(ctx *app.SendNotifyContext) error {
 
 	c.Notifier.Send(ctx, email.Notification{ID: nID, Type: nType, CustomAttributes: customAttributes, Resolver: receiverResolver, Template: template})
 
+	log.Info(ctx, map[string]interface{}{
+		"type": nType,
+		"id":   nID,
+	}, "notification request accepted")
 	return ctx.Accepted()
 }
 

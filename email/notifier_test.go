@@ -20,7 +20,7 @@ func (t *TestSender) Send(ctx context.Context, subject string, body string, head
 func TestAsyncWorkerNotifier(t *testing.T) {
 
 	resolver := func(ctx context.Context, id string) ([]collector.Receiver, map[string]interface{}, error) {
-		return []collector.Receiver{}, nil, nil
+		return []collector.Receiver{{EMail: "user1@test.com", FullName: "User1"}}, nil, nil
 	}
 
 	callback := make(chan bool)
