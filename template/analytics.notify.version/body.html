@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analytics report for latest version</title>
+  <style>
+    tr td ul li img {
+      max-width: 500px;
+    }
+
+    tr td pre {
+      overflow: auto;
+    }
+
+    a:hover {
+      text-decoration: underline !important;
+    }
+
+    table {
+    width:100%;
+    }
+
+    table, th, td {
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 15px;
+        border-bottom: 1px solid #ededed;
+        text-align: left;
+        color: #363636
+    }
+
+    th {
+      font-weight: 600;
+    }
+
+    td {
+      color: #72767B;
+      padding-top: 20px;
+      padding-bottom: 30px;
+    }
+  </style>
+</head>
+
+<body style="
+        margin: 10px;
+        padding: 0; 
+        background-color: #f9f9f9;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-weight: lighter;
+        line-height: 1.2;">
+  <div style="
+        min-height: 300px;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #d7d7d7;
+        border-radius: 4px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px #d7d7d7;">
+    <div style="
+          width: 100%;">
+      <img src="{{.webURL}}/_openshiftio/assets/images/openshift_logo_black.png" width="25%" height="45px" />
+      <div style="
+            width: 100%;
+            margin: 10px auto;
+            border: 1px solid #d7d7d7;">
+      </div>
+    </div>
+    <div>
+      <div style="margin-top: 15px;color:#72767B;">
+        <span>
+          <span style="font-weight: 600;color:#363636;">Scan report</span> for GitHub repository
+          <a href="https://github.com/fabric8-ui/fabric8-ui" style="color: #0088ce; text-decoration: none;">https://github.com/fabric8-ui/fabric8-ui</a>
+          <span style="border-left: 1px solid #72767B;padding-left: 5px;"> Scan done on:</span>
+          <span> Tue, 20 March 2018 18:17:50 GMT</span>
+        </span>
+      </div>
+      <div style="margin-top: 25px;">
+        <span style="font-weight: 600;color:#72767B;">Summary of analytics report</span>
+      </div>
+      <div style="margin-top: 15px;color:#363636;font-weight: 600;">
+          <span>Direct dependencies with latest version:</span>
+          <span> 04</span>
+      </div>
+      <div style="margin-top: 25px;">
+        <span style="color:#72767B;font-weight: 600;">Details of direct dependencies</span>
+      </div>
+      <table style="width:100%;margin-top: 25px;">
+        <tr>
+          <th>#</th>
+          <th>Direct dependency</th> 
+          <th style="text-align: center;">Current Version</th>
+          <th style="text-align: center;">Latest Version</th>
+        </tr>
+        <tr>
+          <td>#01</td>
+          <td>com.logback.core</td>
+          <td style="text-align: center;">2.0</td>
+          <td style="text-align: center;">2.1</td>
+        </tr>
+        <tr>
+          <td>#02</td>
+          <td>com.logback.web</td>
+          <td style="text-align: center;">1.5</td>
+          <td style="text-align: center;">1.8</td>
+        </tr>
+      </table>
+    </div>
+    <div style="
+            margin-top: 45px;
+            margin-bottom: 50px;
+            text-align:center;
+            color: #363636;">
+      <span> 
+        <span style="font-weight: 600;">
+          To unsubscribe:
+        </span> 
+        Turn OFF `Security Alert Notification` in the
+        <span>
+          <a href="http://codebase-url"
+              style="
+                color: #0088ce;
+                text-decoration: none;">
+                Codebase page</a>
+        </span>
+        in your space.
+      </span>
+    </div>
+  </div>
+</body>
+
+</html>

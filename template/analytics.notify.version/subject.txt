@@ -1,0 +1,1 @@
+Analytics report for latest version-repository {{.custom.repo_url}}
