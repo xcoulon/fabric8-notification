@@ -112,7 +112,7 @@ func main() {
 	registry.Register(types.InvitationTeamNoorg, collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), nil)
 	registry.Register(types.InvitationSpaceNoorg, collector.ConfiguredVars(config, collector.NewUserResolver(authClient)), nil)
 	registry.Register(types.AnalyticsNotifyCVE, collector.ConfiguredVars(config, collector.NewCVEResolver(authClient, witClient)), nil)
-
+	registry.Register(types.AnalyticsNotifyVersion, collector.ConfiguredVars(config, collector.NewCVEResolver(authClient, witClient)), nil)
 	templateRegistry := &template.AssetRegistry{}
 	service := goa.New("notification")
 

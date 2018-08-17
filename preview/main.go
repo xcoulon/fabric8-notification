@@ -51,6 +51,7 @@ func main() {
 	testdata = append(testdata, data{"297f2037-72e9-42b3-a5fc-76d843877163", string(types.InvitationSpaceNoorg)})
 
 	testdata = append(testdata, data{"0a9c6814-462e-411c-8560-d74297bf1ceb", string(types.AnalyticsNotifyCVE)})
+	testdata = append(testdata, data{"7dd737ed-c0fa-4f2f-9a3a-ed43778bb7fe", string(types.AnalyticsNotifyVersion)})
 
 	fmt.Println("Generating test templates..")
 	fmt.Println("")
@@ -96,9 +97,15 @@ func generate(authClient *authapi.Client, c *api.Client, id, tmplName string) er
 			"acceptURL": "http://openshift.io/invitations/accept/12345-ABCDE-FFFFF-99999-88888",
 		}
 
-	} else if strings.HasPrefix(tmplName, "analytics") {
+	} else if strings.HasPrefix(tmplName, "analytics.notify.cve") {
 		vars = make(map[string]interface{})
 		payload, err := testsupport.GetFileContent("preview/test-files/cve.payload.json")
+		if err == nil {
+			vars["custom"] = testsupport.GetCustomElement(payload)
+		}
+	} else if strings.HasPrefix(tmplName, "analytics.notify.version") {
+		vars = make(map[string]interface{})
+		payload, err := testsupport.GetFileContent("preview/test-files/version.payload.json")
 		if err == nil {
 			vars["custom"] = testsupport.GetCustomElement(payload)
 		}

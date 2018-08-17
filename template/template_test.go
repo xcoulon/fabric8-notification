@@ -321,6 +321,31 @@ func TestRenderCVE(t *testing.T) {
 	}
 }
 
+func TestRenderVersion(t *testing.T) {
+	files := []string{"version"}
+	reg := template.AssetRegistry{}
+	template, exist := reg.Get(string(types.AnalyticsNotifyVersion))
+	assert.True(t, exist)
+
+	for _, file := range files {
+		t.Run(file, func(t *testing.T) {
+			vars := make(map[string]interface{})
+			payload, err := testsupport.GetFileContent(fmt.Sprintf("test-files/%s.json", file))
+			require.NoError(t, err)
+
+			vars["custom"] = testsupport.GetCustomElement(payload)
+
+			sub, body, _, err := template.Render(addGlobalVars(vars))
+			require.NoError(t, err)
+
+			custom := toMap(vars["custom"])
+
+			assert.True(t, strings.Contains(sub, toString(custom["repo_url"])))
+			checkVersionBody(t, body, custom)
+		})
+	}
+}
+
 func checkCVEBody(t *testing.T, body string, custom map[string]interface{}) {
 	t.Helper()
 	assert.True(t, strings.Contains(body, toString(custom["repo_url"])))
@@ -338,6 +363,22 @@ func checkCVEBody(t *testing.T, body string, custom map[string]interface{}) {
 			cvss := fmt.Sprintf("[%s/10]", toString(cve["CVSS"]))
 			assert.True(t, strings.Contains(body, cvss))
 		}
+	}
+}
+
+func checkVersionBody(t *testing.T, body string, custom map[string]interface{}) {
+	t.Helper()
+	assert.True(t, strings.Contains(body, toString(custom["repo_url"])))
+	assert.True(t, strings.Contains(body, toString(custom["scanned_at"])))
+
+	depArr := toArrMap(custom["version_updates"])
+	assert.NotNil(t, depArr)
+
+	for _, dep := range depArr {
+		assert.True(t, strings.Contains(body, toString(dep["name"])))
+		assert.True(t, strings.Contains(body, toString(dep["version"])))
+		assert.True(t, strings.Contains(body, toString(dep["latest_version"])))
+		assert.True(t, strings.Contains(body, toString(dep["ecosystem"])))
 	}
 }
 

@@ -1,0 +1,28 @@
+{  
+   "data":{  
+      "attributes":{  
+         "custom":{  
+            "repo_url":"git@github.com:testrepo/testproject.git",
+            "scanned_at": "2018-06-18T12:25:24",
+            "version_updates":[  
+               {  
+                  "version":"3.4.1",
+                  "latest_version":"3.4.2",
+                  "name":"io.vertx:vertx-web",
+                  "ecosystem":"maven"
+               },
+               {  
+                  "version":"3.5.0",
+                  "latest_version":"3.5.1",
+                  "name":"io.vertx:vertx-util",
+                  "ecosystem":"maven"
+               }
+            ]
+         },
+         "type":"analytics.notify.version",
+         "id":"git@github.com:testrepo/testproject.git"
+      },
+      "type":"notifications",
+      "id":"634444a1-b1dc-4be3-bcf3-64c596a06b2d"
+   }
+}
