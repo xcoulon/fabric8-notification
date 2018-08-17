@@ -54,6 +54,12 @@ This is about email template which include email body, subject, headers etc.  Al
 - body.html - mandatory file which should have email body.  It uses golang template https://golang.org/pkg/text/template/[link].
 - subject.txt - mandatory file which should have subject like for email.  It uses golang template https://golang.org/pkg/text/template/[link].
 
+==== Notification API
+
+Here is sequence diagram of "/api/notify" API.  Client will call this API to send Notification Emails.
+
+image::docs/sequence_diagram_notify_api.png[NotifyAPI]
+
 ==== Build Project
 
 This project use glide build system.

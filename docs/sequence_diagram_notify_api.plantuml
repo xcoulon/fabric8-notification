@@ -1,0 +1,39 @@
+@startuml
+entity Client
+participant "/api/notify" as Notify
+participant Validator
+participant Notifier
+participant "Template\nRegistry" as TemplateRegistry
+participant "Collector\nRegistry" as CollectorRegistry
+participant Notifier
+participant "Receiver\nResolver" as ReceiverResolver
+participant "Email\nTemplate" as EmailTemplate
+participant Sender
+participant "Mandrill\nAPI" as MandrillAPI
+
+Client -> Notify : Notification Payload\n(HTTP POST)
+activate Notify
+Notify -> Validator : Validate()\n(type)
+Notify <-- Validator : true/false
+note right: if false,\nreturns HTTP 400 to Client
+Notify -> TemplateRegistry  : Get()\n(type)
+Notify <-- TemplateRegistry : EmailTemplate
+note right: if not found,\nreturns HTTP 400 to Client
+Notify -> CollectorRegistry : Get()\n(type)
+Notify <-- CollectorRegistry : ReceiverResolver
+note right: if not found,\nreturns HTTP 500 to Client
+Notify -> Notifier : Send()
+activate Notifier
+Client <-- Notify : HTTP 202\nAccepted
+deactivate Notify
+Notifier -> ReceiverResolver : ReceiverResolver()
+Notifier <-- ReceiverResolver : []Receiver
+Notifier -> EmailTemplate : Render()
+Notifier <-- EmailTemplate : (subject, body)
+Notifier -> Sender : Send()\n(subject, body, []Receiver)
+Sender -> MandrillAPI : MessageSend()\n(Message)
+Sender <-- MandrillAPI
+Notifier <-- Sender
+deactivate Notifier
+
+@enduml
