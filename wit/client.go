@@ -41,9 +41,6 @@ func GetWorkItem(ctx context.Context, client *api.Client, wiID uuid.UUID) (*api.
 		return nil, fmt.Errorf("non %v status code for %v, returned %v", http.StatusOK, "GET workitem", resp.StatusCode)
 	}
 
-	if err != nil {
-		return nil, err
-	}
 	return client.DecodeWorkItemSingle(resp)
 }
 
@@ -58,9 +55,6 @@ func GetArea(ctx context.Context, client *api.Client, areaID uuid.UUID) (*api.Ar
 		return nil, fmt.Errorf("non %v status code for %v, returned %v", http.StatusOK, "GET space", resp.StatusCode)
 	}
 
-	if err != nil {
-		return nil, err
-	}
 	return client.DecodeAreaSingle(resp)
 }
 
@@ -75,9 +69,6 @@ func GetWorkItemType(ctx context.Context, client *api.Client, witID uuid.UUID) (
 		return nil, fmt.Errorf("non %v status code for %v, returned %v", http.StatusOK, "GET workitemtype", resp.StatusCode)
 	}
 
-	if err != nil {
-		return nil, err
-	}
 	return client.DecodeWorkItemTypeSingle(resp)
 }
 
@@ -92,9 +83,6 @@ func GetComment(ctx context.Context, client *api.Client, cID uuid.UUID) (*api.Co
 		return nil, fmt.Errorf("non %v status code for %v, returned %v", http.StatusOK, "GET comment", resp.StatusCode)
 	}
 
-	if err != nil {
-		return nil, err
-	}
 	return client.DecodeCommentSingle(resp)
 }
 
@@ -112,9 +100,6 @@ func GetComments(ctx context.Context, client *api.Client, wiID uuid.UUID) (*api.
 		return nil, fmt.Errorf("non %v status code for %v, returned %v", http.StatusOK, "GET comments", resp.StatusCode)
 	}
 
-	if err != nil {
-		return nil, err
-	}
 	return client.DecodeCommentList(resp)
 }
 
@@ -129,9 +114,6 @@ func GetSpace(ctx context.Context, client *api.Client, spaceID uuid.UUID) (*api.
 		return nil, fmt.Errorf("non %v status code for %v, returned %v", http.StatusOK, "GET space", resp.StatusCode)
 	}
 
-	if err != nil {
-		return nil, err
-	}
 	return client.DecodeSpaceSingle(resp)
 }
 
@@ -155,9 +137,6 @@ func GetCodebases(ctx context.Context, client *api.Client, url string) (*api.Cod
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("non %v status code for %v, returned %v", http.StatusOK, "GET space", resp.StatusCode)
-	}
-	if err != nil {
-		return nil, err
 	}
 	return client.DecodeCodebaseList(resp)
 }
