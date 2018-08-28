@@ -1,4 +1,14 @@
 @startuml
+
+' This is a PlantUML diagram.
+'
+' For on-the-fly rendering of the latest version of this diagram, please visit:
+' http://www.plantuml.com/plantuml/proxy?idx=0&src=https://raw.githubusercontent.com/fabric8-services/fabric8-notification/master/docs/sequence_diagram_notify_api.plantuml&fmt=svg
+'
+' To generate a PNG diagram from this file follow these steps:
+' $ wget -o plantuml.jar http://sourceforge.net/projects/plantuml/files/plantuml.jar/download
+' $ java -jar plantuml.jar -verbose sequence_diagram_notify_api.plantuml
+
 entity Client
 participant "/api/notify" as Notify
 participant Validator

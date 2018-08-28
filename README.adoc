@@ -58,7 +58,7 @@ This is about email template which include email body, subject, headers etc.  Al
 
 Here is sequence diagram of "/api/notify" API.  Client will call this API to send Notification Emails.
 
-image::docs/sequence_diagram_notify_api.png[NotifyAPI]
+image::http://www.plantuml.com/plantuml/proxy?idx=0&src=https://raw.githubusercontent.com/fabric8-services/fabric8-notification/master/docs/sequence_diagram_notify_api.plantuml&fmt=svg[NotifyAPI]
 
 ==== Build Project
 
