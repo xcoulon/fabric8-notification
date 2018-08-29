@@ -64,8 +64,8 @@ func TestRenderWorkitemCreate(t *testing.T) {
 
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
-
-	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, wiID)
+	ctx := testsupport.CreateOSIOUserContext()
+	_, vars, err := collector.WorkItem(ctx, authClient, witClient, &testsupport.DummyCollaboratorCollector{}, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -80,7 +80,7 @@ func TestRenderWorkitemCreate(t *testing.T) {
 	assert.Contains(t, headers, "X-OSIO-Area")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
-	assert.True(t, strings.Contains(body, "Ruchir Garg"))
+	assert.True(t, strings.Contains(body, "OpenShift io"))
 	assert.True(t, strings.Contains(body, "1343"))
 	assert.True(t, strings.Contains(body, "mode under Backlog")) // part of the Description. Might change since we're on live data
 	assert.True(t, strings.Contains(body, "/openshiftio"))       // Space/Area tag. Might change since we're on live data
@@ -98,8 +98,8 @@ func TestRenderWorkitemCreateMissingDescription(t *testing.T) {
 
 	witClient, authClient := createClient(t)
 	wiID, _ := uuid.FromString("8bccc228-bba7-43ad-b077-15fbb9148f7f")
-
-	_, vars, err := collector.WorkItem(context.Background(), authClient, witClient, &testsupport.DummyCollaboratorCollector{}, wiID)
+	ctx := testsupport.CreateOSIOUserContext()
+	_, vars, err := collector.WorkItem(ctx, authClient, witClient, &testsupport.DummyCollaboratorCollector{}, wiID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -119,7 +119,7 @@ func TestRenderWorkitemCreateMissingDescription(t *testing.T) {
 	assert.Contains(t, headers, "X-OSIO-Area")
 
 	assert.True(t, strings.Contains(body, "http://localhost/openshiftio/openshiftio/plan/detail/1343"))
-	assert.True(t, strings.Contains(body, "Ruchir Garg"))
+	assert.True(t, strings.Contains(body, "OpenShift io"))
 	assert.True(t, strings.Contains(body, "1343"))
 
 	/*

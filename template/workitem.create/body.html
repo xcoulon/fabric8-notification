@@ -52,11 +52,11 @@
             border: 1px solid #d7d7d7;">
       </div>
       <p>
-        <img src="{{sizeImage .workitemOwner.Data.Attributes.ImageURL 22}}" style="height: 22px; width: 22px; vertical-align: middle;"
+        <img src="{{sizeImage .actor.Data.Attributes.ImageURL 22}}" style="height: 22px; width: 22px; vertical-align: middle;"
         />&nbsp;
         <span style="
               margin-top: 5px;">
-          <a href="{{.webURL}}/{{.workitemOwner.Data.Attributes.Username}}" style="color: #0088ce; text-decoration: none;">{{.workitemOwner.Data.Attributes.FullName}}</a>&nbsp;
+          <a href="{{.webURL}}/{{.actor.Data.Attributes.Username}}" style="color: #0088ce; text-decoration: none;">{{.actor.Data.Attributes.FullName}}</a>&nbsp;
           <span style="font-weight: 700;">created</span> work item
         <span style="
                   max-width: 250px;
