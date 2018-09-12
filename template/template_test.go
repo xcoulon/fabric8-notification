@@ -350,14 +350,22 @@ func checkCVEBody(t *testing.T, body string, custom map[string]interface{}) {
 	t.Helper()
 	assert.True(t, strings.Contains(body, toString(custom["repo_url"])))
 	assert.True(t, strings.Contains(body, toString(custom["scanned_at"])))
+	assert.True(t, strings.Contains(body, toString(custom["total_dependencies"])))
+	dirDepArr := toArrMap(custom["direct_updates"])
+	assert.NotNil(t, dirDepArr)
+	transDepArr := toArrMap(custom["transitive_updates"])
+	assert.NotNil(t, transDepArr)
 
-	depArr := toArrMap(custom["vulnerable_deps"])
-	assert.NotNil(t, depArr)
+	checkDepDataCVE(t, body, dirDepArr)
+	checkDepDataCVE(t, body, transDepArr)
 
-	for _, dep := range depArr {
+}
+
+func checkDepDataCVE(t *testing.T, body string, deps []map[string]interface{}) {
+	t.Helper()
+	for _, dep := range deps {
 		assert.True(t, strings.Contains(body, toString(dep["name"])))
 		cveArr := toArrMap(dep["cves"])
-		assert.NotNil(t, depArr)
 		for _, cve := range cveArr {
 			assert.True(t, strings.Contains(body, toString(cve["CVE"])))
 			cvss := fmt.Sprintf("[%s/10]", toString(cve["CVSS"]))
@@ -371,10 +379,17 @@ func checkVersionBody(t *testing.T, body string, custom map[string]interface{}) 
 	assert.True(t, strings.Contains(body, toString(custom["repo_url"])))
 	assert.True(t, strings.Contains(body, toString(custom["scanned_at"])))
 
-	depArr := toArrMap(custom["version_updates"])
-	assert.NotNil(t, depArr)
+	dirDepArr := toArrMap(custom["direct_updates"])
+	assert.NotNil(t, dirDepArr)
+	transDepArr := toArrMap(custom["transitive_updates"])
+	assert.NotNil(t, transDepArr)
+	checkDepData(t, body, dirDepArr)
+	checkDepData(t, body, transDepArr)
+}
 
-	for _, dep := range depArr {
+func checkDepData(t *testing.T, body string, deps []map[string]interface{}) {
+	t.Helper()
+	for _, dep := range deps {
 		assert.True(t, strings.Contains(body, toString(dep["name"])))
 		assert.True(t, strings.Contains(body, toString(dep["version"])))
 		assert.True(t, strings.Contains(body, toString(dep["latest_version"])))

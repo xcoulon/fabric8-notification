@@ -7,6 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Security alert notification in {{.custom.repo_url}}</title>
   <style>
+    .deps {
+      word-break: break-word;
+      width: 30%;
+      text-align: center
+    }
+    .version{
+      width: 20%;
+      text-align: center;
+    }
+    .cve {
+      width: 50%;
+      text-align: center;
+    }
     tr td ul li img {
       max-width: 500px;
     }
@@ -58,7 +71,7 @@
         min-height: 300px;
         width: 100%;
         max-width: 800px;
-        margin: 0 auto;
+        margin: 100px auto;
         padding: 20px;
         border: 1px solid #d7d7d7;
         border-radius: 4px;
@@ -89,30 +102,64 @@
           <span>Number of CVE(s):</span>
           <span>{{ .custom.cve_count }}</span>&nbsp;&nbsp;
           <span>Number of dependencies affected:</span>
-          <span>{{ len .custom.vulnerable_deps }}</span>
+          <span>{{ .custom.total_dependencies}}</span>
       </div>
       <div style="margin-top: 25px;">
-        <span style="color:#72767B;font-weight: 600;">Details of CVE(s) found</span>
+        <span style="color:#72767B;font-weight: 600;">Details of CVE(s) for Direct Dependencies found</span>
       </div>
       <table style="width:100%;margin-top: 25px;">
         <tr>
           <th>#</th>
-          <th>Dependency affected</th> 
-          <th style="text-align: center;">Current Version</th>
-          <th>CVE ID(s) and corresponding CVSS Score(s)</th>
+          <th class="deps">Direct Dependency</th> 
+          <th class="version">Current Version</th>
+          <th class="cve">CVE ID(s) and corresponding CVSS Score(s)</th>
         </tr>
-        {{ range $depsInd, $dependency := .custom.vulnerable_deps }}
+        {{ range $depsInd, $dependency := .custom.direct_updates }}
         <tr>
           <td>#{{inc $depsInd}}</td>
-          <td>{{$dependency.name}}</td>
-          <td>{{$dependency.version}}</td>
-          <td>
+          <td class="deps">{{$dependency.name}}</td>
+          <td class="version">{{$dependency.version}}</td>
+          <td class="cve">
             {{ $cvesArr := $dependency.cves }}
             {{- range $ind, $cveMap := $cvesArr -}}
               {{ if (eq $ind 0) }}
                 {{ $cveMap.CVE }} <b>[{{ $cveMap.CVSS }}/10]</b>
               {{- else -}}
-                ,&nbsp;{{ $cveMap.CVE }} <b>[{{ $cveMap.CVSS }}/10]</b>
+                <br>{{ $cveMap.CVE }} <b>[{{ $cveMap.CVSS }}/10]</b>
+              {{- end -}}
+            {{ end }}
+          </td>
+        </tr>
+        {{ end }}
+      </table>
+    </div>
+    <div style="
+      width: 100%;
+      margin: 30px auto;
+      border: 1px solid #d7d7d7;">
+    </div>
+    <div style="margin-top: 25px;">
+        <span style="color:#72767B;font-weight: 600;">Details of CVE(s) for Transitive Dependencies found</span>
+      </div>
+      <table style="width:100%;margin-top: 25px;">
+        <tr>
+          <th>#</th>
+          <th class="deps">Transitive Dependency</th> 
+          <th class="version">Current Version</th>
+          <th class="cve">CVE ID(s) and corresponding CVSS Score(s)</th>
+        </tr>
+        {{ range $depsInd, $dependency := .custom.transitive_updates }}
+        <tr>
+          <td>#{{inc $depsInd}}</td>
+          <td class="deps">{{$dependency.name}}</td>
+          <td class="version">{{$dependency.version}}</td>
+          <td class="cve">
+            {{ $cvesArr := $dependency.cves }}
+            {{- range $ind, $cveMap := $cvesArr -}}
+              {{ if (eq $ind 0) }}
+                {{ $cveMap.CVE }} <b>[{{ $cveMap.CVSS }}/10]</b>
+              {{- else -}}<br>
+              {{ $cveMap.CVE }} <b>[{{ $cveMap.CVSS }}/10]</b>
               {{- end -}}
             {{ end }}
           </td>

@@ -7,6 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Analytics report for latest version</title>
   <style>
+    .deps {
+      word-break: break-word;
+      width: 40%;
+      text-align: center
+    }
     tr td ul li img {
       max-width: 500px;
     }
@@ -40,8 +45,8 @@
 
     td {
       color: #72767B;
-      padding-top: 20px;
-      padding-bottom: 30px;
+      padding-top: 8px;
+      padding-bottom: 8px;
     }
   </style>
 </head>
@@ -58,7 +63,7 @@
         min-height: 300px;
         width: 100%;
         max-width: 1200px;
-        margin: 0 auto;
+        margin: 100px auto;
         padding: 20px;
         border: 1px solid #d7d7d7;
         border-radius: 4px;
@@ -85,25 +90,51 @@
       <div style="margin-top: 25px;">
         <span style="font-weight: 600;color:#72767B;">Summary of analytics report</span>
       </div>
-      <div style="margin-top: 15px;color:#363636;font-weight: 600;">
-          <span>Direct dependencies with latest version:</span>
-          <span>{{len .custom.version_updates}}</span>
-      </div>
-      <div style="margin-top: 25px;">
-        <span style="color:#72767B;font-weight: 600;">Details of direct dependencies</span>
+      <div style="margin-top: 25px;color:#363636;font-weight: 600;">
+          <span>Direct dependencies with Newer version:</span>
+          <span>{{len .custom.direct_updates}}</span>
       </div>
       <table style="width:100%;margin-top: 25px;">
         <tr>
           <th>#</th>
-          <th>Direct dependency</th> 
+          <th class="deps">Direct Dependency</th> 
           <th style="text-align: center;">Current Version</th>
-          <th style="text-align: center;">Latest Version</th>
+          <th style="text-align: center;">Newer Version</th>
           <th style="text-align: center;">Ecosystem</th>
         </tr>
-        {{ range $depsInd, $dependency := .custom.version_updates }}
+        {{ range $depsInd, $dependency := .custom.direct_updates }}
         <tr>
           <td>#{{inc $depsInd}}</td>
-          <td>{{$dependency.name}}</td>
+          <td class="deps">{{$dependency.name}}</td>
+          <td style="text-align: center;">{{$dependency.version}}</td>
+          <td style="text-align: center;">{{$dependency.latest_version}}</td>
+          <td style="text-align: center;">{{$dependency.ecosystem}}</td>
+        </tr>
+        {{ end }}
+      </table>
+    </div>
+    <div style="
+      width: 100%;
+      margin: 30px auto;
+      border: 1px solid #d7d7d7;">
+    </div>
+    <div>
+      <div style="margin-top: 25px;color:#363636;font-weight: 600;">
+          <span>Transitive dependencies with Newer version:</span>
+          <span>{{len .custom.transitive_updates}}</span>
+      </div>
+      <table style="width:100%;margin-top: 25px;">
+        <tr>
+          <th>#</th>
+          <th class="deps">Transitive Dependency</th>
+          <th style="text-align: center;">Current Version</th>
+          <th style="text-align: center;">Newer Version</th>
+          <th style="text-align: center;">Ecosystem</th>
+        </tr>
+        {{ range $depsInd, $dependency := .custom.transitive_updates }}
+        <tr>
+          <td>#{{inc $depsInd}}</td>
+          <td class="deps">{{$dependency.name}}</td>
           <td style="text-align: center;">{{$dependency.version}}</td>
           <td style="text-align: center;">{{$dependency.latest_version}}</td>
           <td style="text-align: center;">{{$dependency.ecosystem}}</td>

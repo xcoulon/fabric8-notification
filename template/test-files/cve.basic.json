@@ -2,11 +2,13 @@
   "data": {
     "attributes": {
       "custom": {
-        "repo_url": "git@github.com:testrepo/basicproject.git",
-        "scanned_at": "2018-06-18T12:25:24",
+        "repo_url": "https://github.com/testrepo/testrepository.git",
+        "scanned_at": "Thu, 06 September 2018 11:44:20 UTC",
+        "total_dependencies": 2,
         "cve_count": 3,
-        "vulnerable_deps": [
+        "direct_updates": [
           {
+            "is_transitive":false,
             "name": "com.logback.core",
             "version": "2.0",
             "cves": [
@@ -20,8 +22,11 @@
               }
             ],
             "cve_count": 2
-          },
+          }
+        ],
+        "transitive_updates": [
           {
+            "is_transitive":true,
             "name": "com.logback.web",
             "version": "1.5",
             "cves": [
@@ -34,7 +39,7 @@
           }
         ]
       },
-      "id": "git@github.com:testrepo/basicproject.git",
+      "id": "git@github.com:testrepo/testproject.git",
       "type": "analytics.notify.cve"
     },
     "id": "4c34f6d4-f00b-487b-9a1f-e7d1adba6866",
