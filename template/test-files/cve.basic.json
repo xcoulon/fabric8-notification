@@ -8,6 +8,7 @@
         "cve_count": 3,
         "direct_updates": [
           {
+            "ecosystem":"maven",
             "is_transitive":false,
             "name": "com.logback.core",
             "version": "2.0",
@@ -26,6 +27,7 @@
         ],
         "transitive_updates": [
           {
+            "ecosystem":"maven",
             "is_transitive":true,
             "name": "com.logback.web",
             "version": "1.5",

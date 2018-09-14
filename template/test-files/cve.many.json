@@ -7,6 +7,7 @@
         "cve_count": 18,
         "direct_updates": [
           {
+            "ecosystem":"maven",
             "name": "com.logback.core",
             "version": "2.0",
             "cves": [
@@ -38,6 +39,7 @@
             "cve_count": 6
           },
           {
+            "ecosystem":"maven",
             "name": "com.logback.web1",
             "version": "1.5",
             "cves": [
@@ -49,6 +51,7 @@
             "cve_count": 1
           },
           {
+            "ecosystem":"maven",
             "name": "com.logback.web2",
             "version": "1.5",
             "cves": [
@@ -60,6 +63,7 @@
             "cve_count": 1
           },
           {
+            "ecosystem":"maven",
             "name": "com.logback.web3",
             "version": "1.5",
             "cves": [
@@ -73,6 +77,7 @@
         ],
         "transitive_updates": [
           {
+            "ecosystem":"maven",
             "name": "com.logback.core",
             "version": "2.0",
             "cves": [
@@ -104,6 +109,7 @@
             "cve_count": 6
           },
           {
+            "ecosystem":"maven",
             "name": "com.logback.web1",
             "version": "1.5",
             "cves": [
@@ -115,6 +121,7 @@
             "cve_count": 1
           },
           {
+            "ecosystem":"maven",
             "name": "com.logback.web2",
             "version": "1.5",
             "cves": [
@@ -126,6 +133,7 @@
             "cve_count": 1
           },
           {
+            "ecosystem":"maven",
             "name": "com.logback.web3",
             "version": "1.5",
             "cves": [
