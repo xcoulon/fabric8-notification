@@ -13,6 +13,9 @@ import (
 	"github.com/fabric8-services/fabric8-notification/testsupport"
 	"github.com/fabric8-services/fabric8-notification/wit"
 	witApi "github.com/fabric8-services/fabric8-notification/wit/api"
+	"github.com/fabric8-services/fabric8-wit/log"
+	"github.com/goadesign/goa/client"
+	"github.com/goadesign/goa/middleware"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -40,7 +43,8 @@ func TestCVEResolver(t *testing.T) {
 
 	cveResolver := collector.NewCVEResolver(authClient, witClient)
 	codebaseURL := "git@github.com:testrepo/testproject1.git"
-	recvs, _, err := cveResolver(context.Background(), codebaseURL)
+	ctx, _ := client.ContextWithRequestID(context.Background())
+	recvs, _, err := cveResolver(ctx, codebaseURL)
 
 	assert.Nil(t, err)
 	assert.NotNil(t, recvs)
@@ -59,6 +63,11 @@ func serveWITRequest(rw http.ResponseWriter, req *http.Request) {
 	var res string
 
 	reqPath := req.URL.Path
+	if req.Header.Get(middleware.RequestIDHeader) == "" {
+		log.Error(nil, nil, "%s header is missing in request '%s'", middleware.RequestIDHeader, reqPath)
+		rw.WriteHeader(400)
+		return
+	}
 	if reqPath == "/api/search/codebases" {
 		codebaseURL := req.URL.Query().Get("url")
 		if strings.Contains(codebaseURL, "testproject1") {
