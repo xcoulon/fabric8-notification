@@ -130,7 +130,7 @@ func GetSpaces(ctx context.Context, client *api.Client, spaceIDs []uuid.UUID) ([
 }
 
 func GetCodebases(ctx context.Context, client *api.Client, url string) (*api.CodebaseList, error) {
-	resp, err := client.CodebasesSearch(context.Background(), api.CodebasesSearchPath(), url, nil, nil)
+	resp, err := client.CodebasesSearch(goasupport.ForwardContextRequestID(ctx), api.CodebasesSearchPath(), url, nil, nil)
 	if err != nil {
 		return nil, err
 	}
