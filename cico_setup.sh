@@ -92,7 +92,7 @@ function run_tests_with_coverage() {
 
   # Upload coverage to codecov.io
   cp tmp/coverage.mode* coverage.txt
-  bash <(curl -s https://codecov.io/bash) -X search -f coverage.txt -t ad12dad7-ebdc-47bc-a016-8c05fa7356bc #-X fix
+  bash <(curl -s https://codecov.io/bash) -X search -f coverage.txt -t 86037e2c-2ae3-4d77-bb55-e4118c7f2f59 #-X fix
 
   echo "CICO: ran tests and uploaded coverage"
 }
