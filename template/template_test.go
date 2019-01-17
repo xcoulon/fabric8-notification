@@ -378,6 +378,7 @@ func checkVersionBody(t *testing.T, body string, custom map[string]interface{}) 
 	t.Helper()
 	assert.True(t, strings.Contains(body, toString(custom["repo_url"])))
 	assert.True(t, strings.Contains(body, toString(custom["scanned_at"])))
+	assert.True(t, strings.Contains(body, toString(custom["git_pr"])))
 
 	dirDepArr := toArrMap(custom["direct_updates"])
 	assert.NotNil(t, dirDepArr)

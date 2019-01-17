@@ -142,6 +142,20 @@
         {{ end }}
       </table>
     </div>
+    {{ if .custom.git_pr}}
+    <div style="
+    margin-top: 45px;
+    margin-bottom: 50px;
+    text-align:center;
+    color: #363636;">
+<span>
+    <span style="font-weight: 600;">
+        Pull Request:
+      </span>
+      <a href={{.custom.git_pr}} style="color: #0088ce; text-decoration: none;">{{.custom.git_pr}}</a>
+</span>
+</div>
+    {{end}}
     <div style="
             margin-top: 45px;
             margin-bottom: 50px;
