@@ -87,12 +87,6 @@
 # mode can be: set, count, or atomic
 COVERAGE_MODE ?= set
 
-# By default use the "localhost" or specify manually during make invocation:
-#
-# 	F8_POSTGRES_HOST=somehost make test-integration
-#
-F8_POSTGRES_HOST ?= localhost
-
 # Output directory for coverage information
 COV_DIR = $(TMP_PATH)/coverage
 
@@ -103,12 +97,6 @@ COV_PATH_REMOTE = $(TMP_PATH)/coverage.remote.mode-$(COVERAGE_MODE)
 
 # File that stores overall coverge for all packages and unit- integration- and remote-tests
 COV_PATH_OVERALL = $(TMP_PATH)/coverage.mode-$(COVERAGE_MODE)
-
-# Alternative path to docker-compose (if downloaded)
-DOCKER_COMPOSE_BIN_ALT = $(TMP_PATH)/docker-compose
-
-# docker-compose file for integration tests
-DOCKER_COMPOSE_FILE = $(CUR_DIR)/.make/docker-compose.integration-test.yaml
 
 # This pattern excludes some folders from the coverage calculation (see grep -v)
 ALL_PKGS_EXCLUDE_PATTERN = 'vendor\|app\|tool\/cli\|design\|client\|test'
@@ -148,16 +136,14 @@ test-unit-no-coverage-junit: prebuild-check ${GO_JUNIT_BIN} ${TMP_PATH}
 
 .PHONY: test-integration
 ## Runs the integration tests and produces coverage files for each package.
-## Make sure you ran "make integration-test-env-prepare" before you run this target.
-test-integration: prebuild-check clean-coverage-integration migrate-database $(COV_PATH_INTEGRATION)
+test-integration: prebuild-check clean-coverage-integration $(COV_PATH_INTEGRATION)
 
 .PHONY: test-integration-no-coverage
 ## Runs the integration tests WITHOUT producing coverage files for each package.
-## Make sure you ran "make integration-test-env-prepare" before you run this target.
-test-integration-no-coverage: prebuild-check migrate-database $(SOURCES)
+test-integration-no-coverage: prebuild-check $(SOURCES)
 	$(call log-info,"Running test: $@")
 	$(eval TEST_PACKAGES:=$(shell go list ./... | grep -v $(ALL_PKGS_EXCLUDE_PATTERN)))
-	F8_DEVELOPER_MODE_ENABLED=1 F8_RESOURCE_DATABASE=1 F8_RESOURCE_UNIT_TEST=0 F8_POSTGRES_DATABASE=postgres go test -v -vet off $(TEST_PACKAGES)
+	F8_DEVELOPER_MODE_ENABLED=1 F8_RESOURCE_DATABASE=1 F8_RESOURCE_UNIT_TEST=0 go test -v -vet off $(TEST_PACKAGES)
 
 .PHONY: test-remote
 ## Runs the remote tests and produces coverage files for each package.
@@ -170,12 +156,6 @@ test-remote-no-coverage: prebuild-check $(SOURCES)
 	$(eval TEST_PACKAGES:=$(shell go list ./... | grep -v $(ALL_PKGS_EXCLUDE_PATTERN)))
 	F8_DEVELOPER_MODE_ENABLED=1 F8_RESOURCE_REMOTE=1 F8_RESOURCE_UNIT_TEST=0 go test -v -vet off $(TEST_PACKAGES)
 
-.PHONY: test-migration
-## Runs the migration tests and should be executed before running the integration tests
-## in order to have a clean database
-test-migration: prebuild-check
-	F8_RESOURCE_DATABASE=1 F8_POSTGRES_DATABASE=postgres go test -vet off ${PACKAGE_NAME}/migration -v
-
 # Downloads docker-compose to tmp/docker-compose if it does not already exist.
 define download-docker-compose
 	@if [ ! -f "$(DOCKER_COMPOSE_BIN_ALT)" ]; then \
@@ -187,35 +167,6 @@ define download-docker-compose
 		chmod +x $(DOCKER_COMPOSE_BIN_ALT); \
 	fi
 endef
-
-.PHONY: integration-test-env-prepare
-## Prepares all services needed to run the integration tests.
-## If not already available, this target will download docker-compose (on Linux).
-integration-test-env-prepare:
-ifdef DOCKER_COMPOSE_BIN
-	@$(DOCKER_COMPOSE_BIN) -f $(DOCKER_COMPOSE_FILE) up -d
-else
-ifneq ($(OS),Windows_NT)
-	$(call download-docker-compose)
-	@$(DOCKER_COMPOSE_BIN_ALT) -f $(DOCKER_COMPOSE_FILE) up -d
-else
-	$(error The "$(DOCKER_COMPOSE_BIN_NAME)" executable could not be found in your PATH)
-endif
-endif
-
-.PHONY: integration-test-env-tear-down
-## Tears down all services needed to run the integration tests
-integration-test-env-tear-down:
-ifdef DOCKER_COMPOSE_BIN
-	@$(DOCKER_COMPOSE_BIN) -f $(DOCKER_COMPOSE_FILE) down
-else
-ifneq ($(OS),Windows_NT)
-	$(call download-docker-compose)
-	@$(DOCKER_COMPOSE_BIN_ALT) -f $(DOCKER_COMPOSE_FILE) down
-else
-	$(error The "$(DOCKER_COMPOSE_BIN_NAME)" executable could not be found in your PATH)
-endif
-endif
 
 #-------------------------------------------------------------------------------
 # Inspect coverage of unit tests, integration or remote tests in either pure
@@ -411,7 +362,7 @@ $(eval ENV_VAR := $(5))
 $(eval ALL_PKGS_COMMA_SEPARATED := $(6))
 @mkdir -p $(COV_DIR)/$(PACKAGE_NAME);
 $(eval COV_OUT_FILE := $(COV_DIR)/$(PACKAGE_NAME)/coverage.$(TEST_NAME).mode-$(COVERAGE_MODE))
-@$(ENV_VAR) F8_DEVELOPER_MODE_ENABLED=1 F8_POSTGRES_HOST=$(F8_POSTGRES_HOST) \
+@$(ENV_VAR) F8_DEVELOPER_MODE_ENABLED=1 \
 	go test $(PACKAGE_NAME) \
 		-v \
 		-vet off \

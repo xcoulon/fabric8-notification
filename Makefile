@@ -17,11 +17,17 @@ DESIGNS := $(shell find $(SOURCE_DIR)/$(DESIGN_DIR) -path $(SOURCE_DIR)/vendor -
 
 # Find all required tools:
 GIT_BIN := $(shell command -v $(GIT_BIN_NAME) 2> /dev/null)
-GLIDE_BIN := $(shell command -v $(GLIDE_BIN_NAME) 2> /dev/null)
+DEP_BIN_NAME := dep
+DEP_BIN_DIR := ./tmp/bin
+DEP_BIN := $(DEP_BIN_DIR)/$(DEP_BIN_NAME)
+DEP_VERSION=v0.5.0
 GO_BIN := $(shell command -v $(GO_BIN_NAME) 2> /dev/null)
 HG_BIN := $(shell command -v $(HG_BIN_NAME) 2> /dev/null)
 DOCKER_COMPOSE_BIN := $(shell command -v $(DOCKER_COMPOSE_BIN_NAME) 2> /dev/null)
 DOCKER_BIN := $(shell command -v $(DOCKER_BIN_NAME) 2> /dev/null)
+
+# Define and get the vakue for UNAME_S variable from shell
+UNAME_S := $(shell uname -s)
 
 # This is a fix for a non-existing user in passwd file when running in a docker
 # container and trying to clone repos of dependencies
@@ -184,7 +190,6 @@ CLEAN_TARGETS += clean-generated
 clean-generated:
 	-rm -rf ./app
 	-rm -rf ./swagger/
-	-rm -f ./migration/sqlbindata.go
 	-rm -f ./template/bindata.go
 	-rm -rf auth/api
 
@@ -194,30 +199,36 @@ CLEAN_TARGETS += clean-vendor
 clean-vendor:
 	-rm -rf $(VENDOR_DIR)
 
-CLEAN_TARGETS += clean-glide-cache
-.PHONY: clean-glide-cache
-## Removes the ./glide directory.
-clean-glide-cache:
-	-rm -rf ./.glide
-
-$(VENDOR_DIR): glide.lock glide.yaml
-	$(GLIDE_BIN) install
-	touch $(VENDOR_DIR)
-
 .PHONY: deps
 ## Download build dependencies.
-deps: $(VENDOR_DIR)
+deps: $(DEP_BIN) $(VENDOR_DIR)
+
+# install dep in a the tmp/bin dir of the repo
+$(DEP_BIN):
+	@echo "Installing 'dep' $(DEP_VERSION) at '$(DEP_BIN_DIR)'..."
+	mkdir -p $(DEP_BIN_DIR)
+ifeq ($(UNAME_S),Darwin)
+	@curl -L -s https://github.com/golang/dep/releases/download/$(DEP_VERSION)/dep-darwin-amd64 -o $(DEP_BIN)
+	@cd $(DEP_BIN_DIR) && \
+	echo "1a7bdb0d6c31ecba8b3fd213a1170adf707657123e89dff234871af9e0498be2  dep" > dep-darwin-amd64.sha256 && \
+	shasum -a 256 --check dep-darwin-amd64.sha256
+else
+	@curl -L -s https://github.com/golang/dep/releases/download/$(DEP_VERSION)/dep-linux-amd64 -o $(DEP_BIN)
+	@cd $(DEP_BIN_DIR) && \
+	echo "287b08291e14f1fae8ba44374b26a2b12eb941af3497ed0ca649253e21ba2f83  dep" > dep-linux-amd64.sha256 && \
+	sha256sum -c dep-linux-amd64.sha256
+endif
+	@chmod +x $(DEP_BIN)
+
+$(VENDOR_DIR): Gopkg.toml Gopkg.lock
+	@echo "checking dependencies..."
+	@$(DEP_BIN) ensure -v
 
 app/controllers.go: $(DESIGNS) $(GOAGEN_BIN) $(VENDOR_DIR)
 	$(GOAGEN_BIN) app -d ${PACKAGE_NAME}/${DESIGN_DIR}
 	$(GOAGEN_BIN) controller -d ${PACKAGE_NAME}/${DESIGN_DIR} -o controller/ --pkg controller --app-pkg app
 	$(GOAGEN_BIN) client -d github.com/fabric8-services/fabric8-wit/design --notool --pkg api -o wit
 	$(GOAGEN_BIN) client -d github.com/fabric8-services/fabric8-auth/design --notool --pkg api -o auth
-
-.PHONY: migrate-database
-## Compiles the server and runs the database migration with it
-migrate-database: $(BINARY_SERVER_BIN)
-	$(BINARY_SERVER_BIN) -migrateDatabase
 
 .PHONY: generate
 ## Generate GOA sources. Only necessary after clean of if changed `design` folder.
@@ -252,12 +263,6 @@ prebuild-check: $(TMP_PATH) $(INSTALL_PREFIX) $(CHECK_GOPATH_BIN)
 # Check that all tools where found
 ifndef GIT_BIN
 	$(error The "$(GIT_BIN_NAME)" executable could not be found in your PATH)
-endif
-ifndef GLIDE_BIN
-	$(error The "$(GLIDE_BIN_NAME)" executable could not be found in your PATH)
-endif
-ifndef HG_BIN
-	$(error The "$(HG_BIN_NAME)" executable could not be found in your PATH)
 endif
 	@$(CHECK_GOPATH_BIN) -packageName=$(PACKAGE_NAME) || (echo "Project lives in wrong location"; exit 1)
 

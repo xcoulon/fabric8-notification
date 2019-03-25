@@ -5,11 +5,11 @@ import (
 	"fmt"
 
 	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/fabric8-services/fabric8-common/log"
 	"github.com/fabric8-services/fabric8-notification/auth"
 	authapi "github.com/fabric8-services/fabric8-notification/auth/api"
 	"github.com/fabric8-services/fabric8-notification/wit"
 	"github.com/fabric8-services/fabric8-notification/wit/api"
-	"github.com/fabric8-services/fabric8-wit/log"
 	goajwt "github.com/goadesign/goa/middleware/security/jwt"
 	"github.com/goadesign/goa/uuid"
 )

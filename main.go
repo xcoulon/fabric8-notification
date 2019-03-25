@@ -4,28 +4,28 @@ import (
 	"context"
 	"net/http"
 
+	authsupport "github.com/fabric8-services/fabric8-common/auth"
+	"github.com/fabric8-services/fabric8-common/goamiddleware"
+	"github.com/fabric8-services/fabric8-common/log"
 	"github.com/fabric8-services/fabric8-notification/app"
 	"github.com/fabric8-services/fabric8-notification/auth"
 	"github.com/fabric8-services/fabric8-notification/collector"
-	"github.com/fabric8-services/fabric8-notification/types"
-	goaclient "github.com/goadesign/goa/client"
-	"github.com/prometheus/client_golang/prometheus"
-
 	"github.com/fabric8-services/fabric8-notification/configuration"
 	"github.com/fabric8-services/fabric8-notification/controller"
 	"github.com/fabric8-services/fabric8-notification/email"
 	"github.com/fabric8-services/fabric8-notification/jsonapi"
 	"github.com/fabric8-services/fabric8-notification/template"
 	"github.com/fabric8-services/fabric8-notification/token"
+	"github.com/fabric8-services/fabric8-notification/types"
 	"github.com/fabric8-services/fabric8-notification/validator"
 	"github.com/fabric8-services/fabric8-notification/wit"
 
-	witmiddleware "github.com/fabric8-services/fabric8-wit/goamiddleware"
-	"github.com/fabric8-services/fabric8-wit/log"
 	"github.com/goadesign/goa"
+	goaclient "github.com/goadesign/goa/client"
 	"github.com/goadesign/goa/middleware"
 	"github.com/goadesign/goa/middleware/gzip"
 	goajwt "github.com/goadesign/goa/middleware/security/jwt"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 
 	goalogrus "github.com/goadesign/goa/logging/logrus"
@@ -44,13 +44,6 @@ func main() {
 	// Initialized developer mode flag for the logger
 	log.InitializeLogger(config.IsLogJSON(), config.GetLogLevel())
 
-	tokenManager, err := token.NewManager(config)
-	if err != nil {
-		log.Panic(nil, map[string]interface{}{
-			"err": err,
-		}, "failed to create token manager")
-	}
-
 	err = config.Validate()
 	if err != nil {
 		log.Panic(nil, map[string]interface{}{
@@ -66,10 +59,10 @@ func main() {
 		}, "Could not create WIT client")
 	}
 
-	authClient, err := auth.NewCachedClient(config.GetAuthURL())
+	authClient, err := auth.NewCachedClient(config.GetAuthServiceURL())
 	if err != nil {
 		log.Panic(nil, map[string]interface{}{
-			"url": config.GetAuthURL(),
+			"url": config.GetAuthServiceURL(),
 			"err": err,
 		}, "could not create Auth client")
 	}
@@ -123,7 +116,16 @@ func main() {
 	service.Use(jsonapi.ErrorHandler(service, true))
 	service.Use(middleware.Recover())
 
-	service.Use(witmiddleware.TokenContext(tokenManager.PublicKeys(), nil, app.NewJWTSecurity()))
+	// Setup Security
+	tokenManager, err := authsupport.DefaultManager(config)
+	if err != nil {
+		log.Panic(nil, map[string]interface{}{
+			"err": err,
+		}, "failed to create token manager")
+	}
+	// Middleware that extracts and stores the token in the context
+	jwtMiddlewareTokenContext := goamiddleware.TokenContext(tokenManager, app.NewJWTSecurity())
+	service.Use(jwtMiddlewareTokenContext)
 	service.Use(log.LogRequest(config.IsDeveloperModeEnabled()))
 	app.UseJWTMiddleware(service, goajwt.New(tokenManager.PublicKeys(), nil, app.NewJWTSecurity()))
 

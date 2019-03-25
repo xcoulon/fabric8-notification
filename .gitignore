@@ -78,7 +78,6 @@ bindata_assetfs.go
 client/
 swagger/
 tool/cli/
-migration/sqlbindata.go
 template/bindata.go
 wit/api
 auth/api

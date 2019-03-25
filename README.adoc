@@ -62,7 +62,7 @@ image::http://www.plantuml.com/plantuml/proxy?idx=0&src=https://raw.githubuserco
 
 ==== Build Project
 
-This project use glide build system.
+This project use the `dep` dependency management system.
 
 ===== Prerequisites
 

@@ -2,7 +2,7 @@ package validator
 
 import (
 	"context"
-	"github.com/fabric8-services/fabric8-wit/errors"
+	"github.com/fabric8-services/fabric8-common/errors"
 )
 
 func ValidateUser(context context.Context, custom map[string]interface{}) error {

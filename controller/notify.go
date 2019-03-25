@@ -4,15 +4,15 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/fabric8-services/fabric8-common/token"
+	"github.com/fabric8-services/fabric8-common/auth"
+	"github.com/fabric8-services/fabric8-common/errors"
+	"github.com/fabric8-services/fabric8-common/log"
 	"github.com/fabric8-services/fabric8-notification/app"
 	"github.com/fabric8-services/fabric8-notification/collector"
 	"github.com/fabric8-services/fabric8-notification/email"
 	"github.com/fabric8-services/fabric8-notification/jsonapi"
 	"github.com/fabric8-services/fabric8-notification/template"
 	"github.com/fabric8-services/fabric8-notification/types"
-	"github.com/fabric8-services/fabric8-wit/errors"
-	"github.com/fabric8-services/fabric8-wit/log"
 	"github.com/goadesign/goa"
 )
 
@@ -78,7 +78,7 @@ func (c *NotifyController) Send(ctx *app.SendNotifyContext) error {
 
 func validateNotifier(ctx context.Context, notifiers []string) bool {
 	if notifiers != nil && len(notifiers) > 0 {
-		return token.IsSpecificServiceAccount(ctx, notifiers...)
+		return auth.IsSpecificServiceAccount(ctx, notifiers...)
 	}
 	return true
 }

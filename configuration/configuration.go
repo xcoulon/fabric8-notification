@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
-	yaml "gopkg.in/yaml.v2"
+	commoncfg "github.com/fabric8-services/fabric8-common/configuration"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	yaml "gopkg.in/yaml.v2"
 )
 
 const (
@@ -66,9 +67,6 @@ func GetData() (*Data, error) {
 }
 
 func (c *Data) setConfigDefaults() {
-	//---------
-	// Postgres
-	//---------
 	c.v.SetTypeByDefaultValue(true)
 
 	//-----
@@ -117,8 +115,8 @@ func (c *Data) GetWITURL() string {
 	return c.v.GetString(varWITURL)
 }
 
-// GetAuthURL return the base Auth API URL
-func (c *Data) GetAuthURL() string {
+// GetAuthServiceURL return the base Auth API URL
+func (c *Data) GetAuthServiceURL() string {
 	return c.v.GetString(varAuthURL)
 }
 
@@ -165,6 +163,14 @@ func (c *Data) IsLogJSON() bool {
 func (c *Data) Validate() error {
 	if c.GetMadrillAPIKey() == "" {
 		return fmt.Errorf("Missing %v", varMadrillAPIKey)
+	}
+	return nil
+}
+
+// GetDevModePrivateKey returns the private key and its ID used in tests
+func (c *Data) GetDevModePrivateKey() []byte {
+	if c.IsDeveloperModeEnabled() {
+		return []byte(commoncfg.DevModeRsaPrivateKey)
 	}
 	return nil
 }
