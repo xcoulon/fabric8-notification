@@ -8,6 +8,7 @@ const (
 	CommentCreate          NotificationType = "comment.create"
 	CommentUpdate          NotificationType = "comment.update"
 	UserEmailUpdate        NotificationType = "user.email.update"
+	UserDeactivation       NotificationType = "user.deactivation"
 	InvitationTeamNoorg    NotificationType = "invitation.team.noorg"
 	InvitationSpaceNoorg   NotificationType = "invitation.space.noorg"
 	AnalyticsNotifyCVE     NotificationType = "analytics.notify.cve"

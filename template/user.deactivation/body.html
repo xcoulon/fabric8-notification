@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Notice: Your CodeReady Toolchain / OpenShift.io free account is inactive</title>
+	<style>
+		tr td ul li img {
+			max-width: 500px;
+		}
+
+		tr td pre {
+			overflow: auto;
+		}
+
+		a:hover {
+			text-decoration: underline !important;
+		}
+
+		p {
+			font-size: 15px;
+			text-align: left;
+			width: 95%;
+			padding: 15px;
+		}
+
+	</style>
+</head>
+
+<body style="
+        margin: 10px;
+        padding: 0;
+        background-color: #f9f9f9;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-weight: lighter;
+        line-height: 1.2;">
+	<div style="
+        min-height: 300px;
+        width: 100%;
+        max-width: 750px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #d7d7d7;
+        border-radius: 4px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px #d7d7d7;">
+		<div style="
+          width: 100%;">
+			<img src="{{.webURL}}/_openshiftio/assets/images/openshift_logo_black.png" width="25%" height="45px" />
+			<div style="
+            width: 95%;
+            margin: 10px auto;
+            border: 1px solid #d7d7d7;">
+			</div>
+		</div>
+
+
+		<p>You are receiving this email because you have an OpenShift.io Online free account ({{ .custom.userEmail }}) and your
+			action is required to keep it active.</p>
+
+		<p>Login into the system by {{ .custom.expiryDate }} in order to continue using OpenShift.io uninterrupted.</p>
+
+		<p><a href="https://openshift.io">OpenShift.io</a> | <a href="https://che.openshift.io">Che.OpenShift.io</a></p>
+
+		<p>If you don't have time to use OpenShift Online right now, that's ok too. We will remove your access, delete the
+			data and allocate resources to another user waiting to use the platform.</p>
+
+		<p>Whenever you are ready, you can always recreate a development environment at <a href="https://openshift.io">OpenShift.io</a> to get
+			access to the service again.</p>
+
+		<p>Thanks,<br>
+			The OpenShift.io Team
+		</p>
+	</div>
+</body>
+
+</html>
