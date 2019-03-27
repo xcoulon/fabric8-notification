@@ -38,20 +38,20 @@ func main() {
 	}
 
 	testdata := []data{
-		data{"de4871ce-0bfd-4b4b-aee2-e02427f4e38b", string(types.WorkitemCreate)},
-		data{"43024450-fe8c-4082-8828-88512cebfdb0", string(types.WorkitemCreate)},
-		data{"3a331aa3-6423-4fd7-85e4-95d7932b168c", string(types.WorkitemCreate)},
-		data{"d85e19a1-f4aa-486e-a8fe-3211cac9b68f", string(types.WorkitemCreate)},
-		data{"43024450-fe8c-4082-8828-88512cebfdb0", string(types.WorkitemUpdate)},
-		data{"d28f8344-4956-497a-b43b-7f217087a931", string(types.CommentCreate)},
-		data{"51d968b1-b9e5-4ec1-884a-ff256902c753", string(types.CommentCreate)},
-		data{"51d968b1-b9e5-4ec1-884a-ff256902c753", string(types.CommentUpdate)},
-		data{"3383826c-51e4-401b-9ccd-b898f7e2397d", string(types.UserEmailUpdate)},
-		data{"3383826c-51e4-401b-9ccd-b898f7e2397d", string(types.UserDeactivation)},
-		data{"81d1c3bf-fcf2-4c4e-9d12-f9e5c15fb9ab", string(types.InvitationTeamNoorg)},
-		data{"297f2037-72e9-42b3-a5fc-76d843877163", string(types.InvitationSpaceNoorg)},
-		data{"0a9c6814-462e-411c-8560-d74297bf1ceb", string(types.AnalyticsNotifyCVE)},
-		data{"7dd737ed-c0fa-4f2f-9a3a-ed43778bb7fe", string(types.AnalyticsNotifyVersion)},
+		{"de4871ce-0bfd-4b4b-aee2-e02427f4e38b", string(types.WorkitemCreate)},
+		{"43024450-fe8c-4082-8828-88512cebfdb0", string(types.WorkitemCreate)},
+		{"3a331aa3-6423-4fd7-85e4-95d7932b168c", string(types.WorkitemCreate)},
+		{"d85e19a1-f4aa-486e-a8fe-3211cac9b68f", string(types.WorkitemCreate)},
+		{"43024450-fe8c-4082-8828-88512cebfdb0", string(types.WorkitemUpdate)},
+		{"d28f8344-4956-497a-b43b-7f217087a931", string(types.CommentCreate)},
+		{"51d968b1-b9e5-4ec1-884a-ff256902c753", string(types.CommentCreate)},
+		{"51d968b1-b9e5-4ec1-884a-ff256902c753", string(types.CommentUpdate)},
+		{"3383826c-51e4-401b-9ccd-b898f7e2397d", string(types.UserEmailUpdate)},
+		{"3383826c-51e4-401b-9ccd-b898f7e2397d", string(types.UserDeactivation)},
+		{"81d1c3bf-fcf2-4c4e-9d12-f9e5c15fb9ab", string(types.InvitationTeamNoorg)},
+		{"297f2037-72e9-42b3-a5fc-76d843877163", string(types.InvitationSpaceNoorg)},
+		{"0a9c6814-462e-411c-8560-d74297bf1ceb", string(types.AnalyticsNotifyCVE)},
+		{"7dd737ed-c0fa-4f2f-9a3a-ed43778bb7fe", string(types.AnalyticsNotifyVersion)},
 	}
 	fmt.Println("Generating test templates..")
 	fmt.Println("")
