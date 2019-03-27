@@ -78,7 +78,7 @@ While running locally, you need to set `mandrill.apikey` configuration param.  T
 
 ====== make preview - test email generation against template
 
-Run `make preview` to run https://github.com/fabric8-services/fabric8-notification/blob/master/preview/main.go[preview/main.go].  This will execute all template generation defined in main.go file.  This is useful when you want to check the output of your templatea.  The output email will be stored at **./tmp/** folder with file name having Notification Type name as prefix.
+Run `make preview` to run https://github.com/fabric8-services/fabric8-notification/blob/master/preview/main.go[preview/main.go].  This will execute all template generation defined in main.go file.  This is useful when you want to check the output of your template.  The output email will be stored at **./tmp/** folder with file name having Notification Type name as prefix.
 
 ====== make test-unit-no-coverage - execute unit tests
 
