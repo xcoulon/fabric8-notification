@@ -47,7 +47,7 @@ func main() {
 		{"51d968b1-b9e5-4ec1-884a-ff256902c753", string(types.CommentCreate)},
 		{"51d968b1-b9e5-4ec1-884a-ff256902c753", string(types.CommentUpdate)},
 		{"3383826c-51e4-401b-9ccd-b898f7e2397d", string(types.UserEmailUpdate)},
-		{"3383826c-51e4-401b-9ccd-b898f7e2397d", string(types.UserDeactivation)},
+		{"f3a184bf-963b-448a-86b4-307ae455223b", string(types.UserDeactivation)},
 		{"81d1c3bf-fcf2-4c4e-9d12-f9e5c15fb9ab", string(types.InvitationTeamNoorg)},
 		{"297f2037-72e9-42b3-a5fc-76d843877163", string(types.InvitationSpaceNoorg)},
 		{"0a9c6814-462e-411c-8560-d74297bf1ceb", string(types.AnalyticsNotifyCVE)},
