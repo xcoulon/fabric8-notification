@@ -85,7 +85,6 @@ func generate(authClient *authapi.Client, c *api.Client, id, tmplName string) er
 	} else if strings.HasPrefix(tmplName, "comment") {
 		_, vars, err = collector.Comment(OSIOctx, authClient, c, nil, wiID)
 	} else if strings.HasPrefix(tmplName, "user.deactivation") {
-		_, vars, err = collector.User(context.Background(), authClient, wiID)
 		vars["custom"] = map[string]interface{}{
 			"userEmail":  "user@example.com",
 			"expiryDate": time.Now().Add(7 * 24 * time.Hour).Format("Jan 2, 2006"),
